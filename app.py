@@ -644,6 +644,29 @@ def admin():
     )
 
 
+@app.post("/admin/order/delete/<int:order_id>")
+def admin_delete_order(order_id):
+
+    if not admin_required():
+        return redirect(
+            url_for("admin_login")
+        )
+
+    conn = get_db()
+
+    conn.execute(
+        "DELETE FROM orders WHERE id = ?",
+        (order_id,)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect(
+        url_for("admin")
+    )
+
+
 @app.post("/admin/product/add")
 def admin_add_product():
 

@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -136,6 +137,7 @@
             padding: 10px 14px;
             border-radius: 8px;
             cursor: pointer;
+            font-family: inherit;
         }
 
         form {
@@ -143,7 +145,8 @@
         }
 
         input,
-        textarea {
+        textarea,
+        select {
             width: 100%;
             padding: 12px;
             border: 1px solid #d1d5db;
@@ -180,10 +183,73 @@
         }
 
         .order {
-            padding: 15px;
+            padding: 18px;
             background: #f8fafc;
-            border-radius: 10px;
-            margin-bottom: 10px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .order:last-child {
+            margin-bottom: 0;
+        }
+
+        .order p {
+            margin: 8px 0;
+        }
+
+        .order-actions {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            align-items: end;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .status-form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .status-form select {
+            margin: 0;
+            flex: 1;
+        }
+
+        .status-button {
+            border: 0;
+            background: #2563eb;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .delete-order {
+            border: 0;
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 12px 16px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .current-status {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 6px 10px;
+            border-radius: 7px;
+            font-weight: bold;
         }
 
         .ad {
@@ -220,6 +286,20 @@
             .product-image {
                 width: 70px;
                 height: 70px;
+            }
+
+            .order-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .status-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .status-button,
+            .delete-order {
+                width: 100%;
             }
         }
     </style>
@@ -424,9 +504,79 @@
                     </p>
 
                     <p>
-                        وضعیت:
-                        {{ order["status"] }}
+                        وضعیت فعلی:
+                        <span class="current-status">
+                            {{ order["status"] }}
+                        </span>
                     </p>
+
+
+                    <div class="order-actions">
+
+                        <form
+                            method="POST"
+                            action="/admin/order/status/{{ order['id'] }}"
+                            class="status-form"
+                        >
+
+                            <select name="status" required>
+
+                                <option
+                                    value="جدید"
+                                    {% if order["status"] == "جدید" %}selected{% endif %}
+                                >
+                                    جدید
+                                </option>
+
+                                <option
+                                    value="در حال پردازش"
+                                    {% if order["status"] == "در حال پردازش" %}selected{% endif %}
+                                >
+                                    در حال پردازش
+                                </option>
+
+                                <option
+                                    value="ارسال شد"
+                                    {% if order["status"] == "ارسال شد" %}selected{% endif %}
+                                >
+                                    ارسال شد
+                                </option>
+
+                                <option
+                                    value="تحویل شد"
+                                    {% if order["status"] == "تحویل شد" %}selected{% endif %}
+                                >
+                                    تحویل شد
+                                </option>
+
+                            </select>
+
+                            <button
+                                type="submit"
+                                class="status-button"
+                            >
+                                تغییر وضعیت
+                            </button>
+
+                        </form>
+
+
+                        <form
+                            method="POST"
+                            action="/admin/order/delete/{{ order['id'] }}"
+                        >
+
+                            <button
+                                type="submit"
+                                class="delete-order"
+                                onclick="return confirm('این سفارش حذف شود؟')"
+                            >
+                                حذف سفارش
+                            </button>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
@@ -539,3 +689,4 @@
 
 </body>
 </html>
+```

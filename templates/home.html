@@ -1,6 +1,5 @@
-from pathlib import Path
-
-html = r'''<!DOCTYPE html>
+```html
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -306,7 +305,6 @@ html = r'''<!DOCTYPE html>
         }
 
         @media (max-width: 900px) {
-
             .products {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -321,7 +319,6 @@ html = r'''<!DOCTYPE html>
         }
 
         @media (max-width: 600px) {
-
             .topbar {
                 flex-wrap: wrap;
                 padding: 12px 0;
@@ -380,18 +377,16 @@ html = r'''<!DOCTYPE html>
     <div class="container topbar">
 
         <a href="/" class="logo">
-            فروشگاه من
+            فروشگاه
         </a>
 
         <form class="search" action="/search" method="get">
-
             <input
                 type="text"
                 name="q"
                 placeholder="جستجوی محصول، برند یا دسته‌بندی..."
                 value="{{ search or '' }}"
             >
-
         </form>
 
         <div class="actions">
@@ -446,8 +441,6 @@ html = r'''<!DOCTYPE html>
 
 <main class="container">
 
-    <!-- BANNER -->
-
     <section class="hero">
 
         <div>
@@ -472,9 +465,6 @@ html = r'''<!DOCTYPE html>
 
     </section>
 
-
-    <!-- CATEGORIES -->
-
     <section class="section">
 
         <div class="section-title">
@@ -488,7 +478,6 @@ html = r'''<!DOCTYPE html>
             </a>
 
         </div>
-
 
         <div class="categories">
 
@@ -526,9 +515,6 @@ html = r'''<!DOCTYPE html>
 
     </section>
 
-
-    <!-- PRODUCTS -->
-
     <section class="section" id="products-section">
 
         <div class="section-title">
@@ -542,7 +528,6 @@ html = r'''<!DOCTYPE html>
             </a>
 
         </div>
-
 
         <div class="products">
 
@@ -571,11 +556,9 @@ html = r'''<!DOCTYPE html>
 
                 </a>
 
-
                 <h3>
                     {{ product.name }}
                 </h3>
-
 
                 <div class="price">
 
@@ -587,7 +570,6 @@ html = r'''<!DOCTYPE html>
 
                 </div>
 
-
                 <a
                     href="/product/{{ product.id }}"
                     class="buy-button"
@@ -596,7 +578,6 @@ html = r'''<!DOCTYPE html>
                 </a>
 
             </div>
-
 
             {% else %}
 
@@ -618,9 +599,6 @@ html = r'''<!DOCTYPE html>
 
     </section>
 
-
-    <!-- ADS -->
-
     <section class="section">
 
         <div class="section-title">
@@ -630,7 +608,6 @@ html = r'''<!DOCTYPE html>
             </h2>
 
         </div>
-
 
         <div class="ads">
 
@@ -651,7 +628,6 @@ html = r'''<!DOCTYPE html>
                 {% endif %}
 
             </div>
-
 
             {% else %}
 
@@ -675,7 +651,6 @@ html = r'''<!DOCTYPE html>
 
 </main>
 
-
 <footer>
 
     <div class="container footer-grid">
@@ -683,7 +658,7 @@ html = r'''<!DOCTYPE html>
         <div>
 
             <h3>
-                فروشگاه من
+                فروشگاه
             </h3>
 
             <p>
@@ -691,7 +666,6 @@ html = r'''<!DOCTYPE html>
             </p>
 
         </div>
-
 
         <div>
 
@@ -706,7 +680,6 @@ html = r'''<!DOCTYPE html>
             </p>
 
         </div>
-
 
         <div>
 
@@ -726,8 +699,4 @@ html = r'''<!DOCTYPE html>
 
 </body>
 </html>
-'''
-
-path = Path("/mnt/data/home.html")
-path.write_text(html, encoding="utf-8")
-print(f"فایل آماده شد: {path}")
+```

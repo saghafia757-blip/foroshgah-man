@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سبد خرید | فروشگاه من</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f6f8;
+            font-family: Tahoma, Arial, sans-serif;
+            color: #222;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        header {
+            background: white;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            color: #e91e63;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .box {
+            background: white;
+            margin-top: 25px;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-name {
+            font-weight: bold;
+        }
+
+        .quantity {
+            color: #666;
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        .price {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #e91e63;
+            color: white;
+            padding: 13px 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 50px 10px;
+        }
+
+        .back {
+            color: #e91e63;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .item {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .total {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+        <a href="/" class="logo">فروشگاه من</a>
+    </div>
+</header>
+
+<main class="container">
+
+    <div class="box">
+
+        <h1>سبد خرید</h1>
+
+        {% if items %}
+
+            {% for item in items %}
+
+            <div class="item">
+
+                <div>
+                    <div class="item-name">
+                        {{ item.product["name"] }}
+                    </div>
+
+                    <div class="quantity">
+                        تعداد: {{ item.quantity }}
+                    </div>
+                </div>
+
+                <div class="price">
+                    {{ "{:,.0f}".format(item.subtotal) }}
+                    تومان
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+            <div class="total">
+                <span>مبلغ کل</span>
+                <span>
+                    {{ "{:,.0f}".format(total) }} تومان
+                </span>
+            </div>
+
+            <a href="/checkout" class="btn">
+                ادامه و ثبت سفارش
+            </a>
+
+        {% else %}
+
+            <div class="empty">
+
+                <h2>سبد خرید خالی است</h2>
+
+                <p>
+                    هنوز محصولی به سبد خرید اضافه نکرده‌اید.
+                </p>
+
+                <a href="/" class="back">
+                    بازگشت به فروشگاه
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>سفارش ثبت شد | فروشگاه من</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f5f6f8;
+            color: #222;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 650px;
+            margin: auto;
+        }
+
+        .success-box {
+            margin-top: 100px;
+            background: white;
+            border-radius: 20px;
+            padding: 45px 30px;
+            text-align: center;
+        }
+
+        .icon {
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0 0 15px;
+            color: #e91e63;
+        }
+
+        p {
+            line-height: 2;
+            color: #555;
+        }
+
+        .order-id {
+            display: inline-block;
+            background: #f1f2f4;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin: 15px 0 25px;
+            font-weight: bold;
+        }
+
+        .button {
+            display: inline-block;
+            background: #e91e63;
+            color: white;
+            padding: 13px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background: #d81b60;
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="container">
+
+    <div class="success-box">
+
+        <div class="icon">
+            ✅
+        </div>
+
+        <h1>
+            سفارش شما با موفقیت ثبت شد
+        </h1>
+
+        <p>
+            سفارش شما با موفقیت در سیستم ثبت شد.
+        </p>
+
+        <div class="order-id">
+            شماره سفارش:
+            {{ order_id }}
+        </div>
+
+        <br>
+
+        <a href="/" class="button">
+            بازگشت به فروشگاه
+        </a>
+
+    </div>
+
+</main>
+
+</body>
+</html>

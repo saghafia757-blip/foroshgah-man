@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>تکمیل سفارش | فروشگاه من</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f5f6f8;
+            color: #222;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+
+        .topbar {
+            min-height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #e91e63;
+        }
+
+        .home {
+            background: #f1f2f4;
+            padding: 11px 15px;
+            border-radius: 10px;
+        }
+
+        .checkout-box {
+            background: white;
+            margin-top: 35px;
+            padding: 30px;
+            border-radius: 20px;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 13px;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #e91e63;
+        }
+
+        button {
+            width: 100%;
+            border: 0;
+            background: #e91e63;
+            color: white;
+            padding: 14px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #d81b60;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="container topbar">
+
+        <a href="/" class="logo">
+            فروشگاه من
+        </a>
+
+        <a href="/cart" class="home">
+            بازگشت به سبد خرید
+        </a>
+
+    </div>
+
+</header>
+
+<main class="container">
+
+    <div class="checkout-box">
+
+        <h1>
+            تکمیل سفارش
+        </h1>
+
+        <form method="POST" action="/checkout">
+
+            <div class="field">
+
+                <label>
+                    نام و نام خانوادگی
+                </label>
+
+                <input
+                    type="text"
+                    name="customer_name"
+                    required
+                    placeholder="نام و نام خانوادگی"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    شماره تماس
+                </label>
+
+                <input
+                    type="tel"
+                    name="phone"
+                    required
+                    placeholder="شماره تماس"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    آدرس
+                </label>
+
+                <textarea
+                    name="address"
+                    required
+                    placeholder="آدرس کامل خود را وارد کنید"
+                ></textarea>
+
+            </div>
+
+
+            <button type="submit">
+                ثبت سفارش
+            </button>
+
+        </form>
+
+    </div>
+
+</main>
+
+</body>
+</html>

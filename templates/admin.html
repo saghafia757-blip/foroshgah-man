@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>پنل مدیریت</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .logout {
+            text-decoration: none;
+            background: #ef4444;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 9px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.06);
+        }
+
+        .stat span {
+            color: #6b7280;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat strong {
+            font-size: 28px;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.06);
+        }
+
+        .section h2 {
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .product {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .product-image {
+            width: 90px;
+            height: 90px;
+            border-radius: 12px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .no-image {
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-info h3 {
+            margin: 0 0 8px;
+        }
+
+        .product-info p {
+            margin: 5px 0;
+            color: #6b7280;
+        }
+
+        .delete {
+            border: 0;
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        form {
+            margin: 0;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            font-family: inherit;
+            margin-top: 6px;
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .button {
+            border: 0;
+            background: #2563eb;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+        }
+
+        .order {
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .ad {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .ad:last-child {
+            border-bottom: 0;
+        }
+
+        .danger-section {
+            border: 1px solid #fecaca;
+        }
+
+        @media (max-width: 700px) {
+            .stats,
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 15px;
+            }
+
+            .container {
+                margin-top: 20px;
+            }
+
+            .product {
+                align-items: flex-start;
+            }
+
+            .product-image {
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>پنل مدیریت فروشگاه</h1>
+    <a href="/admin/logout" class="logout">خروج</a>
+</header>
+
+<div class="container">
+
+    <div class="stats">
+
+        <div class="stat">
+            <span>محصولات</span>
+            <strong>{{ products|length }}</strong>
+        </div>
+
+        <div class="stat">
+            <span>سفارش‌ها</span>
+            <strong>{{ orders|length }}</strong>
+        </div>
+
+        <div class="stat">
+            <span>تبلیغات</span>
+            <strong>{{ ads|length }}</strong>
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>افزودن محصول</h2>
+
+        <form method="POST" action="/admin/product/add">
+
+            <div class="grid">
+
+                <div>
+                    <label>نام محصول</label>
+                    <input type="text" name="name" required>
+                </div>
+
+                <div>
+                    <label>دسته‌بندی</label>
+                    <input type="text" name="category">
+                </div>
+
+                <div>
+                    <label>قیمت</label>
+                    <input type="number" name="price" min="0" required>
+                </div>
+
+                <div>
+                    <label>تخفیف درصدی</label>
+                    <input type="number" name="discount" min="0" max="100" value="0">
+                </div>
+
+                <div>
+                    <label>موجودی</label>
+                    <input type="number" name="stock" min="0" value="0">
+                </div>
+
+                <div>
+                    <label>آدرس تصویر</label>
+                    <input type="text" name="image" placeholder="https://...">
+                </div>
+
+            </div>
+
+            <label>توضیحات</label>
+            <textarea name="description"></textarea>
+
+            <button class="button" type="submit">
+                افزودن محصول
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>محصولات</h2>
+
+        {% if products %}
+
+            {% for product in products %}
+
+                <div class="product">
+
+                    <div class="product-image">
+
+                        {% if product["image"] %}
+                            <img
+                                src="{{ product['image'] }}"
+                                alt="{{ product['name'] }}"
+                            >
+                        {% else %}
+                            <span class="no-image">
+                                بدون تصویر
+                            </span>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="product-info">
+
+                        <h3>
+                            {{ product["name"] }}
+                        </h3>
+
+                        <p>
+                            دسته‌بندی:
+                            {{ product["category"] }}
+                        </p>
+
+                        <p>
+                            قیمت:
+                            {{ "{:,.0f}".format(product["price"]) }}
+                            تومان
+                        </p>
+
+                        <p>
+                            موجودی:
+                            {{ product["stock"] }}
+                        </p>
+
+                        {% if product["discount"] %}
+                            <p>
+                                تخفیف:
+                                {{ product["discount"] }}٪
+                            </p>
+                        {% endif %}
+
+                    </div>
+
+                    <form
+                        method="POST"
+                        action="/admin/product/delete/{{ product['id'] }}"
+                    >
+                        <button
+                            class="delete"
+                            type="submit"
+                            onclick="return confirm('این محصول حذف شود؟')"
+                        >
+                            حذف
+                        </button>
+                    </form>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>هنوز محصولی ثبت نشده است.</p>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>سفارش‌ها</h2>
+
+        {% if orders %}
+
+            {% for order in orders %}
+
+                <div class="order">
+
+                    <strong>
+                        سفارش #{{ order["id"] }}
+                    </strong>
+
+                    <p>
+                        مشتری:
+                        {{ order["customer_name"] }}
+                    </p>
+
+                    <p>
+                        تلفن:
+                        {{ order["phone"] }}
+                    </p>
+
+                    <p>
+                        آدرس:
+                        {{ order["address"] }}
+                    </p>
+
+                    <p>
+                        مبلغ:
+                        {{ "{:,.0f}".format(order["total"]) }}
+                        تومان
+                    </p>
+
+                    <p>
+                        وضعیت:
+                        {{ order["status"] }}
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>هنوز سفارشی ثبت نشده است.</p>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>تبلیغات</h2>
+
+        <form method="POST" action="/admin/ad/add">
+
+            <label>عنوان تبلیغ</label>
+            <input type="text" name="title" required>
+
+            <label>متن تبلیغ</label>
+            <textarea name="text"></textarea>
+
+            <label>آدرس تصویر</label>
+            <input type="text" name="image">
+
+            <label>لینک تبلیغ</label>
+            <input type="text" name="link">
+
+            <button class="button" type="submit">
+                افزودن تبلیغ
+            </button>
+
+        </form>
+
+        <hr>
+
+        {% for ad in ads %}
+
+            <div class="ad">
+
+                <h3>{{ ad["title"] }}</h3>
+
+                <p>{{ ad["text"] }}</p>
+
+                <form
+                    method="POST"
+                    action="/admin/ad/delete/{{ ad['id'] }}"
+                >
+                    <button class="delete" type="submit">
+                        حذف تبلیغ
+                    </button>
+                </form>
+
+            </div>
+
+        {% else %}
+
+            <p>تبلیغی ثبت نشده است.</p>
+
+        {% endfor %}
+
+    </div>
+
+
+    <div class="section danger-section">
+
+        <h2>تغییر نام کاربری و رمز مدیر</h2>
+
+        <form method="POST" action="/admin/account">
+
+            <label>نام کاربری جدید</label>
+
+            <input
+                type="text"
+                name="new_username"
+                minlength="3"
+                required
+            >
+
+            <label>رمز عبور فعلی</label>
+
+            <input
+                type="password"
+                name="old_password"
+                required
+            >
+
+            <label>رمز عبور جدید</label>
+
+            <input
+                type="password"
+                name="new_password"
+                minlength="6"
+                placeholder="اگر نمی‌خواهی تغییر کند خالی بگذار"
+            >
+
+            <button class="button" type="submit">
+                ذخیره تغییرات
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

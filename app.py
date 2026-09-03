@@ -5,6 +5,10 @@ import os
 
 app = Flask(__name__)
 
+@app.route("/google5da9c411d1e24d27.html")
+def google_verification():
+    return "google-site-verification: google5da9c411d1e24d27.html"
+
 app.secret_key = os.environ.get(
     "SECRET_KEY",
     "CHANGE_THIS_SECRET_KEY"

@@ -5,9 +5,9 @@ import os
 
 app = Flask(__name__)
 
-@app.route("/google5da9c411d1e24d27.html")
+@app.route("/google35cefc4bc1a94ac4.html")
 def google_verification():
-    return "google-site-verification: google5da9c411d1e24d27.html"
+    return "google-site-verification: google35cefc4bc1a94ac4.html"
 
 app.secret_key = os.environ.get(
     "SECRET_KEY",

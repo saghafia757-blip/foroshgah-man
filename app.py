@@ -983,6 +983,49 @@ def change_admin_account():
     )
 
 
+@app.route("/sitemap.xml")
+def sitemap():
+    pages = [
+        url_for("home", _external=True),
+        url_for("products_page", _external=True),
+        url_for("offers", _external=True),
+        url_for("categories_page", _external=True),
+    ]
+
+    conn = get_db()
+
+    products = conn.execute("SELECT id FROM products").fetchall()
+    categories = conn.execute(
+        "SELECT DISTINCT category FROM products WHERE category != ''"
+    ).fetchall()
+
+    conn.close()
+
+    for product in products:
+        pages.append(
+            url_for("product", product_id=product["id"], _external=True)
+        )
+
+    for category_item in categories:
+        pages.append(
+            url_for(
+                "category",
+                category=category_item["category"],
+                _external=True
+            )
+        )
+
+    xml = '<?xml version="1.0" encoding="UTF-8"?>'
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+
+    for page in pages:
+        xml += f"<url><loc>{page}</loc></url>"
+
+    xml += "</urlset>"
+
+    return xml, 200, {"Content-Type": "application/xml"}
+
+
 if __name__ == "__main__":
 
     init_db()

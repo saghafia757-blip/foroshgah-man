@@ -264,6 +264,62 @@
         .danger-section {
             border: 1px solid #fecaca;
         }
+        .support-card {
+            padding: 18px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            margin-bottom: 14px;
+        }
+        .support-meta {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .support-meta div {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .support-chat {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 12px;
+            max-height: 260px;
+            overflow-y: auto;
+            margin: 12px 0;
+        }
+        .support-message {
+            padding: 9px 12px;
+            border-radius: 10px;
+            margin: 7px 0;
+            line-height: 1.8;
+        }
+        .support-message.customer { background: #f1f5f9; }
+        .support-message.admin { background: #dbeafe; }
+        .support-actions {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+        }
+        .resolve {
+            border: 0;
+            background: #16a34a;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        @media (max-width: 700px) {
+            .support-meta, .support-actions { grid-template-columns: 1fr; }
+            .resolve { width: 100%; }
+        }
+
 
         @media (max-width: 700px) {
             .stats,
@@ -644,6 +700,68 @@
 
     </div>
 
+
+
+    <div class="section">
+        <h2>وضعیت پشتیبانی</h2>
+
+        {% if support_requests %}
+            {% for support in support_requests %}
+                <div class="support-card">
+                    <strong>درخواست پشتیبانی #{{ support["id"] }}</strong>
+
+                    <div class="support-meta">
+                        <div><b>شماره تلفن:</b><br>{{ support["phone"] }}</div>
+                        <div><b>دسته‌بندی:</b><br>{{ support["category"] }}</div>
+                        <div><b>وضعیت:</b><br>{{ support["status"] }}</div>
+                    </div>
+
+                    <p><b>توضیحات مشتری:</b><br>{{ support["description"] }}</p>
+
+                    <div class="support-chat" id="chat-{{ support['id'] }}">
+                        در حال دریافت پیام‌ها...
+                    </div>
+
+                    <form method="POST" action="/admin/support/{{ support['id'] }}/reply">
+                        <textarea name="message" placeholder="پاسخ خود را برای مشتری بنویسید..." maxlength="2000" required></textarea>
+                        <div class="support-actions">
+                            <button class="button" type="submit">ارسال پاسخ</button>
+                        </div>
+                    </form>
+
+                    <form method="POST" action="/admin/support/{{ support['id'] }}/resolve" style="margin-top:10px;">
+                        <button class="resolve" type="submit" onclick="return confirm('این مشکل حل شده است؟')">مشکل حل شد</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>درخواست پشتیبانی فعالی وجود ندارد.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        async function loadSupportChats() {
+            const boxes = document.querySelectorAll('[id^="chat-"]');
+            for (const box of boxes) {
+                const id = box.id.replace('chat-', '');
+                try {
+                    const response = await fetch('/admin/support/' + id);
+                    if (!response.ok) continue;
+                    const data = await response.json();
+                    box.innerHTML = '';
+                    data.messages.forEach(function(msg) {
+                        const div = document.createElement('div');
+                        div.className = 'support-message ' + (msg.sender === 'admin' ? 'admin' : 'customer');
+                        div.textContent = (msg.sender === 'admin' ? 'پشتیبانی: ' : 'مشتری: ') + msg.message;
+                        box.appendChild(div);
+                    });
+                    box.scrollTop = box.scrollHeight;
+                } catch (e) {}
+            }
+        }
+        loadSupportChats();
+        setInterval(loadSupportChats, 5000);
+    </script>
 
     <div class="section danger-section">
 

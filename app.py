@@ -9,6 +9,7 @@ app = Flask(__name__)
 def google_verification():
     return "google-site-verification: google35cefc4bc1a94ac4.html"
 
+
 app.secret_key = os.environ.get(
     "SECRET_KEY",
     "CHANGE_THIS_SECRET_KEY"
@@ -155,6 +156,10 @@ def admin_required():
     return session.get("admin_logged_in") is True
 
 
+# =========================================================
+# صفحه اصلی + فیلتر محصولات
+# =========================================================
+
 @app.route("/")
 def home():
     conn = get_db()
@@ -164,23 +169,120 @@ def home():
         ""
     ).strip()
 
+    category_filter = request.args.get(
+        "category",
+        ""
+    ).strip()
+
+    min_price = request.args.get(
+        "min_price",
+        ""
+    ).strip()
+
+    max_price = request.args.get(
+        "max_price",
+        ""
+    ).strip()
+
+    sort = request.args.get(
+        "sort",
+        "newest"
+    ).strip()
+
+    in_stock = request.args.get(
+        "in_stock",
+        ""
+    ).strip()
+
+    query = """
+        SELECT * FROM products
+        WHERE 1=1
+    """
+
+    params = []
+
+    # جستجو
     if search:
-        products = conn.execute("""
-            SELECT * FROM products
-            WHERE name LIKE ?
-               OR description LIKE ?
-               OR category LIKE ?
-            ORDER BY id DESC
-        """, (
-            f"%{search}%",
-            f"%{search}%",
-            f"%{search}%"
-        )).fetchall()
-    else:
-        products = conn.execute("""
-            SELECT * FROM products
-            ORDER BY id DESC
-        """).fetchall()
+        query += """
+            AND (
+                name LIKE ?
+                OR description LIKE ?
+                OR category LIKE ?
+            )
+        """
+
+        search_value = f"%{search}%"
+
+        params.extend([
+            search_value,
+            search_value,
+            search_value
+        ])
+
+    # دسته‌بندی
+    if category_filter:
+        query += """
+            AND category = ?
+        """
+
+        params.append(category_filter)
+
+    # حداقل قیمت
+    try:
+        min_price_value = int(min_price)
+
+        if min_price_value >= 0:
+            query += """
+                AND price >= ?
+            """
+
+            params.append(min_price_value)
+
+    except ValueError:
+        min_price = ""
+
+    # حداکثر قیمت
+    try:
+        max_price_value = int(max_price)
+
+        if max_price_value >= 0:
+            query += """
+                AND price <= ?
+            """
+
+            params.append(max_price_value)
+
+    except ValueError:
+        max_price = ""
+
+    # فقط محصولات موجود
+    if in_stock == "1":
+        query += """
+            AND stock > 0
+        """
+
+    # مرتب‌سازی
+    allowed_sorts = {
+        "newest": "id DESC",
+        "oldest": "id ASC",
+        "cheap": "price ASC",
+        "expensive": "price DESC",
+        "discount": "discount DESC"
+    }
+
+    order_by = allowed_sorts.get(
+        sort,
+        "id DESC"
+    )
+
+    query += f"""
+        ORDER BY {order_by}
+    """
+
+    products = conn.execute(
+        query,
+        params
+    ).fetchall()
 
     ads = conn.execute("""
         SELECT * FROM ads
@@ -201,7 +303,12 @@ def home():
         products=products,
         ads=ads,
         categories=categories,
-        search=search
+        search=search,
+        selected_category=category_filter,
+        min_price=min_price,
+        max_price=max_price,
+        sort=sort,
+        in_stock=in_stock
     )
 
 
@@ -210,10 +317,17 @@ def search():
     return redirect(
         url_for(
             "home",
-            search=request.args.get("q", "")
+            search=request.args.get(
+                "q",
+                ""
+            )
         )
     )
 
+
+# =========================================================
+# محصول
+# =========================================================
 
 @app.route("/product/<int:product_id>")
 def product(product_id):
@@ -235,6 +349,10 @@ def product(product_id):
     )
 
 
+# =========================================================
+# دسته‌بندی
+# =========================================================
+
 @app.route("/category/<category>")
 def category(category):
     conn = get_db()
@@ -243,7 +361,9 @@ def category(category):
         SELECT * FROM products
         WHERE category = ?
         ORDER BY id DESC
-    """, (category,)).fetchall()
+    """, (
+        category,
+    )).fetchall()
 
     ads = conn.execute(
         "SELECT * FROM ads ORDER BY id DESC"
@@ -263,9 +383,18 @@ def category(category):
         products=products,
         ads=ads,
         categories=categories,
-        search=""
+        search="",
+        selected_category=category,
+        min_price="",
+        max_price="",
+        sort="newest",
+        in_stock=""
     )
 
+
+# =========================================================
+# پیشنهادهای ویژه
+# =========================================================
 
 @app.route("/offers")
 def offers():
@@ -295,46 +424,36 @@ def offers():
         products=products,
         ads=ads,
         categories=categories,
-        search=""
+        search="",
+        selected_category="",
+        min_price="",
+        max_price="",
+        sort="discount",
+        in_stock=""
     )
 
 
+# =========================================================
+# محصولات
+# =========================================================
+
 @app.route("/categories")
 def categories_page():
-    return redirect(url_for("products_page"))
+    return redirect(
+        url_for("products_page")
+    )
 
 
 @app.route("/products")
 def products_page():
-    conn = get_db()
-
-    products = conn.execute("""
-        SELECT * FROM products
-        ORDER BY id DESC
-    """).fetchall()
-
-    ads = conn.execute("""
-        SELECT * FROM ads
-        ORDER BY id DESC
-    """).fetchall()
-
-    categories = conn.execute("""
-        SELECT DISTINCT category
-        FROM products
-        WHERE category != ''
-        ORDER BY category
-    """).fetchall()
-
-    conn.close()
-
-    return render_template(
-        "home.html",
-        products=products,
-        ads=ads,
-        categories=categories,
-        search=""
+    return redirect(
+        url_for("home")
     )
 
+
+# =========================================================
+# سبد خرید
+# =========================================================
 
 @app.route("/cart")
 def cart():
@@ -421,7 +540,9 @@ def cart_add(product_id):
 
     session["cart"] = cart_data
 
-    return redirect(url_for("cart"))
+    return redirect(
+        url_for("cart")
+    )
 
 
 @app.post("/cart/remove/<int:product_id>")
@@ -439,7 +560,9 @@ def cart_remove(product_id):
 
     session["cart"] = cart_data
 
-    return redirect(url_for("cart"))
+    return redirect(
+        url_for("cart")
+    )
 
 
 @app.post("/cart/clear")
@@ -447,8 +570,14 @@ def cart_clear():
 
     session["cart"] = {}
 
-    return redirect(url_for("cart"))
+    return redirect(
+        url_for("cart")
+    )
 
+
+# =========================================================
+# پرداخت / ثبت سفارش
+# =========================================================
 
 @app.route("/checkout", methods=["GET", "POST"])
 def checkout():
@@ -547,6 +676,10 @@ def checkout():
     )
 
 
+# =========================================================
+# ورود مدیر
+# =========================================================
+
 @app.route(
     "/admin/login",
     methods=["GET", "POST"]
@@ -612,6 +745,10 @@ def admin_logout():
     )
 
 
+# =========================================================
+# پنل مدیریت
+# =========================================================
+
 @app.route("/admin")
 def admin():
 
@@ -647,7 +784,9 @@ def admin():
     )
 
 
-@app.post("/admin/order/delete/<int:order_id>")
+@app.post(
+    "/admin/order/delete/<int:order_id>"
+)
 def admin_delete_order(order_id):
 
     if not admin_required():
@@ -670,7 +809,9 @@ def admin_delete_order(order_id):
     )
 
 
-@app.post("/admin/order/status/<int:order_id>")
+@app.post(
+    "/admin/order/status/<int:order_id>"
+)
 def admin_update_order_status(order_id):
 
     if not admin_required():
@@ -820,6 +961,10 @@ def admin_delete_product(product_id):
     )
 
 
+# =========================================================
+# تبلیغات
+# =========================================================
+
 @app.post("/admin/ad/add")
 def admin_add_ad():
 
@@ -872,7 +1017,9 @@ def admin_add_ad():
     )
 
 
-@app.post("/admin/ad/delete/<int:ad_id>")
+@app.post(
+    "/admin/ad/delete/<int:ad_id>"
+)
 def admin_delete_ad(ad_id):
 
     if not admin_required():
@@ -894,6 +1041,10 @@ def admin_delete_ad(ad_id):
         url_for("admin")
     )
 
+
+# =========================================================
+# تغییر حساب مدیر
+# =========================================================
 
 @app.post("/admin/account")
 def change_admin_account():
@@ -983,39 +1134,75 @@ def change_admin_account():
     )
 
 
+# =========================================================
+# robots.txt
+# =========================================================
+
 @app.route("/robots.txt")
 def robots():
     return """User-agent: *
 Allow: /
 
 Sitemap: https://foroshgah-man.onrender.com/sitemap.xml
-""", 200, {"Content-Type": "text/plain"}
+""", 200, {
+    "Content-Type": "text/plain"
+}
 
+
+# =========================================================
+# sitemap.xml
+# =========================================================
 
 @app.route("/sitemap.xml")
 def sitemap():
+
     pages = [
-        url_for("home", _external=True),
-        url_for("products_page", _external=True),
-        url_for("offers", _external=True),
-        url_for("categories_page", _external=True),
+        url_for(
+            "home",
+            _external=True
+        ),
+        url_for(
+            "products_page",
+            _external=True
+        ),
+        url_for(
+            "offers",
+            _external=True
+        ),
+        url_for(
+            "categories_page",
+            _external=True
+        ),
     ]
 
     conn = get_db()
 
-    products = conn.execute("SELECT id FROM products").fetchall()
+    products = conn.execute(
+        "SELECT id FROM products"
+    ).fetchall()
+
     categories = conn.execute(
-        "SELECT DISTINCT category FROM products WHERE category != ''"
+        """
+        SELECT DISTINCT category
+        FROM products
+        WHERE category != ''
+        """
     ).fetchall()
 
     conn.close()
 
     for product in products:
+
         pages.append(
-            url_for("product", product_id=product["id"], _external=True)
+            url_for(
+                "product",
+                product_id=product["id"],
+                _external=True
+            )
         )
 
     for category_item in categories:
+
         pages.append(
             url_for(
                 "category",
@@ -1025,15 +1212,30 @@ def sitemap():
         )
 
     xml = '<?xml version="1.0" encoding="UTF-8"?>'
-    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+
+    xml += (
+        '<urlset '
+        'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+    )
 
     for page in pages:
-        xml += f"<url><loc>{page}</loc></url>"
+
+        xml += (
+            f"<url>"
+            f"<loc>{page}</loc>"
+            f"</url>"
+        )
 
     xml += "</urlset>"
 
-    return xml, 200, {"Content-Type": "application/xml"}
+    return xml, 200, {
+        "Content-Type": "application/xml"
+    }
 
+
+# =========================================================
+# اجرای برنامه
+# =========================================================
 
 if __name__ == "__main__":
 

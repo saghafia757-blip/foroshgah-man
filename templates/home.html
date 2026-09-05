@@ -54,6 +54,13 @@
             color: inherit;
         }
 
+        button,
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
         .container {
             width: 92%;
             max-width: 1250px;
@@ -129,7 +136,6 @@
             background: var(--pink-dark);
         }
 
-        /* دکمه دارک مود */
         .theme-toggle {
             border: none;
             cursor: pointer;
@@ -146,7 +152,8 @@
             transform: scale(1.05);
         }
 
-        /* فیلتر دسته‌بندی */
+        /* فیلتر */
+
         .filter-wrapper {
             position: relative;
         }
@@ -206,7 +213,6 @@
             color: var(--text);
             padding: 10px;
             border-radius: 9px;
-            font-family: inherit;
             outline: none;
             margin-bottom: 12px;
         }
@@ -225,7 +231,6 @@
             color: white;
             padding: 11px;
             border-radius: 9px;
-            font-family: inherit;
             font-size: 14px;
         }
 
@@ -253,6 +258,8 @@
         .nav-inner a:hover {
             color: var(--pink);
         }
+
+        /* هیرو */
 
         .hero {
             margin-top: 22px;
@@ -431,6 +438,8 @@
             color: var(--muted);
         }
 
+        /* فوتر */
+
         footer {
             margin-top: 50px;
             background: var(--footer);
@@ -453,7 +462,287 @@
             line-height: 2;
         }
 
+        .support-link {
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .support-link:hover {
+            color: white;
+        }
+
+        /* =========================
+           پشتیبانی آنلاین
+           ========================= */
+
+        .support-button {
+            position: fixed;
+            left: 25px;
+            bottom: 25px;
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #e91e63, #7b1fa2);
+            color: white;
+            cursor: pointer;
+            z-index: 900;
+            font-size: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.25);
+            transition: .3s;
+        }
+
+        .support-button:hover {
+            transform: scale(1.1) rotate(-5deg);
+            box-shadow: 0 14px 35px rgba(0,0,0,.35);
+        }
+
+        .support-status {
+            position: absolute;
+            right: 3px;
+            top: 3px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #35d46f;
+            border: 3px solid white;
+        }
+
+        .support-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0,0,0,.55);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .support-modal.show {
+            display: flex;
+            animation: supportFade .25s ease;
+        }
+
+        @keyframes supportFade {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .support-box {
+            width: 100%;
+            max-width: 470px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: var(--card);
+            color: var(--text);
+            border-radius: 24px;
+            box-shadow: 0 25px 70px rgba(0,0,0,.35);
+            animation: supportUp .35s ease;
+        }
+
+        @keyframes supportUp {
+            from {
+                opacity: 0;
+                transform: translateY(35px) scale(.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .support-head {
+            padding: 22px;
+            background: linear-gradient(135deg, #e91e63, #7b1fa2);
+            color: white;
+            border-radius: 24px 24px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .support-head h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .support-head p {
+            margin: 7px 0 0;
+            opacity: .9;
+            font-size: 12px;
+        }
+
+        .support-close {
+            border: none;
+            background: rgba(255,255,255,.18);
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 22px;
+        }
+
+        .support-content {
+            padding: 22px;
+        }
+
+        .support-label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .support-content input,
+        .support-content select,
+        .support-content textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            background: var(--input);
+            color: var(--text);
+            border-radius: 11px;
+            padding: 12px;
+            outline: none;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        .support-content textarea {
+            min-height: 110px;
+            resize: vertical;
+            line-height: 1.8;
+        }
+
+        .support-submit {
+            width: 100%;
+            border: none;
+            background: var(--pink);
+            color: white;
+            padding: 13px;
+            border-radius: 11px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .support-submit:hover {
+            background: var(--pink-dark);
+        }
+
+        .support-info {
+            background: var(--input);
+            border-radius: 13px;
+            padding: 14px;
+            margin-bottom: 15px;
+            line-height: 2;
+            font-size: 13px;
+        }
+
+        .support-info strong {
+            color: var(--pink);
+        }
+
+        .support-status-box {
+            padding: 10px 14px;
+            border-radius: 10px;
+            background: rgba(233,30,99,.1);
+            color: var(--pink);
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        .support-chat {
+            height: 250px;
+            overflow-y: auto;
+            padding: 10px;
+            background: var(--input);
+            border-radius: 14px;
+            margin-bottom: 12px;
+        }
+
+        .chat-message {
+            margin-bottom: 12px;
+            display: flex;
+        }
+
+        .chat-message.customer {
+            justify-content: flex-start;
+        }
+
+        .chat-message.admin {
+            justify-content: flex-end;
+        }
+
+        .chat-bubble {
+            max-width: 80%;
+            padding: 10px 13px;
+            border-radius: 13px;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .customer .chat-bubble {
+            background: var(--card);
+            border: 1px solid var(--border);
+        }
+
+        .admin .chat-bubble {
+            background: var(--pink);
+            color: white;
+        }
+
+        .chat-time {
+            display: block;
+            font-size: 9px;
+            opacity: .65;
+            margin-top: 3px;
+        }
+
+        .chat-form {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-form input {
+            margin: 0;
+            flex: 1;
+        }
+
+        .chat-form button {
+            width: 50px;
+            border: none;
+            border-radius: 11px;
+            background: var(--pink);
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .resolved-box {
+            text-align: center;
+            padding: 25px 10px;
+            background: rgba(53,212,111,.1);
+            border-radius: 14px;
+            color: #28a957;
+            line-height: 2;
+        }
+
+        .support-loading {
+            text-align: center;
+            padding: 25px;
+            color: var(--muted);
+        }
+
         @media (max-width: 900px) {
+
             .products {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -468,6 +757,7 @@
         }
 
         @media (max-width: 600px) {
+
             .topbar {
                 flex-wrap: wrap;
                 padding: 12px 0;
@@ -523,6 +813,18 @@
             .footer-grid {
                 grid-template-columns: 1fr;
             }
+
+            .support-button {
+                left: 17px;
+                bottom: 17px;
+                width: 58px;
+                height: 58px;
+                font-size: 27px;
+            }
+
+            .support-box {
+                max-height: 92vh;
+            }
         }
     </style>
 </head>
@@ -538,12 +840,14 @@
         </a>
 
         <form class="search" action="/search" method="get">
+
             <input
                 type="text"
                 name="q"
                 placeholder="جستجوی محصول، برند یا دسته‌بندی..."
                 value="{{ search or '' }}"
             >
+
         </form>
 
         <div class="actions">
@@ -552,7 +856,6 @@
                 ورود مدیر
             </a>
 
-            <!-- دسته‌بندی و فیلتر -->
             <div class="filter-wrapper">
 
                 <button
@@ -572,16 +875,19 @@
                     <form action="/" method="get">
 
                         {% if search %}
+
                         <input
                             type="hidden"
                             name="search"
                             value="{{ search }}"
                         >
+
                         {% endif %}
 
                         <div class="filter-price">
 
                             <div>
+
                                 <label for="min_price">
                                     حداقل قیمت
                                 </label>
@@ -594,9 +900,11 @@
                                     value="{{ min_price or '' }}"
                                     placeholder="مثلاً 1000000"
                                 >
+
                             </div>
 
                             <div>
+
                                 <label for="max_price">
                                     حداکثر قیمت
                                 </label>
@@ -609,6 +917,7 @@
                                     value="{{ max_price or '' }}"
                                     placeholder="مثلاً 50000000"
                                 >
+
                             </div>
 
                         </div>
@@ -656,7 +965,6 @@
 
             </div>
 
-            <!-- دکمه تغییر حالت -->
             <button
                 type="button"
                 class="theme-toggle"
@@ -678,19 +986,12 @@
     <div class="container nav-inner">
 
         <a href="/">خانه</a>
-
         <a href="/category/موبایل">موبایل</a>
-
         <a href="/category/لپ تاپ">لپ‌تاپ</a>
-
         <a href="/category/پوشاک">پوشاک</a>
-
         <a href="/category/لوازم خانگی">لوازم خانگی</a>
-
         <a href="/category/دیجیتال">کالای دیجیتال</a>
-
         <a href="/category/زیبایی">زیبایی</a>
-
         <a href="/offers">پیشنهادهای ویژه</a>
 
     </div>
@@ -943,7 +1244,10 @@
                 پشتیبانی
             </h3>
 
-            <p>
+            <p
+                class="support-link"
+                onclick="openSupport()"
+            >
                 سوالی دارید؟ از بخش پشتیبانی با ما در ارتباط باشید.
             </p>
 
@@ -953,15 +1257,89 @@
 
 </footer>
 
+
+<!-- دکمه شناور پشتیبانی -->
+
+<button
+    type="button"
+    class="support-button"
+    onclick="openSupport()"
+    aria-label="پشتیبانی آنلاین"
+    title="پشتیبانی آنلاین"
+>
+    🎧
+
+    <span class="support-status"></span>
+
+</button>
+
+
+<!-- پنجره پشتیبانی -->
+
+<div
+    class="support-modal"
+    id="supportModal"
+    onclick="closeSupportOutside(event)"
+>
+
+    <div class="support-box">
+
+        <div class="support-head">
+
+            <div>
+
+                <h2>
+                    پشتیبانی آنلاین
+                </h2>
+
+                <p>
+                    مشکل یا سوالی دارید؟ با ما در ارتباط باشید.
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                class="support-close"
+                onclick="closeSupport()"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div
+            class="support-content"
+            id="supportContent"
+        >
+
+            <div class="support-loading">
+                در حال بارگذاری...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
+
+    /* =========================
+       دارک مود
+       ========================= */
+
     const themeToggle = document.getElementById("themeToggle");
 
-    // حالت ذخیره‌شده کاربر
     const savedTheme = localStorage.getItem("theme");
 
     if (savedTheme === "dark") {
+
         document.body.classList.add("dark");
+
         themeToggle.textContent = "☀️";
+
     }
 
     themeToggle.addEventListener("click", function () {
@@ -969,16 +1347,26 @@
         document.body.classList.toggle("dark");
 
         if (document.body.classList.contains("dark")) {
+
             localStorage.setItem("theme", "dark");
+
             themeToggle.textContent = "☀️";
+
         } else {
+
             localStorage.setItem("theme", "light");
+
             themeToggle.textContent = "🌙";
+
         }
 
     });
 
-    // باز و بسته کردن فیلتر
+
+    /* =========================
+       فیلتر
+       ========================= */
+
     const filterToggle = document.getElementById("filterToggle");
     const filterMenu = document.getElementById("filterMenu");
 
@@ -990,17 +1378,522 @@
 
     });
 
-    // بستن فیلتر با کلیک بیرون
     document.addEventListener("click", function (event) {
 
         if (
             !filterMenu.contains(event.target) &&
             event.target !== filterToggle
         ) {
+
             filterMenu.classList.remove("show");
+
         }
 
     });
+
+
+    /* =========================
+       پشتیبانی آنلاین
+       ========================= */
+
+    const supportModal = document.getElementById("supportModal");
+    const supportContent = document.getElementById("supportContent");
+
+    let supportTimer = null;
+
+
+    function openSupport() {
+
+        supportModal.classList.add("show");
+
+        loadSupport();
+
+    }
+
+
+    function closeSupport() {
+
+        supportModal.classList.remove("show");
+
+        if (supportTimer) {
+
+            clearInterval(supportTimer);
+
+            supportTimer = null;
+
+        }
+
+    }
+
+
+    function closeSupportOutside(event) {
+
+        if (event.target === supportModal) {
+
+            closeSupport();
+
+        }
+
+    }
+
+
+    async function loadSupport() {
+
+        supportContent.innerHTML = `
+            <div class="support-loading">
+                در حال بارگذاری...
+            </div>
+        `;
+
+        try {
+
+            const response = await fetch("/support/data", {
+                cache: "no-store"
+            });
+
+            if (!response.ok) {
+                throw new Error("support data error");
+            }
+
+            const data = await response.json();
+
+            if (data.exists) {
+
+                renderSupportChat(data);
+
+                startSupportPolling();
+
+            } else {
+
+                renderSupportForm();
+
+            }
+
+        } catch (error) {
+
+            supportContent.innerHTML = `
+                <div class="support-loading">
+                    امکان اتصال به پشتیبانی وجود ندارد.
+                    <br><br>
+                    لطفاً دوباره تلاش کنید.
+                </div>
+            `;
+
+        }
+
+    }
+
+
+    function renderSupportForm() {
+
+        supportContent.innerHTML = `
+
+            <form
+                action="/support/create"
+                method="post"
+            >
+
+                <label class="support-label">
+                    چه چیزی شما را ناراحت کرد؟
+                </label>
+
+                <textarea
+                    name="description"
+                    required
+                    placeholder="مشکل یا چیزی که باعث ناراحتی شما شده را توضیح دهید..."
+                ></textarea>
+
+
+                <label class="support-label">
+                    دسته‌بندی مشکل
+                </label>
+
+                <select
+                    name="category"
+                    required
+                >
+
+                    <option value="">
+                        انتخاب دسته‌بندی
+                    </option>
+
+                    <option value="موبایل">
+                        موبایل
+                    </option>
+
+                    <option value="لپ‌تاپ">
+                        لپ‌تاپ
+                    </option>
+
+                    <option value="پوشاک">
+                        پوشاک
+                    </option>
+
+                    <option value="لوازم خانگی">
+                        لوازم خانگی
+                    </option>
+
+                    <option value="دیجیتال">
+                        دیجیتال
+                    </option>
+
+                    <option value="زیبایی">
+                        زیبایی
+                    </option>
+
+                    <option value="سایر">
+                        سایر
+                    </option>
+
+                </select>
+
+
+                <label class="support-label">
+                    شماره تلفن
+                </label>
+
+                <input
+                    type="tel"
+                    name="phone"
+                    required
+                    placeholder="مثلاً 09123456789"
+                    inputmode="tel"
+                >
+
+
+                <button
+                    type="submit"
+                    class="support-submit"
+                >
+                    ارسال درخواست پشتیبانی
+                </button>
+
+            </form>
+
+        `;
+
+    }
+
+
+    function renderSupportChat(data) {
+
+        let messagesHtml = "";
+
+        if (data.messages && data.messages.length > 0) {
+
+            data.messages.forEach(function(message) {
+
+                const senderClass =
+                    message.sender === "admin"
+                        ? "admin"
+                        : "customer";
+
+                const senderName =
+                    message.sender === "admin"
+                        ? "پشتیبانی"
+                        : "شما";
+
+                messagesHtml += `
+
+                    <div class="chat-message ${senderClass}">
+
+                        <div class="chat-bubble">
+
+                            <strong>
+                                ${escapeHtml(senderName)}
+                            </strong>
+
+                            <br>
+
+                            ${escapeHtml(message.message)}
+
+                            <span class="chat-time">
+                                ${escapeHtml(message.created_at || "")}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            });
+
+        } else {
+
+            messagesHtml = `
+                <div class="support-loading">
+                    هنوز پیامی ارسال نشده است.
+                </div>
+            `;
+
+        }
+
+
+        if (data.status === "حل شد") {
+
+            supportContent.innerHTML = `
+
+                <div class="support-info">
+
+                    <strong>
+                        اطلاعات درخواست
+                    </strong>
+
+                    <br>
+
+                    شماره تلفن:
+                    ${escapeHtml(data.phone || "")}
+
+                    <br>
+
+                    دسته‌بندی:
+                    ${escapeHtml(data.category || "")}
+
+                    <br>
+
+                    توضیحات:
+                    ${escapeHtml(data.description || "")}
+
+                </div>
+
+
+                <div class="support-status-box">
+
+                    وضعیت:
+                    <strong>
+                        حل شد
+                    </strong>
+
+                </div>
+
+
+                <div class="resolved-box">
+
+                    ✓ مشکل شما توسط پشتیبانی بررسی و حل شد.
+
+                    <br>
+
+                    در صورت داشتن مشکل جدید می‌توانید درخواست دیگری ثبت کنید.
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        supportContent.innerHTML = `
+
+            <div class="support-info">
+
+                <strong>
+                    اطلاعات درخواست
+                </strong>
+
+                <br>
+
+                شماره تلفن:
+                ${escapeHtml(data.phone || "")}
+
+                <br>
+
+                دسته‌بندی:
+                ${escapeHtml(data.category || "")}
+
+                <br>
+
+                توضیحات:
+                ${escapeHtml(data.description || "")}
+
+            </div>
+
+
+            <div class="support-status-box">
+
+                وضعیت درخواست:
+                <strong>
+                    ${escapeHtml(data.status || "در حال پیگیری")}
+                </strong>
+
+            </div>
+
+
+            <div
+                class="support-chat"
+                id="supportChat"
+            >
+
+                ${messagesHtml}
+
+            </div>
+
+
+            <form
+                class="chat-form"
+                id="supportMessageForm"
+            >
+
+                <input
+                    type="text"
+                    id="supportMessageInput"
+                    name="message"
+                    required
+                    maxlength="1000"
+                    placeholder="پیام خود را بنویسید..."
+                >
+
+                <button
+                    type="submit"
+                    title="ارسال"
+                >
+                    ➤
+                </button>
+
+            </form>
+
+        `;
+
+
+        const chat = document.getElementById("supportChat");
+
+        if (chat) {
+
+            chat.scrollTop = chat.scrollHeight;
+
+        }
+
+
+        const messageForm =
+            document.getElementById("supportMessageForm");
+
+
+        if (messageForm) {
+
+            messageForm.addEventListener("submit", async function(event) {
+
+                event.preventDefault();
+
+                const input =
+                    document.getElementById("supportMessageInput");
+
+                const message =
+                    input.value.trim();
+
+                if (!message) {
+                    return;
+                }
+
+
+                try {
+
+                    const formData = new FormData();
+
+                    formData.append("message", message);
+
+
+                    const response = await fetch(
+                        "/support/message",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                    if (!response.ok) {
+                        throw new Error("message error");
+                    }
+
+
+                    input.value = "";
+
+                    await loadSupport();
+
+                } catch (error) {
+
+                    alert("ارسال پیام انجام نشد. دوباره تلاش کنید.");
+
+                }
+
+            });
+
+        }
+
+    }
+
+
+    function startSupportPolling() {
+
+        if (supportTimer) {
+
+            clearInterval(supportTimer);
+
+        }
+
+        supportTimer = setInterval(function() {
+
+            if (
+                supportModal.classList.contains("show")
+            ) {
+
+                refreshSupport();
+
+            }
+
+        }, 5000);
+
+    }
+
+
+    async function refreshSupport() {
+
+        try {
+
+            const response = await fetch(
+                "/support/data",
+                {
+                    cache: "no-store"
+                }
+            );
+
+            if (!response.ok) {
+                return;
+            }
+
+            const data = await response.json();
+
+            if (data.exists) {
+
+                renderSupportChat(data);
+
+            }
+
+        } catch (error) {
+
+            console.log("Support refresh error");
+
+        }
+
+    }
+
+
+    function escapeHtml(value) {
+
+        if (value === null || value === undefined) {
+            return "";
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
 </script>
 
 </body>

@@ -146,6 +146,101 @@
             transform: scale(1.05);
         }
 
+        /* فیلتر دسته‌بندی */
+        .filter-wrapper {
+            position: relative;
+        }
+
+        .filter-toggle {
+            border: none;
+            cursor: pointer;
+            padding: 11px 15px;
+            border-radius: 10px;
+            background: var(--action);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+            transition: background .2s;
+            white-space: nowrap;
+        }
+
+        .filter-toggle:hover {
+            background: var(--hover);
+        }
+
+        .filter-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 310px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15);
+            z-index: 300;
+        }
+
+        .filter-menu.show {
+            display: block;
+        }
+
+        .filter-menu h3 {
+            margin: 0 0 15px;
+            font-size: 16px;
+        }
+
+        .filter-menu label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .filter-menu input,
+        .filter-menu select {
+            width: 100%;
+            border: 1px solid var(--border);
+            background: var(--input);
+            color: var(--text);
+            padding: 10px;
+            border-radius: 9px;
+            font-family: inherit;
+            outline: none;
+            margin-bottom: 12px;
+        }
+
+        .filter-price {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .filter-button {
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            background: var(--pink);
+            color: white;
+            padding: 11px;
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .filter-button:hover {
+            background: var(--pink-dark);
+        }
+
+        .filter-reset {
+            display: block;
+            text-align: center;
+            margin-top: 9px;
+            color: var(--pink);
+            font-size: 13px;
+        }
+
         .nav-inner {
             display: flex;
             gap: 25px;
@@ -387,6 +482,14 @@
                 display: none;
             }
 
+            .filter-menu {
+                position: fixed;
+                top: 80px;
+                right: 4%;
+                left: 4%;
+                width: auto;
+            }
+
             .hero {
                 padding: 30px 20px;
                 min-height: 230px;
@@ -448,6 +551,110 @@
             <a href="/admin/login" class="action">
                 ورود مدیر
             </a>
+
+            <!-- دسته‌بندی و فیلتر -->
+            <div class="filter-wrapper">
+
+                <button
+                    type="button"
+                    class="filter-toggle"
+                    id="filterToggle"
+                >
+                    دسته‌بندی ▾
+                </button>
+
+                <div class="filter-menu" id="filterMenu">
+
+                    <h3>
+                        فیلتر محصولات
+                    </h3>
+
+                    <form action="/" method="get">
+
+                        {% if search %}
+                        <input
+                            type="hidden"
+                            name="search"
+                            value="{{ search }}"
+                        >
+                        {% endif %}
+
+                        <div class="filter-price">
+
+                            <div>
+                                <label for="min_price">
+                                    حداقل قیمت
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="min_price"
+                                    name="min_price"
+                                    min="0"
+                                    value="{{ min_price or '' }}"
+                                    placeholder="مثلاً 1000000"
+                                >
+                            </div>
+
+                            <div>
+                                <label for="max_price">
+                                    حداکثر قیمت
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="max_price"
+                                    name="max_price"
+                                    min="0"
+                                    value="{{ max_price or '' }}"
+                                    placeholder="مثلاً 50000000"
+                                >
+                            </div>
+
+                        </div>
+
+                        <label for="category">
+                            دسته‌بندی وسیله
+                        </label>
+
+                        <select id="category" name="category">
+
+                            <option value="">
+                                همه دسته‌بندی‌ها
+                            </option>
+
+                            {% for category in categories %}
+
+                            <option
+                                value="{{ category['category'] }}"
+                                {% if selected_category == category['category'] %}selected{% endif %}
+                            >
+                                {{ category['category'] }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                        <button
+                            type="submit"
+                            class="filter-button"
+                        >
+                            اعمال فیلتر
+                        </button>
+
+                        <a
+                            href="/"
+                            class="filter-reset"
+                        >
+                            حذف فیلترها
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
 
             <!-- دکمه تغییر حالت -->
             <button
@@ -767,6 +974,30 @@
         } else {
             localStorage.setItem("theme", "light");
             themeToggle.textContent = "🌙";
+        }
+
+    });
+
+    // باز و بسته کردن فیلتر
+    const filterToggle = document.getElementById("filterToggle");
+    const filterMenu = document.getElementById("filterMenu");
+
+    filterToggle.addEventListener("click", function (event) {
+
+        event.stopPropagation();
+
+        filterMenu.classList.toggle("show");
+
+    });
+
+    // بستن فیلتر با کلیک بیرون
+    document.addEventListener("click", function (event) {
+
+        if (
+            !filterMenu.contains(event.target) &&
+            event.target !== filterToggle
+        ) {
+            filterMenu.classList.remove("show");
         }
 
     });

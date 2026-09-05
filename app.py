@@ -983,6 +983,15 @@ def change_admin_account():
     )
 
 
+@app.route("/robots.txt")
+def robots():
+    return """User-agent: *
+Allow: /
+
+Sitemap: https://foroshgah-man.onrender.com/sitemap.xml
+""", 200, {"Content-Type": "text/plain"}
+
+
 @app.route("/sitemap.xml")
 def sitemap():
     pages = [

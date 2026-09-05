@@ -2,573 +2,423 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="google-site-verification"
-          content="dID1AB5v2MoCxbie9Oz0-pr4FCktPRoMyl6NX2VtBhI" />
-
-    <meta name="description"
-          content="فروشگاه من؛ خرید آنلاین محصولات با بهترین پیشنهادها و قیمت مناسب.">
-
+    <meta name="google-site-verification" content="dID1AB5v2MoCxbie9Oz0-pr4FCktPRoMyl6NX2VtBhI">
+    <meta name="description" content="فروشگاه من؛ خرید آنلاین محصولات با بهترین پیشنهادها و قیمت مناسب.">
     <meta name="robots" content="index, follow">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
 
     <title>فروشگاه من | خرید آنلاین</title>
 
     <style>
-        /* ==============================
-           حالت روشن
-        ============================== */
-
-        :root {
-            --bg: #f5f7fb;
-            --card: #ffffff;
-            --text: #222222;
-            --muted: #666666;
-            --border: #dddddd;
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --danger: #dc2626;
-            --success: #16a34a;
-            --input-bg: #ffffff;
-            --shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        /* ==============================
-           حالت تاریک
-        ============================== */
-
-        body.dark {
-            --bg: #111827;
-            --card: #1f2937;
-            --text: #f3f4f6;
-            --muted: #9ca3af;
-            --border: #374151;
-            --primary: #3b82f6;
-            --primary-hover: #60a5fa;
-            --danger: #f87171;
-            --success: #4ade80;
-            --input-bg: #111827;
-            --shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-
         * {
             box-sizing: border-box;
         }
 
+        :root {
+            --bg: #f5f6f8;
+            --card: #ffffff;
+            --text: #222222;
+            --muted: #555555;
+            --border: #eeeeee;
+            --input: #f1f2f4;
+            --action: #f7f7f7;
+            --hover: #eeeeee;
+            --pink: #e91e63;
+            --pink-dark: #d81b60;
+            --footer: #202124;
+        }
+
+        body.dark {
+            --bg: #121212;
+            --card: #1e1e1e;
+            --text: #f1f1f1;
+            --muted: #bdbdbd;
+            --border: #333333;
+            --input: #292929;
+            --action: #292929;
+            --hover: #383838;
+            --footer: #0b0b0b;
+        }
+
         body {
             margin: 0;
-            padding: 0;
+            font-family: Tahoma, Arial, sans-serif;
             background: var(--bg);
             color: var(--text);
-            font-family: Tahoma, Arial, sans-serif;
-            transition: background 0.25s, color 0.25s;
+            transition: background .25s, color .25s;
         }
 
         a {
-            color: inherit;
             text-decoration: none;
+            color: inherit;
         }
 
-        /* ==============================
-           هدر
-        ============================== */
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: auto;
+        }
 
         header {
             background: var(--card);
             border-bottom: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            padding: 15px 20px;
             position: sticky;
             top: 0;
             z-index: 100;
+            transition: background .25s, border .25s;
         }
 
-        .header-inner {
-            max-width: 1200px;
-            margin: auto;
+        .topbar {
+            min-height: 72px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 15px;
+            gap: 25px;
         }
 
         .logo {
             font-size: 25px;
             font-weight: bold;
-            color: var(--primary);
+            color: var(--pink);
             white-space: nowrap;
         }
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .header-btn {
-            border: 1px solid var(--border);
-            background: var(--card);
-            color: var(--text);
-            padding: 9px 13px;
-            border-radius: 9px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.2s;
-        }
-
-        .header-btn:hover {
-            background: var(--bg);
-        }
-
-        /* ==============================
-           جستجو
-        ============================== */
-
-        .search-section {
-            max-width: 900px;
-            margin: 25px auto 10px;
-            padding: 0 15px;
-        }
-
-        .search-form {
-            display: flex;
-            gap: 10px;
-        }
-
-        .search-input {
+        .search {
             flex: 1;
-            padding: 13px 15px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: var(--input-bg);
+        }
+
+        .search input {
+            width: 100%;
+            border: none;
+            background: var(--input);
             color: var(--text);
-            font-size: 15px;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 14px;
             outline: none;
         }
 
-        .search-input:focus {
-            border-color: var(--primary);
-        }
-
-        .search-button {
-            border: none;
-            background: var(--primary);
-            color: white;
-            padding: 0 22px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        .search-button:hover {
-            background: var(--primary-hover);
-        }
-
-        /* ==============================
-           منوی دسته‌بندی
-        ============================== */
-
-        .categories-nav {
-            max-width: 1200px;
-            margin: 15px auto;
-            padding: 0 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .category-link {
-            background: var(--card);
-            border: 1px solid var(--border);
-            padding: 8px 13px;
-            border-radius: 8px;
-            color: var(--text);
-            font-size: 14px;
-            transition: 0.2s;
-        }
-
-        .category-link:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        /* ==============================
-           فیلتر محصولات
-        ============================== */
-
-        .filter-container {
-            max-width: 1200px;
-            margin: 25px auto;
-            padding: 0 15px;
-        }
-
-        .filter-box {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-        }
-
-        .filter-title {
-            margin: 0 0 18px;
-            font-size: 20px;
-        }
-
-        .filter-grid {
-            display: grid;
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
-            gap: 15px;
-        }
-
-        .filter-item {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-
-        .filter-item label {
-            font-size: 13px;
+        .search input::placeholder {
             color: var(--muted);
         }
 
-        .filter-item input,
-        .filter-item select {
-            width: 100%;
-            padding: 11px 12px;
-            border-radius: 9px;
-            border: 1px solid var(--border);
-            background: var(--input-bg);
-            color: var(--text);
-            outline: none;
-            font-family: inherit;
-        }
-
-        .filter-item input:focus,
-        .filter-item select:focus {
-            border-color: var(--primary);
-        }
-
-        .stock-filter {
+        .actions {
             display: flex;
             align-items: center;
-            gap: 8px;
-            height: 100%;
-            padding-top: 23px;
-        }
-
-        .stock-filter input {
-            width: auto;
-        }
-
-        .filter-actions {
-            display: flex;
             gap: 10px;
-            margin-top: 18px;
-            flex-wrap: wrap;
         }
 
-        .apply-filter {
-            background: var(--primary);
+        .action {
+            padding: 11px 15px;
+            border-radius: 10px;
+            background: var(--action);
+            font-size: 14px;
+            transition: background .2s;
+        }
+
+        .action:hover {
+            background: var(--hover);
+        }
+
+        .cart {
+            background: var(--pink);
             color: white;
+        }
+
+        .cart:hover {
+            background: var(--pink-dark);
+        }
+
+        /* دکمه دارک مود */
+        .theme-toggle {
             border: none;
-            padding: 11px 22px;
-            border-radius: 9px;
             cursor: pointer;
-            font-family: inherit;
-        }
-
-        .apply-filter:hover {
-            background: var(--primary-hover);
-        }
-
-        .clear-filter {
-            background: transparent;
+            padding: 10px 13px;
+            border-radius: 10px;
+            background: var(--action);
             color: var(--text);
-            border: 1px solid var(--border);
-            padding: 11px 22px;
-            border-radius: 9px;
-            cursor: pointer;
-            font-family: inherit;
+            font-size: 18px;
+            transition: .2s;
         }
 
-        .clear-filter:hover {
-            background: var(--bg);
+        .theme-toggle:hover {
+            background: var(--hover);
+            transform: scale(1.05);
         }
 
-        /* ==============================
-           عنوان محصولات
-        ============================== */
-
-        .products-container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 15px;
+        .nav-inner {
+            display: flex;
+            gap: 25px;
+            padding: 12px 0;
+            font-size: 14px;
+            overflow-x: auto;
+            white-space: nowrap;
         }
 
-        .products-header {
+        .nav-inner a:hover {
+            color: var(--pink);
+        }
+
+        .hero {
+            margin-top: 22px;
+            min-height: 270px;
+            border-radius: 20px;
+            padding: 45px;
+            background: linear-gradient(135deg, #e91e63, #7b1fa2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            margin: 0 0 15px;
+            font-size: 36px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            opacity: .9;
+        }
+
+        .hero-button {
+            display: inline-block;
+            background: white;
+            color: #e91e63;
+            padding: 13px 25px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .hero-button:hover {
+            background: #f7f7f7;
+        }
+
+        .hero-icon {
+            font-size: 110px;
+            opacity: .25;
+        }
+
+        .section {
+            margin-top: 35px;
+        }
+
+        .section-title {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 18px;
-            gap: 10px;
         }
 
-        .products-header h2 {
+        .section-title h2 {
             margin: 0;
+            font-size: 22px;
         }
 
-        .result-info {
-            color: var(--muted);
+        .section-title a {
+            color: var(--pink);
             font-size: 14px;
         }
 
-        /* ==============================
-           کارت محصولات
-        ============================== */
-
-        .products-grid {
+        .categories {
             display: grid;
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+        }
+
+        .category {
+            background: var(--card);
+            border-radius: 15px;
+            padding: 25px 10px;
+            text-align: center;
+            transition: .2s;
+        }
+
+        .category:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,.15);
+        }
+
+        .category-icon {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 18px;
         }
 
-        .product-card {
+        .product {
             background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: transform 0.2s;
+            border-radius: 15px;
+            padding: 15px;
+            transition: .2s;
         }
 
-        .product-card:hover {
+        .product:hover {
             transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,.15);
         }
 
         .product-image {
             height: 190px;
-            background: var(--bg);
+            border-radius: 12px;
+            background: var(--input);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 65px;
+            margin-bottom: 15px;
             overflow: hidden;
         }
 
         .product-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
-        .no-image {
-            color: var(--muted);
-            font-size: 14px;
-        }
-
-        .product-content {
-            padding: 15px;
-        }
-
-        .product-name {
-            font-size: 17px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .product-description {
-            color: var(--muted);
-            font-size: 13px;
+        .product h3 {
+            font-size: 15px;
             line-height: 1.8;
-            min-height: 45px;
+            margin: 5px 0 15px;
+            min-height: 50px;
         }
 
-        .product-category {
-            display: inline-block;
-            margin-top: 8px;
-            font-size: 12px;
-            color: var(--primary);
-        }
-
-        .price-area {
-            margin-top: 15px;
-        }
-
-        .old-price {
-            color: var(--muted);
-            text-decoration: line-through;
-            font-size: 13px;
-        }
-
-        .final-price {
-            font-size: 18px;
+        .price {
             font-weight: bold;
-            margin-top: 4px;
+            font-size: 17px;
         }
 
-        .discount-badge {
-            display: inline-block;
-            background: var(--danger);
-            color: white;
-            border-radius: 6px;
-            padding: 4px 7px;
-            font-size: 11px;
-            margin-right: 5px;
-        }
-
-        .stock {
-            margin-top: 8px;
+        .currency {
             font-size: 12px;
+            font-weight: normal;
         }
 
-        .stock.available {
-            color: var(--success);
-        }
-
-        .stock.unavailable {
-            color: var(--danger);
-        }
-
-        .product-button {
+        .buy-button {
             display: block;
-            margin-top: 14px;
-            background: var(--primary);
-            color: white;
             text-align: center;
+            background: var(--pink);
+            color: white;
             padding: 10px;
             border-radius: 9px;
-            transition: 0.2s;
+            margin-top: 12px;
         }
 
-        .product-button:hover {
-            background: var(--primary-hover);
+        .buy-button:hover {
+            background: var(--pink-dark);
         }
 
-        /* ==============================
-           تبلیغات
-        ============================== */
-
-        .ads-container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 15px;
-        }
-
-        .ads-container h2 {
-            margin-bottom: 15px;
-        }
-
-        .ads-grid {
+        .ads {
             display: grid;
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
         }
 
-        .ad-card {
+        .ad {
             background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 13px;
-            padding: 18px;
-            box-shadow: var(--shadow);
+            border-radius: 15px;
+            padding: 25px;
+            min-height: 130px;
+            border-right: 5px solid var(--pink);
         }
 
-        .ad-card h3 {
+        .ad h3 {
             margin-top: 0;
-            color: var(--primary);
         }
 
-        .ad-card p {
-            color: var(--muted);
+        .ad p {
             line-height: 1.8;
-        }
-
-        /* ==============================
-           بدون محصول
-        ============================== */
-
-        .empty-products {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 40px 20px;
-            text-align: center;
             color: var(--muted);
         }
-
-        /* ==============================
-           فوتر
-        ============================== */
 
         footer {
             margin-top: 50px;
-            background: var(--card);
-            border-top: 1px solid var(--border);
-            padding: 25px 15px;
-            text-align: center;
-            color: var(--muted);
+            background: var(--footer);
+            color: white;
+            padding: 35px 0;
         }
 
-        /* ==============================
-           موبایل
-        ============================== */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        footer h3 {
+            margin-top: 0;
+        }
+
+        footer p {
+            color: #ccc;
+            line-height: 2;
+        }
 
         @media (max-width: 900px) {
-
-            .products-grid {
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
+            .products {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .filter-grid {
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
+            .categories {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .hero-icon {
+                display: none;
             }
         }
 
         @media (max-width: 600px) {
-
-            .header-inner {
-                flex-direction: column;
+            .topbar {
+                flex-wrap: wrap;
+                padding: 12px 0;
             }
 
-            .header-actions {
-                width: 100%;
-                justify-content: center;
+            .search {
+                order: 3;
+                flex-basis: 100%;
             }
 
-            .search-form {
-                flex-direction: column;
+            .actions .action:first-child {
+                display: none;
             }
 
-            .search-button {
-                padding: 12px;
+            .hero {
+                padding: 30px 20px;
+                min-height: 230px;
             }
 
-            .products-grid {
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            .products {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .categories {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+
+            .category {
+                padding: 15px 5px;
+                font-size: 12px;
+            }
+
+            .product-image {
+                height: 140px;
+                font-size: 45px;
+            }
+
+            .ads,
+            .footer-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .filter-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .ads-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stock-filter {
-                padding-top: 0;
-            }
-
-            .products-header {
-                flex-direction: column;
-                align-items: flex-start;
             }
         }
     </style>
@@ -576,618 +426,350 @@
 
 <body>
 
-<!-- ==============================
-     هدر
-============================== -->
-
 <header>
 
-    <div class="header-inner">
+    <div class="container topbar">
 
         <a href="/" class="logo">
-            فروشگاه من
+            فروشگاه
         </a>
 
-        <div class="header-actions">
+        <form class="search" action="/search" method="get">
+            <input
+                type="text"
+                name="q"
+                placeholder="جستجوی محصول، برند یا دسته‌بندی..."
+                value="{{ search or '' }}"
+            >
+        </form>
 
-            <button
-                type="button"
-                class="header-btn"
-                id="themeToggle">
-                🌙
-            </button>
+        <div class="actions">
 
-            <a
-                href="/cart"
-                class="header-btn">
-                🛒 سبد خرید
-            </a>
-
-            <a
-                href="/admin/login"
-                class="header-btn">
+            <a href="/admin/login" class="action">
                 ورود مدیر
             </a>
 
+            <!-- دکمه تغییر حالت -->
+            <button
+                type="button"
+                class="theme-toggle"
+                id="themeToggle"
+                aria-label="تغییر حالت نمایش"
+                title="تغییر حالت نمایش"
+            >
+                🌙
+            </button>
+
+            <a href="/cart" class="action cart">
+                سبد خرید
+            </a>
+
         </div>
+
+    </div>
+
+    <div class="container nav-inner">
+
+        <a href="/">خانه</a>
+
+        <a href="/category/موبایل">موبایل</a>
+
+        <a href="/category/لپ تاپ">لپ‌تاپ</a>
+
+        <a href="/category/پوشاک">پوشاک</a>
+
+        <a href="/category/لوازم خانگی">لوازم خانگی</a>
+
+        <a href="/category/دیجیتال">کالای دیجیتال</a>
+
+        <a href="/category/زیبایی">زیبایی</a>
+
+        <a href="/offers">پیشنهادهای ویژه</a>
 
     </div>
 
 </header>
 
+<main class="container">
 
-<!-- ==============================
-     جستجو
-============================== -->
+    <section class="hero">
 
-<section class="search-section">
+        <div>
 
-    <form
-        action="/"
-        method="get"
-        class="search-form">
+            <h1>
+                خریدی بهتر، ساده‌تر
+            </h1>
 
-        <input
-            type="text"
-            name="search"
-            class="search-input"
-            placeholder="نام محصول، دسته‌بندی یا توضیحات..."
-            value="{{ search or '' }}">
+            <p>
+                جدیدترین محصولات با پیشنهادهای ویژه
+            </p>
 
-        <button
-            type="submit"
-            class="search-button">
-            جستجو
-        </button>
-
-    </form>
-
-</section>
-
-
-<!-- ==============================
-     دسته‌بندی‌ها
-============================== -->
-
-<nav class="categories-nav">
-
-    <a
-        href="/"
-        class="category-link">
-        همه محصولات
-    </a>
-
-    <a
-        href="/offers"
-        class="category-link">
-        پیشنهادهای ویژه
-    </a>
-
-    {% for category in categories %}
-
-        <a
-            href="/category/{{ category['category'] }}"
-            class="category-link">
-
-            {{ category['category'] }}
-
-        </a>
-
-    {% endfor %}
-
-</nav>
-
-
-<!-- ==============================
-     پنل فیلتر
-============================== -->
-
-<section class="filter-container">
-
-    <form
-        action="/"
-        method="get"
-        class="filter-box">
-
-        <h2 class="filter-title">
-            فیلتر محصولات
-        </h2>
-
-        <!-- حفظ جستجو هنگام اعمال فیلتر -->
-        <input
-            type="hidden"
-            name="search"
-            value="{{ search or '' }}">
-
-        <div class="filter-grid">
-
-            <!-- دسته‌بندی -->
-
-            <div class="filter-item">
-
-                <label for="category">
-                    دسته‌بندی
-                </label>
-
-                <select
-                    name="category"
-                    id="category">
-
-                    <option value="">
-                        همه دسته‌بندی‌ها
-                    </option>
-
-                    {% for category in categories %}
-
-                        <option
-                            value="{{ category['category'] }}"
-                            {% if selected_category == category['category'] %}
-                                selected
-                            {% endif %}>
-
-                            {{ category['category'] }}
-
-                        </option>
-
-                    {% endfor %}
-
-                </select>
-
-            </div>
-
-
-            <!-- حداقل قیمت -->
-
-            <div class="filter-item">
-
-                <label for="min_price">
-                    حداقل قیمت
-                </label>
-
-                <input
-                    type="number"
-                    name="min_price"
-                    id="min_price"
-                    min="0"
-                    placeholder="مثلاً 1000000"
-                    value="{{ min_price or '' }}">
-
-            </div>
-
-
-            <!-- حداکثر قیمت -->
-
-            <div class="filter-item">
-
-                <label for="max_price">
-                    حداکثر قیمت
-                </label>
-
-                <input
-                    type="number"
-                    name="max_price"
-                    id="max_price"
-                    min="0"
-                    placeholder="مثلاً 50000000"
-                    value="{{ max_price or '' }}">
-
-            </div>
-
-
-            <!-- مرتب‌سازی -->
-
-            <div class="filter-item">
-
-                <label for="sort">
-                    مرتب‌سازی
-                </label>
-
-                <select
-                    name="sort"
-                    id="sort">
-
-                    <option
-                        value="newest"
-                        {% if sort == "newest" %}
-                            selected
-                        {% endif %}>
-                        جدیدترین
-                    </option>
-
-                    <option
-                        value="oldest"
-                        {% if sort == "oldest" %}
-                            selected
-                        {% endif %}>
-                        قدیمی‌ترین
-                    </option>
-
-                    <option
-                        value="cheap"
-                        {% if sort == "cheap" %}
-                            selected
-                        {% endif %}>
-                        ارزان‌ترین
-                    </option>
-
-                    <option
-                        value="expensive"
-                        {% if sort == "expensive" %}
-                            selected
-                        {% endif %}>
-                        گران‌ترین
-                    </option>
-
-                    <option
-                        value="discount"
-                        {% if sort == "discount" %}
-                            selected
-                        {% endif %}>
-                        بیشترین تخفیف
-                    </option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-
-        <!-- فقط موجودها -->
-
-        <div class="stock-filter">
-
-            <input
-                type="checkbox"
-                name="in_stock"
-                value="1"
-                id="in_stock"
-                {% if in_stock == "1" %}
-                    checked
-                {% endif %}>
-
-            <label for="in_stock">
-                فقط محصولات موجود
-            </label>
-
-        </div>
-
-
-        <!-- دکمه‌ها -->
-
-        <div class="filter-actions">
-
-            <button
-                type="submit"
-                class="apply-filter">
-                اعمال فیلتر
-            </button>
-
-            <a
-                href="/"
-                class="clear-filter">
-                حذف فیلترها
+            <a href="/offers" class="hero-button">
+                مشاهده پیشنهادها
             </a>
 
         </div>
 
-    </form>
+        <div class="hero-icon">
+            🛍️
+        </div>
 
-</section>
+    </section>
 
+    <section class="section">
 
-<!-- ==============================
-     محصولات
-============================== -->
+        <div class="section-title">
 
-<section class="products-container">
+            <h2>
+                دسته‌بندی‌ها
+            </h2>
 
-    <div class="products-header">
-
-        <h2>
-            محصولات
-        </h2>
-
-        <div class="result-info">
-
-            تعداد نتایج:
-            {{ products|length }}
+            <a href="#products-section">
+                مشاهده همه
+            </a>
 
         </div>
 
-    </div>
+        <div class="categories">
 
+            <a href="/category/موبایل" class="category">
+                <div class="category-icon">📱</div>
+                موبایل
+            </a>
 
-    {% if products %}
+            <a href="/category/لپ تاپ" class="category">
+                <div class="category-icon">💻</div>
+                لپ‌تاپ
+            </a>
 
-        <div class="products-grid">
+            <a href="/category/پوشاک" class="category">
+                <div class="category-icon">👕</div>
+                پوشاک
+            </a>
+
+            <a href="/category/خانه" class="category">
+                <div class="category-icon">🏠</div>
+                خانه
+            </a>
+
+            <a href="/category/دیجیتال" class="category">
+                <div class="category-icon">🎧</div>
+                دیجیتال
+            </a>
+
+            <a href="/category/زیبایی" class="category">
+                <div class="category-icon">✨</div>
+                زیبایی
+            </a>
+
+        </div>
+
+    </section>
+
+    <section class="section" id="products-section">
+
+        <div class="section-title">
+
+            <h2>
+                محصولات پیشنهادی
+            </h2>
+
+            <a href="#products-section">
+                مشاهده همه
+            </a>
+
+        </div>
+
+        <div class="products">
 
             {% for product in products %}
 
-                <article class="product-card">
+            <div class="product">
 
-                    <!-- تصویر -->
+                <a href="/product/{{ product.id }}">
 
                     <div class="product-image">
 
-                        {% if product['image'] %}
+                        {% if product.image %}
 
-                            <img
-                                src="{{ product['image'] }}"
-                                alt="{{ product['name'] }}"
-                                loading="lazy">
+                        <img
+                            src="{{ product.image }}"
+                            alt="{{ product.name }}"
+                        >
 
                         {% else %}
 
-                            <div class="no-image">
-                                بدون تصویر
-                            </div>
+                        🛍️
 
                         {% endif %}
 
                     </div>
 
+                </a>
 
-                    <!-- اطلاعات -->
+                <h3>
+                    {{ product.name }}
+                </h3>
 
-                    <div class="product-content">
+                <div class="price">
 
-                        <div class="product-name">
+                    {{ "{:,.0f}".format(product.price) }}
 
-                            {{ product['name'] }}
+                    <span class="currency">
+                        تومان
+                    </span>
 
-                        </div>
+                </div>
 
+                <a
+                    href="/product/{{ product.id }}"
+                    class="buy-button"
+                >
+                    مشاهده محصول
+                </a>
 
-                        <div class="product-description">
+            </div>
 
-                            {{ product['description'] }}
+            {% else %}
 
-                        </div>
-
-
-                        {% if product['category'] %}
-
-                            <div class="product-category">
-
-                                {{ product['category'] }}
-
-                            </div>
-
-                        {% endif %}
-
-
-                        <!-- قیمت -->
-
-                        <div class="price-area">
-
-                            {% if product['discount'] and product['discount'] > 0 %}
-
-                                <div>
-
-                                    <span class="old-price">
-
-                                        {{ "{:,}".format(product['price']) }}
-
-                                        تومان
-
-                                    </span>
-
-                                    <span class="discount-badge">
-
-                                        {{ product['discount'] }}٪ تخفیف
-
-                                    </span>
-
-                                </div>
-
-                                <div class="final-price">
-
-                                    {{
-                                        "{:,}".format(
-                                            (
-                                                product['price']
-                                                *
-                                                (100 - product['discount'])
-                                                / 100
-                                            )|int
-                                        )
-                                    }}
-
-                                    تومان
-
-                                </div>
-
-                            {% else %}
-
-                                <div class="final-price">
-
-                                    {{ "{:,}".format(product['price']) }}
-
-                                    تومان
-
-                                </div>
-
-                            {% endif %}
-
-                        </div>
-
-
-                        <!-- موجودی -->
-
-                        {% if product['stock'] > 0 %}
-
-                            <div class="stock available">
-
-                                موجودی:
-                                {{ product['stock'] }}
-
-                                عدد
-
-                            </div>
-
-                        {% else %}
-
-                            <div class="stock unavailable">
-
-                                ناموجود
-
-                            </div>
-
-                        {% endif %}
-
-
-                        <!-- مشاهده -->
-
-                        <a
-                            href="/product/{{ product['id'] }}"
-                            class="product-button">
-
-                            مشاهده محصول
-
-                        </a>
-
-                    </div>
-
-                </article>
+            <div style="
+                grid-column:1/-1;
+                background:var(--card);
+                padding:40px;
+                text-align:center;
+                border-radius:15px;
+            ">
+                هنوز محصولی ثبت نشده است.
+            </div>
 
             {% endfor %}
 
         </div>
 
-    {% else %}
+    </section>
 
-        <div class="empty-products">
+    <section class="section">
 
-            محصولی با این مشخصات پیدا نشد.
+        <div class="section-title">
+
+            <h2>
+                پیشنهادهای ویژه
+            </h2>
 
         </div>
 
-    {% endif %}
+        <div class="ads">
 
-</section>
+            {% for ad in ads %}
 
-
-<!-- ==============================
-     تبلیغات
-============================== -->
-
-{% if ads %}
-
-<section class="ads-container">
-
-    <h2>
-        پیشنهادهای فروشگاه
-    </h2>
-
-    <div class="ads-grid">
-
-        {% for ad in ads %}
-
-            <div class="ad-card">
+            <div class="ad">
 
                 <h3>
-                    {{ ad['title'] }}
+                    {{ ad.title }}
                 </h3>
 
-                {% if ad['text'] %}
+                {% if ad.text %}
 
-                    <p>
-                        {{ ad['text'] }}
-                    </p>
-
-                {% endif %}
-
-                {% if ad['link'] %}
-
-                    <a
-                        href="{{ ad['link'] }}"
-                        class="category-link">
-
-                        مشاهده
-
-                    </a>
+                <p>
+                    {{ ad.text }}
+                </p>
 
                 {% endif %}
 
             </div>
 
-        {% endfor %}
+            {% else %}
 
-    </div>
+            <div class="ad">
 
-</section>
+                <h3>
+                    تخفیف‌های ویژه
+                </h3>
 
-{% endif %}
+                <p>
+                    به‌زودی پیشنهادهای ویژه اینجا نمایش داده می‌شوند.
+                </p>
 
+            </div>
 
-<!-- ==============================
-     فوتر
-============================== -->
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+</main>
 
 <footer>
 
-    فروشگاه من © 2026
+    <div class="container footer-grid">
+
+        <div>
+
+            <h3>
+                فروشگاه
+            </h3>
+
+            <p>
+                یک فروشگاه اینترنتی مدرن برای خرید آسان و سریع.
+            </p>
+
+        </div>
+
+        <div>
+
+            <h3>
+                دسترسی سریع
+            </h3>
+
+            <p>
+                محصولات<br>
+                پیشنهادهای ویژه<br>
+                پیگیری سفارش
+            </p>
+
+        </div>
+
+        <div>
+
+            <h3>
+                پشتیبانی
+            </h3>
+
+            <p>
+                سوالی دارید؟ از بخش پشتیبانی با ما در ارتباط باشید.
+            </p>
+
+        </div>
+
+    </div>
 
 </footer>
 
-
-<!-- ==============================
-     دارک مود
-============================== -->
-
 <script>
+    const themeToggle = document.getElementById("themeToggle");
 
-    const themeToggle =
-        document.getElementById("themeToggle");
-
-    const savedTheme =
-        localStorage.getItem("theme");
+    // حالت ذخیره‌شده کاربر
+    const savedTheme = localStorage.getItem("theme");
 
     if (savedTheme === "dark") {
-
         document.body.classList.add("dark");
-
         themeToggle.textContent = "☀️";
-
-    } else {
-
-        themeToggle.textContent = "🌙";
-
     }
 
+    themeToggle.addEventListener("click", function () {
 
-    themeToggle.addEventListener(
-        "click",
-        function () {
+        document.body.classList.toggle("dark");
 
-            document.body.classList.toggle("dark");
-
-            if (
-                document.body.classList.contains("dark")
-            ) {
-
-                localStorage.setItem(
-                    "theme",
-                    "dark"
-                );
-
-                themeToggle.textContent = "☀️";
-
-            } else {
-
-                localStorage.setItem(
-                    "theme",
-                    "light"
-                );
-
-                themeToggle.textContent = "🌙";
-
-            }
-
+        if (document.body.classList.contains("dark")) {
+            localStorage.setItem("theme", "dark");
+            themeToggle.textContent = "☀️";
+        } else {
+            localStorage.setItem("theme", "light");
+            themeToggle.textContent = "🌙";
         }
-    );
 
+    });
 </script>
 
 </body>

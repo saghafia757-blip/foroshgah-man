@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="google-site-verification" content="dID1AB5v2MoCxbie9Oz0-pr4FCktPRoMyl6NX2VtBhI">
-
     <meta name="description" content="فروشگاه من؛ خرید آنلاین محصولات با بهترین پیشنهادها و قیمت مناسب.">
     <meta name="robots" content="index, follow">
 
@@ -16,11 +15,38 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg: #f5f6f8;
+            --card: #ffffff;
+            --text: #222222;
+            --muted: #555555;
+            --border: #eeeeee;
+            --input: #f1f2f4;
+            --action: #f7f7f7;
+            --hover: #eeeeee;
+            --pink: #e91e63;
+            --pink-dark: #d81b60;
+            --footer: #202124;
+        }
+
+        body.dark {
+            --bg: #121212;
+            --card: #1e1e1e;
+            --text: #f1f1f1;
+            --muted: #bdbdbd;
+            --border: #333333;
+            --input: #292929;
+            --action: #292929;
+            --hover: #383838;
+            --footer: #0b0b0b;
+        }
+
         body {
             margin: 0;
             font-family: Tahoma, Arial, sans-serif;
-            background: #f5f6f8;
-            color: #222;
+            background: var(--bg);
+            color: var(--text);
+            transition: background .25s, color .25s;
         }
 
         a {
@@ -35,11 +61,12 @@
         }
 
         header {
-            background: white;
-            border-bottom: 1px solid #eee;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 100;
+            transition: background .25s, border .25s;
         }
 
         .topbar {
@@ -52,7 +79,7 @@
         .logo {
             font-size: 25px;
             font-weight: bold;
-            color: #e91e63;
+            color: var(--pink);
             white-space: nowrap;
         }
 
@@ -63,11 +90,16 @@
         .search input {
             width: 100%;
             border: none;
-            background: #f1f2f4;
+            background: var(--input);
+            color: var(--text);
             padding: 15px 20px;
             border-radius: 12px;
             font-size: 14px;
             outline: none;
+        }
+
+        .search input::placeholder {
+            color: var(--muted);
         }
 
         .actions {
@@ -79,21 +111,39 @@
         .action {
             padding: 11px 15px;
             border-radius: 10px;
-            background: #f7f7f7;
+            background: var(--action);
             font-size: 14px;
+            transition: background .2s;
         }
 
         .action:hover {
-            background: #eee;
+            background: var(--hover);
         }
 
         .cart {
-            background: #e91e63;
+            background: var(--pink);
             color: white;
         }
 
         .cart:hover {
-            background: #d81b60;
+            background: var(--pink-dark);
+        }
+
+        /* دکمه دارک مود */
+        .theme-toggle {
+            border: none;
+            cursor: pointer;
+            padding: 10px 13px;
+            border-radius: 10px;
+            background: var(--action);
+            color: var(--text);
+            font-size: 18px;
+            transition: .2s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--hover);
+            transform: scale(1.05);
         }
 
         .nav-inner {
@@ -106,7 +156,7 @@
         }
 
         .nav-inner a:hover {
-            color: #e91e63;
+            color: var(--pink);
         }
 
         .hero {
@@ -168,7 +218,7 @@
         }
 
         .section-title a {
-            color: #e91e63;
+            color: var(--pink);
             font-size: 14px;
         }
 
@@ -179,7 +229,7 @@
         }
 
         .category {
-            background: white;
+            background: var(--card);
             border-radius: 15px;
             padding: 25px 10px;
             text-align: center;
@@ -188,7 +238,7 @@
 
         .category:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0,0,0,.08);
+            box-shadow: 0 8px 25px rgba(0,0,0,.15);
         }
 
         .category-icon {
@@ -203,7 +253,7 @@
         }
 
         .product {
-            background: white;
+            background: var(--card);
             border-radius: 15px;
             padding: 15px;
             transition: .2s;
@@ -211,13 +261,13 @@
 
         .product:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0,0,0,.08);
+            box-shadow: 0 8px 25px rgba(0,0,0,.15);
         }
 
         .product-image {
             height: 190px;
             border-radius: 12px;
-            background: #f2f3f5;
+            background: var(--input);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -252,7 +302,7 @@
         .buy-button {
             display: block;
             text-align: center;
-            background: #e91e63;
+            background: var(--pink);
             color: white;
             padding: 10px;
             border-radius: 9px;
@@ -260,7 +310,7 @@
         }
 
         .buy-button:hover {
-            background: #d81b60;
+            background: var(--pink-dark);
         }
 
         .ads {
@@ -270,11 +320,11 @@
         }
 
         .ad {
-            background: white;
+            background: var(--card);
             border-radius: 15px;
             padding: 25px;
             min-height: 130px;
-            border-right: 5px solid #e91e63;
+            border-right: 5px solid var(--pink);
         }
 
         .ad h3 {
@@ -283,12 +333,12 @@
 
         .ad p {
             line-height: 1.8;
-            color: #555;
+            color: var(--muted);
         }
 
         footer {
             margin-top: 50px;
-            background: #202124;
+            background: var(--footer);
             color: white;
             padding: 35px 0;
         }
@@ -399,6 +449,17 @@
                 ورود مدیر
             </a>
 
+            <!-- دکمه تغییر حالت -->
+            <button
+                type="button"
+                class="theme-toggle"
+                id="themeToggle"
+                aria-label="تغییر حالت نمایش"
+                title="تغییر حالت نمایش"
+            >
+                🌙
+            </button>
+
             <a href="/cart" class="action cart">
                 سبد خرید
             </a>
@@ -411,33 +472,19 @@
 
         <a href="/">خانه</a>
 
-        <a href="/category/موبایل">
-            موبایل
-        </a>
+        <a href="/category/موبایل">موبایل</a>
 
-        <a href="/category/لپ تاپ">
-            لپ‌تاپ
-        </a>
+        <a href="/category/لپ تاپ">لپ‌تاپ</a>
 
-        <a href="/category/پوشاک">
-            پوشاک
-        </a>
+        <a href="/category/پوشاک">پوشاک</a>
 
-        <a href="/category/لوازم خانگی">
-            لوازم خانگی
-        </a>
+        <a href="/category/لوازم خانگی">لوازم خانگی</a>
 
-        <a href="/category/دیجیتال">
-            کالای دیجیتال
-        </a>
+        <a href="/category/دیجیتال">کالای دیجیتال</a>
 
-        <a href="/category/زیبایی">
-            زیبایی
-        </a>
+        <a href="/category/زیبایی">زیبایی</a>
 
-        <a href="/offers">
-            پیشنهادهای ویژه
-        </a>
+        <a href="/offers">پیشنهادهای ویژه</a>
 
     </div>
 
@@ -587,14 +634,12 @@
 
             <div style="
                 grid-column:1/-1;
-                background:white;
+                background:var(--card);
                 padding:40px;
                 text-align:center;
                 border-radius:15px;
             ">
-
                 هنوز محصولی ثبت نشده است.
-
             </div>
 
             {% endfor %}
@@ -701,6 +746,31 @@
 
 </footer>
 
+<script>
+    const themeToggle = document.getElementById("themeToggle");
+
+    // حالت ذخیره‌شده کاربر
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+        themeToggle.textContent = "☀️";
+    }
+
+    themeToggle.addEventListener("click", function () {
+
+        document.body.classList.toggle("dark");
+
+        if (document.body.classList.contains("dark")) {
+            localStorage.setItem("theme", "dark");
+            themeToggle.textContent = "☀️";
+        } else {
+            localStorage.setItem("theme", "light");
+            themeToggle.textContent = "🌙";
+        }
+
+    });
+</script>
+
 </body>
 </html>
-```

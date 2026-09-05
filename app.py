@@ -3,21 +3,53 @@ import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import secrets
+import re
 from datetime import datetime
 
 app = Flask(__name__)
 
+# =========================================================
+# Google Search Console verification
+# =========================================================
+
 @app.route("/google35cefc4bc1a94ac4.html")
 def google_verification():
     return "google-site-verification: google35cefc4bc1a94ac4.html"
+
+
+# =========================================================
+# Security / Session
+# =========================================================
 
 app.secret_key = os.environ.get(
     "SECRET_KEY",
     "CHANGE_THIS_SECRET_KEY"
 )
 
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SECURE=True,
+    PERMANENT_SESSION_LIFETIME=3600
+)
+
 DATABASE = "store.db"
 
+
+@app.after_request
+def security_headers(response):
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = (
+        "camera=(), microphone=(), geolocation=()"
+    )
+    return response
+
+
+# =========================================================
+# Database
+# =========================================================
 
 def get_db():
     conn = sqlite3.connect(DATABASE)
@@ -177,9 +209,17 @@ def init_db():
     conn.close()
 
 
+# =========================================================
+# Admin
+# =========================================================
+
 def admin_required():
     return session.get("admin_logged_in") is True
 
+
+# =========================================================
+# Home
+# =========================================================
 
 @app.route("/")
 def home():
@@ -190,26 +230,74 @@ def home():
         ""
     ).strip()
 
+    selected_category = request.args.get(
+        "category",
+        ""
+    ).strip()
+
+    min_price = request.args.get(
+        "min_price",
+        ""
+    ).strip()
+
+    max_price = request.args.get(
+        "max_price",
+        ""
+    ).strip()
+
+    query = """
+        SELECT *
+        FROM products
+        WHERE 1 = 1
+    """
+
+    params = []
+
     if search:
-        products = conn.execute("""
-            SELECT * FROM products
-            WHERE name LIKE ?
-               OR description LIKE ?
-               OR category LIKE ?
-            ORDER BY id DESC
-        """, (
+        query += """
+            AND (
+                name LIKE ?
+                OR description LIKE ?
+                OR category LIKE ?
+            )
+        """
+
+        params.extend([
             f"%{search}%",
             f"%{search}%",
             f"%{search}%"
-        )).fetchall()
-    else:
-        products = conn.execute("""
-            SELECT * FROM products
-            ORDER BY id DESC
-        """).fetchall()
+        ])
+
+    if selected_category:
+        query += " AND category = ?"
+        params.append(selected_category)
+
+    if min_price:
+        try:
+            min_value = int(min_price)
+            query += " AND price >= ?"
+            params.append(min_value)
+        except ValueError:
+            min_price = ""
+
+    if max_price:
+        try:
+            max_value = int(max_price)
+            query += " AND price <= ?"
+            params.append(max_value)
+        except ValueError:
+            max_price = ""
+
+    query += " ORDER BY id DESC"
+
+    products = conn.execute(
+        query,
+        params
+    ).fetchall()
 
     ads = conn.execute("""
-        SELECT * FROM ads
+        SELECT *
+        FROM ads
         ORDER BY id DESC
     """).fetchall()
 
@@ -227,9 +315,16 @@ def home():
         products=products,
         ads=ads,
         categories=categories,
-        search=search
+        search=search,
+        selected_category=selected_category,
+        min_price=min_price,
+        max_price=max_price
     )
 
+
+# =========================================================
+# Search
+# =========================================================
 
 @app.route("/search")
 def search():
@@ -240,6 +335,10 @@ def search():
         )
     )
 
+
+# =========================================================
+# Product
+# =========================================================
 
 @app.route("/product/<int:product_id>")
 def product(product_id):
@@ -261,19 +360,28 @@ def product(product_id):
     )
 
 
+# =========================================================
+# Category
+# =========================================================
+
 @app.route("/category/<category>")
 def category(category):
     conn = get_db()
 
     products = conn.execute("""
-        SELECT * FROM products
+        SELECT *
+        FROM products
         WHERE category = ?
         ORDER BY id DESC
-    """, (category,)).fetchall()
+    """, (
+        category,
+    )).fetchall()
 
-    ads = conn.execute(
-        "SELECT * FROM ads ORDER BY id DESC"
-    ).fetchall()
+    ads = conn.execute("""
+        SELECT *
+        FROM ads
+        ORDER BY id DESC
+    """).fetchall()
 
     categories = conn.execute("""
         SELECT DISTINCT category
@@ -289,23 +397,33 @@ def category(category):
         products=products,
         ads=ads,
         categories=categories,
-        search=""
+        search="",
+        selected_category=category,
+        min_price="",
+        max_price=""
     )
 
+
+# =========================================================
+# Offers
+# =========================================================
 
 @app.route("/offers")
 def offers():
     conn = get_db()
 
     products = conn.execute("""
-        SELECT * FROM products
+        SELECT *
+        FROM products
         WHERE discount > 0
         ORDER BY discount DESC
     """).fetchall()
 
-    ads = conn.execute(
-        "SELECT * FROM ads ORDER BY id DESC"
-    ).fetchall()
+    ads = conn.execute("""
+        SELECT *
+        FROM ads
+        ORDER BY id DESC
+    """).fetchall()
 
     categories = conn.execute("""
         SELECT DISTINCT category
@@ -321,26 +439,41 @@ def offers():
         products=products,
         ads=ads,
         categories=categories,
-        search=""
+        search="",
+        selected_category="",
+        min_price="",
+        max_price=""
     )
 
 
+# =========================================================
+# Categories
+# =========================================================
+
 @app.route("/categories")
 def categories_page():
-    return redirect(url_for("products_page"))
+    return redirect(
+        url_for("products_page")
+    )
 
+
+# =========================================================
+# Products
+# =========================================================
 
 @app.route("/products")
 def products_page():
     conn = get_db()
 
     products = conn.execute("""
-        SELECT * FROM products
+        SELECT *
+        FROM products
         ORDER BY id DESC
     """).fetchall()
 
     ads = conn.execute("""
-        SELECT * FROM ads
+        SELECT *
+        FROM ads
         ORDER BY id DESC
     """).fetchall()
 
@@ -358,9 +491,16 @@ def products_page():
         products=products,
         ads=ads,
         categories=categories,
-        search=""
+        search="",
+        selected_category="",
+        min_price="",
+        max_price=""
     )
 
+
+# =========================================================
+# Cart
+# =========================================================
 
 @app.route("/cart")
 def cart():
@@ -375,6 +515,14 @@ def cart():
     conn = get_db()
 
     for product_id, quantity in cart_data.items():
+
+        try:
+            quantity = int(quantity)
+        except (ValueError, TypeError):
+            continue
+
+        if quantity <= 0:
+            continue
 
         product_item = conn.execute(
             "SELECT * FROM products WHERE id = ?",
@@ -440,6 +588,11 @@ def cart_add(product_id):
         0
     )
 
+    try:
+        current_quantity = int(current_quantity)
+    except (ValueError, TypeError):
+        current_quantity = 0
+
     if current_quantity >= product_item["stock"]:
         return "بیشتر از موجودی نمی‌توانید اضافه کنید.", 400
 
@@ -447,7 +600,9 @@ def cart_add(product_id):
 
     session["cart"] = cart_data
 
-    return redirect(url_for("cart"))
+    return redirect(
+        url_for("cart")
+    )
 
 
 @app.post("/cart/remove/<int:product_id>")
@@ -465,7 +620,9 @@ def cart_remove(product_id):
 
     session["cart"] = cart_data
 
-    return redirect(url_for("cart"))
+    return redirect(
+        url_for("cart")
+    )
 
 
 @app.post("/cart/clear")
@@ -473,8 +630,14 @@ def cart_clear():
 
     session["cart"] = {}
 
-    return redirect(url_for("cart"))
+    return redirect(
+        url_for("cart")
+    )
 
+
+# =========================================================
+# Checkout
+# =========================================================
 
 @app.route("/checkout", methods=["GET", "POST"])
 def checkout():
@@ -515,6 +678,16 @@ def checkout():
     conn = get_db()
 
     for product_id, quantity in cart_data.items():
+
+        try:
+            quantity = int(quantity)
+        except (ValueError, TypeError):
+            conn.close()
+            return "تعداد محصول نامعتبر است.", 400
+
+        if quantity <= 0:
+            conn.close()
+            return "تعداد محصول نامعتبر است.", 400
 
         product_item = conn.execute(
             "SELECT * FROM products WHERE id = ?",
@@ -573,6 +746,10 @@ def checkout():
     )
 
 
+# =========================================================
+# Admin Login
+# =========================================================
+
 @app.route(
     "/admin/login",
     methods=["GET", "POST"]
@@ -595,7 +772,8 @@ def admin_login():
 
         admin = conn.execute(
             """
-            SELECT * FROM admins
+            SELECT *
+            FROM admins
             WHERE username = ?
             LIMIT 1
             """,
@@ -609,7 +787,9 @@ def admin_login():
             password
         ):
 
+            session.clear()
             session["admin_logged_in"] = True
+            session.permanent = True
 
             return redirect(
                 url_for("admin")
@@ -625,18 +805,23 @@ def admin_login():
     )
 
 
+# =========================================================
+# Admin Logout
+# =========================================================
+
 @app.route("/admin/logout")
 def admin_logout():
 
-    session.pop(
-        "admin_logged_in",
-        None
-    )
+    session.clear()
 
     return redirect(
         url_for("admin_login")
     )
 
+
+# =========================================================
+# Admin Dashboard
+# =========================================================
 
 @app.route("/admin")
 def admin():
@@ -649,22 +834,26 @@ def admin():
     conn = get_db()
 
     products = conn.execute("""
-        SELECT * FROM products
+        SELECT *
+        FROM products
         ORDER BY id DESC
     """).fetchall()
 
     orders = conn.execute("""
-        SELECT * FROM orders
+        SELECT *
+        FROM orders
         ORDER BY id DESC
     """).fetchall()
 
     ads = conn.execute("""
-        SELECT * FROM ads
+        SELECT *
+        FROM ads
         ORDER BY id DESC
     """).fetchall()
 
     support_requests = conn.execute("""
-        SELECT * FROM support_requests
+        SELECT *
+        FROM support_requests
         WHERE status != 'حل شد'
         ORDER BY id DESC
     """).fetchall()
@@ -679,6 +868,10 @@ def admin():
         support_requests=support_requests
     )
 
+
+# =========================================================
+# Admin Orders
+# =========================================================
 
 @app.post("/admin/order/delete/<int:order_id>")
 def admin_delete_order(order_id):
@@ -744,6 +937,10 @@ def admin_update_order_status(order_id):
         url_for("admin")
     )
 
+
+# =========================================================
+# Admin Products
+# =========================================================
 
 @app.post("/admin/product/add")
 def admin_add_product():
@@ -853,6 +1050,10 @@ def admin_delete_product(product_id):
     )
 
 
+# =========================================================
+# Admin Ads
+# =========================================================
+
 @app.post("/admin/ad/add")
 def admin_add_ad():
 
@@ -928,6 +1129,10 @@ def admin_delete_ad(ad_id):
     )
 
 
+# =========================================================
+# Admin Account
+# =========================================================
+
 @app.post("/admin/account")
 def change_admin_account():
 
@@ -976,7 +1181,8 @@ def change_admin_account():
 
     duplicate = conn.execute(
         """
-        SELECT id FROM admins
+        SELECT id
+        FROM admins
         WHERE username = ?
         AND id != ?
         LIMIT 1
@@ -1021,137 +1227,973 @@ def change_admin_account():
 # =========================================================
 
 SUPPORT_CATEGORIES = [
-    "موبایل", "لپ‌تاپ", "پوشاک", "لوازم خانگی",
-    "دیجیتال", "زیبایی", "سایر"
+    "موبایل",
+    "لپ‌تاپ",
+    "پوشاک",
+    "لوازم خانگی",
+    "دیجیتال",
+    "زیبایی",
+    "سایر"
 ]
 
+
 def support_now():
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return datetime.now().strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
+
 
 @app.post("/support/create")
 def support_create():
-    phone = request.form.get("phone", "").strip()
-    category = request.form.get("category", "").strip()
-    description = request.form.get("description", "").strip()
+
+    phone = request.form.get(
+        "phone",
+        ""
+    ).strip()
+
+    category = request.form.get(
+        "category",
+        ""
+    ).strip()
+
+    description = request.form.get(
+        "description",
+        ""
+    ).strip()
+
     if not phone or not description:
         return "شماره تلفن و توضیحات الزامی است.", 400
+
     if category not in SUPPORT_CATEGORIES:
         return "دسته‌بندی نامعتبر است.", 400
-    if len(phone) > 30 or len(description) > 2000:
-        return "اطلاعات واردشده بیش از حد مجاز است.", 400
+
+    if len(phone) > 30:
+        return "شماره تلفن بیش از حد مجاز است.", 400
+
+    if len(description) > 2000:
+        return "توضیحات بیش از حد مجاز است.", 400
+
     now = support_now()
+
     conn = get_db()
+
     cur = conn.execute("""
         INSERT INTO support_requests
-        (token, phone, category, description, status, created_at, updated_at)
+        (
+            token,
+            phone,
+            category,
+            description,
+            status,
+            created_at,
+            updated_at
+        )
         VALUES (?, ?, ?, ?, ?, ?, ?)
-    """, (secrets.token_urlsafe(18), phone, category, description, "در حال پیگیری", now, now))
+    """, (
+        secrets.token_urlsafe(18),
+        phone,
+        category,
+        description,
+        "در حال پیگیری",
+        now,
+        now
+    ))
+
     request_id = cur.lastrowid
+
     conn.execute("""
-        INSERT INTO support_messages (request_id, sender, message, created_at)
+        INSERT INTO support_messages
+        (
+            request_id,
+            sender,
+            message,
+            created_at
+        )
         VALUES (?, ?, ?, ?)
-    """, (request_id, "customer", description, now))
-    conn.commit(); conn.close()
+    """, (
+        request_id,
+        "customer",
+        description,
+        now
+    ))
+
+    conn.commit()
+    conn.close()
+
     session["support_request_id"] = request_id
-    return redirect(url_for("home"))
+
+    return redirect(
+        url_for("home")
+    )
+
 
 @app.get("/support/data")
 def support_data():
-    request_id = session.get("support_request_id")
+
+    request_id = session.get(
+        "support_request_id"
+    )
+
     if not request_id:
-        return {"exists": False}
+        return {
+            "exists": False
+        }
+
     conn = get_db()
-    support = conn.execute("SELECT * FROM support_requests WHERE id = ?", (request_id,)).fetchone()
+
+    support = conn.execute(
+        """
+        SELECT *
+        FROM support_requests
+        WHERE id = ?
+        """,
+        (request_id,)
+    ).fetchone()
+
     if not support:
-        conn.close(); return {"exists": False}
-    messages = conn.execute("SELECT sender, message, created_at FROM support_messages WHERE request_id = ? ORDER BY id", (request_id,)).fetchall()
-    conn.close()
-    return {
-        "exists": True, "request_id": support["id"], "phone": support["phone"],
-        "category": support["category"], "description": support["description"],
-        "status": support["status"], "created_at": support["created_at"],
-        "updated_at": support["updated_at"],
-        "messages": [{"sender": m["sender"], "message": m["message"], "created_at": m["created_at"]} for m in messages]
-    }
+        conn.close()
 
-@app.post("/support/message")
-def support_message():
-    request_id = session.get("support_request_id")
-    message = request.form.get("message", "").strip()
-    if not request_id or not message or len(message) > 2000:
-        return "پیام نامعتبر است.", 400
-    conn = get_db()
-    support = conn.execute("SELECT status FROM support_requests WHERE id = ?", (request_id,)).fetchone()
-    if not support:
-        conn.close(); return "درخواست پیدا نشد.", 404
-    if support["status"] == "حل شد":
-        conn.close(); return "این درخواست قبلاً حل شده است.", 400
-    now = support_now()
-    conn.execute("INSERT INTO support_messages (request_id, sender, message, created_at) VALUES (?, ?, ?, ?)", (request_id, "customer", message, now))
-    conn.execute("UPDATE support_requests SET status = ?, updated_at = ? WHERE id = ?", ("در حال پیگیری", now, request_id))
-    conn.commit(); conn.close()
-    return {"ok": True}
+        return {
+            "exists": False
+        }
 
-@app.post("/admin/support/<int:request_id>/reply")
-def admin_support_reply(request_id):
-    if not admin_required(): return redirect(url_for("admin_login"))
-    message = request.form.get("message", "").strip()
-    if not message or len(message) > 2000: return "پیام نامعتبر است.", 400
-    conn = get_db()
-    support = conn.execute("SELECT id, status FROM support_requests WHERE id = ?", (request_id,)).fetchone()
-    if not support: conn.close(); return "درخواست پیدا نشد.", 404
-    if support["status"] == "حل شد": conn.close(); return "این درخواست حل شده است.", 400
-    now = support_now()
-    conn.execute("INSERT INTO support_messages (request_id, sender, message, created_at) VALUES (?, ?, ?, ?)", (request_id, "admin", message, now))
-    conn.execute("UPDATE support_requests SET status = ?, updated_at = ? WHERE id = ?", ("در انتظار پاسخ مشتری", now, request_id))
-    conn.commit(); conn.close()
-    return redirect(url_for("admin"))
-
-@app.post("/admin/support/<int:request_id>/resolve")
-def admin_support_resolve(request_id):
-    if not admin_required(): return redirect(url_for("admin_login"))
-    conn = get_db()
-    support = conn.execute("SELECT id FROM support_requests WHERE id = ?", (request_id,)).fetchone()
-    if not support: conn.close(); return "درخواست پیدا نشد.", 404
-    now = support_now()
-    conn.execute("INSERT INTO support_messages (request_id, sender, message, created_at) VALUES (?, ?, ?, ?)", (request_id, "admin", "پیگیری انجام شد؛ مشکل شما حل شد.", now))
-    conn.execute("UPDATE support_requests SET status = ?, updated_at = ? WHERE id = ?", ("حل شد", now, request_id))
-    conn.commit(); conn.close()
-    return redirect(url_for("admin"))
-
-@app.route("/robots.txt")
-def robots():
-    return """User-agent: *
-Allow: /
-
-Sitemap: https://foroshgah-man.onrender.com/sitemap.xml
-""", 200, {"Content-Type": "text/plain"}
-
-
-@app.route("/sitemap.xml")
-def sitemap():
-    pages = [
-        url_for("home", _external=True),
-        url_for("products_page", _external=True),
-        url_for("offers", _external=True),
-        url_for("categories_page", _external=True),
-    ]
-
-    conn = get_db()
-
-    products = conn.execute("SELECT id FROM products").fetchall()
-    categories = conn.execute(
-        "SELECT DISTINCT category FROM products WHERE category != ''"
+    messages = conn.execute(
+        """
+        SELECT
+            sender,
+            message,
+            created_at
+        FROM support_messages
+        WHERE request_id = ?
+        ORDER BY id
+        """,
+        (request_id,)
     ).fetchall()
 
     conn.close()
 
-    for product in products:
+    return {
+        "exists": True,
+        "request_id": support["id"],
+        "phone": support["phone"],
+        "category": support["category"],
+        "description": support["description"],
+        "status": support["status"],
+        "created_at": support["created_at"],
+        "updated_at": support["updated_at"],
+        "messages": [
+            {
+                "sender": m["sender"],
+                "message": m["message"],
+                "created_at": m["created_at"]
+            }
+            for m in messages
+        ]
+    }
+
+
+@app.post("/support/message")
+def support_message():
+
+    request_id = session.get(
+        "support_request_id"
+    )
+
+    message = request.form.get(
+        "message",
+        ""
+    ).strip()
+
+    if not request_id:
+        return "درخواست پشتیبانی پیدا نشد.", 400
+
+    if not message:
+        return "پیام خالی است.", 400
+
+    if len(message) > 2000:
+        return "پیام بیش از حد مجاز است.", 400
+
+    conn = get_db()
+
+    support = conn.execute(
+        """
+        SELECT status
+        FROM support_requests
+        WHERE id = ?
+        """,
+        (request_id,)
+    ).fetchone()
+
+    if not support:
+        conn.close()
+        return "درخواست پیدا نشد.", 404
+
+    if support["status"] == "حل شد":
+        conn.close()
+        return "این درخواست قبلاً حل شده است.", 400
+
+    now = support_now()
+
+    conn.execute(
+        """
+        INSERT INTO support_messages
+        (
+            request_id,
+            sender,
+            message,
+            created_at
+        )
+        VALUES (?, ?, ?, ?)
+        """,
+        (
+            request_id,
+            "customer",
+            message,
+            now
+        )
+    )
+
+    conn.execute(
+        """
+        UPDATE support_requests
+        SET status = ?,
+            updated_at = ?
+        WHERE id = ?
+        """,
+        (
+            "در حال پیگیری",
+            now,
+            request_id
+        )
+    )
+
+    conn.commit()
+    conn.close()
+
+    return {
+        "ok": True
+    }
+
+
+@app.post(
+    "/admin/support/<int:request_id>/reply"
+)
+def admin_support_reply(request_id):
+
+    if not admin_required():
+        return redirect(
+            url_for("admin_login")
+        )
+
+    message = request.form.get(
+        "message",
+        ""
+    ).strip()
+
+    if not message:
+        return "پیام خالی است.", 400
+
+    if len(message) > 2000:
+        return "پیام بیش از حد مجاز است.", 400
+
+    conn = get_db()
+
+    support = conn.execute(
+        """
+        SELECT id, status
+        FROM support_requests
+        WHERE id = ?
+        """,
+        (request_id,)
+    ).fetchone()
+
+    if not support:
+        conn.close()
+        return "درخواست پیدا نشد.", 404
+
+    if support["status"] == "حل شد":
+        conn.close()
+        return "این درخواست حل شده است.", 400
+
+    now = support_now()
+
+    conn.execute(
+        """
+        INSERT INTO support_messages
+        (
+            request_id,
+            sender,
+            message,
+            created_at
+        )
+        VALUES (?, ?, ?, ?)
+        """,
+        (
+            request_id,
+            "admin",
+            message,
+            now
+        )
+    )
+
+    conn.execute(
+        """
+        UPDATE support_requests
+        SET status = ?,
+            updated_at = ?
+        WHERE id = ?
+        """,
+        (
+            "در انتظار پاسخ مشتری",
+            now,
+            request_id
+        )
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect(
+        url_for("admin")
+    )
+
+
+@app.post(
+    "/admin/support/<int:request_id>/resolve"
+)
+def admin_support_resolve(request_id):
+
+    if not admin_required():
+        return redirect(
+            url_for("admin_login")
+        )
+
+    conn = get_db()
+
+    support = conn.execute(
+        """
+        SELECT id
+        FROM support_requests
+        WHERE id = ?
+        """,
+        (request_id,)
+    ).fetchone()
+
+    if not support:
+        conn.close()
+        return "درخواست پیدا نشد.", 404
+
+    now = support_now()
+
+    conn.execute(
+        """
+        INSERT INTO support_messages
+        (
+            request_id,
+            sender,
+            message,
+            created_at
+        )
+        VALUES (?, ?, ?, ?)
+        """,
+        (
+            request_id,
+            "admin",
+            "پیگیری انجام شد؛ مشکل شما حل شد.",
+            now
+        )
+    )
+
+    conn.execute(
+        """
+        UPDATE support_requests
+        SET status = ?,
+            updated_at = ?
+        WHERE id = ?
+        """,
+        (
+            "حل شد",
+            now,
+            request_id
+        )
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect(
+        url_for("admin")
+    )
+
+
+# =========================================================
+# AI رایگان فروشگاه
+# =========================================================
+
+AI_CATEGORIES = {
+    "موبایل": [
+        "موبایل",
+        "گوشی",
+        "تلفن"
+    ],
+    "لپ‌تاپ": [
+        "لپ تاپ",
+        "لپ‌تاپ",
+        "لپتاپ",
+        "نوت بوک"
+    ],
+    "لوازم جانبی": [
+        "هدفون",
+        "هندزفری",
+        "شارژر",
+        "کابل",
+        "لوازم جانبی"
+    ],
+    "پوشیدنی": [
+        "ساعت",
+        "ساعت هوشمند",
+        "پوشیدنی"
+    ],
+    "دیجیتال": [
+        "دیجیتال"
+    ],
+    "پوشاک": [
+        "پوشاک",
+        "لباس"
+    ],
+    "لوازم خانگی": [
+        "لوازم خانگی",
+        "خانه"
+    ],
+    "زیبایی": [
+        "زیبایی"
+    ]
+}
+
+
+def ai_clean_text(text):
+    text = str(text or "").lower().strip()
+
+    replacements = {
+        "ي": "ی",
+        "ك": "ک",
+        "ۀ": "ه",
+        "ة": "ه",
+        "‌": " "
+    }
+
+    for old, new in replacements.items():
+        text = text.replace(
+            old,
+            new
+        )
+
+    return re.sub(
+        r"\s+",
+        " ",
+        text
+    )
+
+
+def ai_find_category(message):
+    message = ai_clean_text(
+        message
+    )
+
+    for category, keywords in AI_CATEGORIES.items():
+
+        for keyword in keywords:
+
+            if ai_clean_text(keyword) in message:
+                return category
+
+    return None
+
+
+def ai_format_price(price):
+    return f"{int(price):,}"
+
+
+def ai_product_text(product):
+
+    price = int(
+        product["price"] or 0
+    )
+
+    discount = int(
+        product["discount"] or 0
+    )
+
+    stock = int(
+        product["stock"] or 0
+    )
+
+    final_price = int(
+        price * (100 - discount) / 100
+    )
+
+    text = (
+        f"**{product['name']}**\n"
+    )
+
+    text += (
+        f"دسته‌بندی: "
+        f"{product['category'] or 'عمومی'}\n"
+    )
+
+    if discount > 0:
+
+        text += (
+            f"قیمت اصلی: "
+            f"{ai_format_price(price)} تومان\n"
+        )
+
+        text += (
+            f"تخفیف: {discount}٪\n"
+        )
+
+        text += (
+            f"قیمت نهایی: "
+            f"{ai_format_price(final_price)} تومان\n"
+        )
+
+    else:
+
+        text += (
+            f"قیمت: "
+            f"{ai_format_price(final_price)} تومان\n"
+        )
+
+    if stock > 0:
+
+        text += (
+            f"موجودی: {stock} عدد"
+        )
+
+    else:
+
+        text += "وضعیت: ناموجود"
+
+    return text
+
+
+def ai_answer(message):
+
+    message = ai_clean_text(
+        message
+    )
+
+    if not message:
+        return (
+            "سؤالت را بنویس تا محصولات "
+            "فروشگاه را برایت بررسی کنم."
+        )
+
+    conn = get_db()
+
+    products = conn.execute("""
+        SELECT *
+        FROM products
+        ORDER BY id DESC
+    """).fetchall()
+
+    conn.close()
+
+    if not products:
+        return (
+            "در حال حاضر محصولی "
+            "در فروشگاه ثبت نشده است."
+        )
+
+    # -----------------------------------------------------
+    # سلام
+    # -----------------------------------------------------
+
+    greetings = [
+        "سلام",
+        "درود",
+        "خوبی",
+        "سلام وقت بخیر",
+        "وقت بخیر"
+    ]
+
+    if any(
+        word in message
+        for word in greetings
+    ):
+
+        return (
+            "سلام. من دستیار هوشمند فروشگاه هستم.\n\n"
+            "می‌توانم محصولات، قیمت، تخفیف، "
+            "موجودی و دسته‌بندی‌ها را بررسی کنم.\n\n"
+            "مثلاً بپرس:\n"
+            "«چه گوشی‌هایی دارید؟»\n"
+            "«لپ‌تاپ می‌خوام»\n"
+            "«چه محصولاتی تخفیف دارند؟»"
+        )
+
+    # -----------------------------------------------------
+    # تخفیف
+    # -----------------------------------------------------
+
+    if any(
+        word in message
+        for word in [
+            "تخفیف",
+            "تخفیف دار",
+            "تخفیف‌دار",
+            "ارزان شده",
+            "پیشنهاد"
+        ]
+    ):
+
+        discounted = [
+            p
+            for p in products
+            if (
+                (p["discount"] or 0) > 0
+                and
+                (p["stock"] or 0) > 0
+            )
+        ]
+
+        if not discounted:
+            return (
+                "در حال حاضر محصول تخفیف‌داری "
+                "موجود نیست."
+            )
+
+        discounted.sort(
+            key=lambda p: p["discount"] or 0,
+            reverse=True
+        )
+
+        result = (
+            "این محصولات در حال حاضر "
+            "تخفیف دارند:\n\n"
+        )
+
+        for product_item in discounted[:5]:
+
+            result += (
+                ai_product_text(
+                    product_item
+                )
+                + "\n\n"
+            )
+
+        return result.strip()
+
+    # -----------------------------------------------------
+    # دسته‌بندی
+    # -----------------------------------------------------
+
+    category = ai_find_category(
+        message
+    )
+
+    if category:
+
+        category_products = [
+            p
+            for p in products
+            if ai_clean_text(
+                p["category"] or ""
+            )
+            ==
+            ai_clean_text(
+                category
+            )
+        ]
+
+        if not category_products:
+
+            category_products = [
+                p
+                for p in products
+                if category in (
+                    p["category"] or ""
+                )
+            ]
+
+        if not category_products:
+
+            return (
+                f"در دسته‌بندی "
+                f"«{category}» "
+                f"محصولی پیدا نکردم."
+            )
+
+        available = [
+            p
+            for p in category_products
+            if (p["stock"] or 0) > 0
+        ]
+
+        if not available:
+
+            return (
+                f"محصولی از دسته "
+                f"«{category}» "
+                f"در حال حاضر موجود نیست."
+            )
+
+        result = (
+            f"این محصولات از دسته "
+            f"«{category}» موجود هستند:\n\n"
+        )
+
+        for product_item in available[:5]:
+
+            result += (
+                ai_product_text(
+                    product_item
+                )
+                + "\n\n"
+            )
+
+        return result.strip()
+
+    # -----------------------------------------------------
+    # جستجوی هوشمند در نام و توضیحات
+    # -----------------------------------------------------
+
+    stop_words = {
+        "چی",
+        "چه",
+        "دارید",
+        "دارین",
+        "دارم",
+        "میخوام",
+        "می‌خوام",
+        "میخواهم",
+        "میشه",
+        "لطفا",
+        "لطفاً",
+        "معرفی",
+        "کن",
+        "کنید",
+        "کنین",
+        "محصول",
+        "محصولات",
+        "قیمت",
+        "چنده",
+        "چند",
+        "است",
+        "هست",
+        "هستند",
+        "موجود",
+        "رو",
+        "را",
+        "از",
+        "برای",
+        "به",
+        "یک"
+    }
+
+    words = [
+        word
+        for word in message.split()
+        if (
+            word not in stop_words
+            and len(word) >= 2
+        )
+    ]
+
+    matches = []
+
+    for product_item in products:
+
+        searchable = ai_clean_text(
+            f"{product_item['name']} "
+            f"{product_item['description']} "
+            f"{product_item['category']}"
+        )
+
+        score = 0
+
+        for word in words:
+
+            if word in searchable:
+                score += 1
+
+        if score > 0:
+
+            matches.append(
+                (
+                    score,
+                    product_item
+                )
+            )
+
+    matches.sort(
+        key=lambda item: item[0],
+        reverse=True
+    )
+
+    if matches:
+
+        result = (
+            "چند محصول مرتبط "
+            "با سؤال شما پیدا کردم:\n\n"
+        )
+
+        for _, product_item in matches[:5]:
+
+            result += (
+                ai_product_text(
+                    product_item
+                )
+                + "\n\n"
+            )
+
+        return result.strip()
+
+    # -----------------------------------------------------
+    # موجودی کلی
+    # -----------------------------------------------------
+
+    if any(
+        word in message
+        for word in [
+            "موجودی",
+            "موجوده",
+            "موجود هست",
+            "موجود دارید"
+        ]
+    ):
+
+        available = [
+            p
+            for p in products
+            if (p["stock"] or 0) > 0
+        ]
+
+        return (
+            f"در حال حاضر "
+            f"{len(available)} محصول "
+            f"موجود در فروشگاه داریم."
+        )
+
+    # -----------------------------------------------------
+    # پاسخ پیش‌فرض
+    # -----------------------------------------------------
+
+    return (
+        "سؤال شما را دقیق متوجه نشدم.\n\n"
+        "می‌توانید درباره این موارد بپرسید:\n"
+        "• گوشی و موبایل\n"
+        "• لپ‌تاپ\n"
+        "• قیمت محصولات\n"
+        "• محصولات تخفیف‌دار\n"
+        "• موجودی کالا\n"
+        "• یک محصول خاص"
+    )
+
+
+@app.post("/ai/chat")
+def ai_chat():
+
+    data = request.get_json(
+        silent=True
+    ) or {}
+
+    message = str(
+        data.get(
+            "message",
+            ""
+        )
+    ).strip()
+
+    if len(message) > 500:
+
+        return {
+            "ok": False,
+            "answer": (
+                "پیام شما بیش از "
+                "حد مجاز طولانی است."
+            )
+        }, 400
+
+    return {
+        "ok": True,
+        "answer": ai_answer(message)
+    }
+
+
+# =========================================================
+# Robots.txt
+# =========================================================
+
+@app.route("/robots.txt")
+def robots():
+
+    return """User-agent: *
+Allow: /
+
+Sitemap: https://foroshgah-man.onrender.com/sitemap.xml
+""", 200, {
+        "Content-Type": "text/plain"
+    }
+
+
+# =========================================================
+# Sitemap
+# =========================================================
+
+@app.route("/sitemap.xml")
+def sitemap():
+
+    pages = [
+        url_for(
+            "home",
+            _external=True
+        ),
+
+        url_for(
+            "products_page",
+            _external=True
+        ),
+
+        url_for(
+            "offers",
+            _external=True
+        ),
+
+        url_for(
+            "categories_page",
+            _external=True
+        )
+    ]
+
+    conn = get_db()
+
+    products = conn.execute(
+        "SELECT id FROM products"
+    ).fetchall()
+
+    categories = conn.execute(
+        """
+        SELECT DISTINCT category
+        FROM products
+        WHERE category != ''
+        """
+    ).fetchall()
+
+    conn.close()
+
+    for product_item in products:
+
         pages.append(
-            url_for("product", product_id=product["id"], _external=True)
+            url_for(
+                "product",
+                product_id=product_item["id"],
+                _external=True
+            )
         )
 
     for category_item in categories:
+
         pages.append(
             url_for(
                 "category",
@@ -1160,18 +2202,34 @@ def sitemap():
             )
         )
 
-    xml = '<?xml version="1.0" encoding="UTF-8"?>'
-    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+    )
+
+    xml += (
+        '<urlset '
+        'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+    )
 
     for page in pages:
-        xml += f"<url><loc>{page}</loc></url>"
+
+        xml += (
+            f"<url><loc>{page}</loc></url>"
+        )
 
     xml += "</urlset>"
 
-    return xml, 200, {"Content-Type": "application/xml"}
+    return xml, 200, {
+        "Content-Type": "application/xml"
+    }
 
+
+# =========================================================
+# Start
+# =========================================================
 
 init_db()
+
 
 if __name__ == "__main__":
 

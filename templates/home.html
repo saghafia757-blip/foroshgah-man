@@ -13,16 +13,23 @@
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
 
         :root {
-            --bg: #faf8ff;
-            --card: rgba(255,255,255,.82);
-            --card-solid: #ffffff;
-            --text: #241d35;
-            --muted: #766d86;
-            --primary: #9d4edd;
-            --primary-2: #c026d3;
-            --pink: #ec4899;
-            --border: rgba(157,78,221,.13);
-            --shadow: 0 18px 55px rgba(82,45,115,.10);
+            --bg: #f7f5fc;
+            --surface: rgba(255,255,255,.78);
+            --surface-solid: #fff;
+            --surface-2: #f1edf8;
+            --text: #211a2d;
+            --muted: #81778e;
+            --primary: #8b3fc7;
+            --primary-2: #b52ad1;
+            --pink: #ec3f93;
+            --pink-light: #fff0f8;
+            --green: #22c55e;
+            --orange: #f59e0b;
+            --danger: #ef4444;
+            --border: rgba(114,72,145,.12);
+            --shadow-sm: 0 8px 28px rgba(66,39,91,.07);
+            --shadow: 0 20px 55px rgba(66,39,91,.10);
+            --shadow-lg: 0 30px 90px rgba(45,25,65,.18);
             --radius: 24px;
         }
 
@@ -38,27 +45,42 @@
 
         body {
             font-family: "Vazirmatn", Tahoma, sans-serif;
-            background:
-                radial-gradient(circle at 10% 10%, rgba(236,72,153,.10), transparent 28%),
-                radial-gradient(circle at 90% 15%, rgba(157,78,221,.12), transparent 30%),
-                var(--bg);
             color: var(--text);
+            background:
+                radial-gradient(circle at 0 0, rgba(236,63,147,.10), transparent 27%),
+                radial-gradient(circle at 100% 8%, rgba(139,63,199,.12), transparent 30%),
+                var(--bg);
             min-height: 100vh;
-            transition: .3s;
+            overflow-x: hidden;
+            transition: background .3s, color .3s;
         }
 
         body.dark {
-            --bg: #110d18;
-            --card: rgba(29,21,39,.84);
-            --card-solid: #1d1527;
-            --text: #f8f3ff;
-            --muted: #aaa0b8;
-            --border: rgba(255,255,255,.09);
-            --shadow: 0 20px 60px rgba(0,0,0,.30);
-            background:
-                radial-gradient(circle at 10% 10%, rgba(236,72,153,.10), transparent 28%),
-                radial-gradient(circle at 90% 15%, rgba(157,78,221,.12), transparent 30%),
-                var(--bg);
+            --bg: #0f0b15;
+            --surface: rgba(28,21,38,.78);
+            --surface-solid: #1c1526;
+            --surface-2: #251c31;
+            --text: #f8f4fc;
+            --muted: #aaa0b4;
+            --pink-light: #2b1728;
+            --border: rgba(255,255,255,.08);
+            --shadow-sm: 0 8px 28px rgba(0,0,0,.18);
+            --shadow: 0 20px 55px rgba(0,0,0,.25);
+            --shadow-lg: 0 30px 90px rgba(0,0,0,.38);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(236,63,147,.05);
+            filter: blur(80px);
+            top: 35%;
+            right: -180px;
+            pointer-events: none;
+            z-index: -1;
         }
 
         a {
@@ -77,73 +99,77 @@
             cursor: pointer;
         }
 
-        /* HEADER */
+        /* =========================
+           HEADER
+        ========================= */
+
         header {
             position: sticky;
             top: 0;
             z-index: 1000;
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            background: rgba(250,248,255,.78);
             border-bottom: 1px solid var(--border);
+            background: rgba(247,245,252,.74);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
         }
 
         body.dark header {
-            background: rgba(17,13,24,.78);
+            background: rgba(15,11,21,.76);
         }
 
-        .nav {
-            max-width: 1250px;
+        .header-main {
+            max-width: 1380px;
             margin: auto;
             min-height: 76px;
-            padding: 12px 20px;
+            padding: 12px 22px;
             display: flex;
             align-items: center;
-            gap: 18px;
+            gap: 16px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 11px;
-            font-size: 22px;
+            gap: 10px;
+            min-width: max-content;
             font-weight: 900;
-            white-space: nowrap;
+            font-size: 21px;
         }
 
         .logo-icon {
-            width: 43px;
-            height: 43px;
+            width: 44px;
+            height: 44px;
             display: grid;
             place-items: center;
-            border-radius: 14px;
+            border-radius: 15px;
             color: white;
+            font-size: 21px;
             background: linear-gradient(135deg, var(--pink), var(--primary));
-            box-shadow: 0 10px 25px rgba(157,78,221,.28);
+            box-shadow: 0 10px 28px rgba(139,63,199,.28);
         }
 
         .search {
             flex: 1;
-            max-width: 520px;
+            max-width: 620px;
             margin: auto;
             position: relative;
         }
 
         .search input {
             width: 100%;
-            height: 46px;
+            height: 48px;
             border: 1px solid var(--border);
-            outline: none;
             border-radius: 16px;
-            padding: 0 48px 0 16px;
+            outline: none;
+            padding: 0 48px 0 18px;
             color: var(--text);
-            background: var(--card);
+            background: var(--surface);
             transition: .25s;
         }
 
         .search input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(157,78,221,.09);
+            box-shadow: 0 0 0 4px rgba(139,63,199,.09);
         }
 
         .search-icon {
@@ -152,31 +178,54 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--muted);
+            font-size: 20px;
         }
 
-        .nav-actions {
+        .header-actions {
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .icon-btn {
-            width: 44px;
-            height: 44px;
+        .header-btn {
+            min-height: 44px;
             border: 1px solid var(--border);
             border-radius: 14px;
-            background: var(--card);
             color: var(--text);
-            display: grid;
-            place-items: center;
-            font-size: 19px;
+            background: var(--surface);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 0 13px;
             transition: .25s;
+            font-size: 13px;
+            font-weight: 700;
         }
 
-        .icon-btn:hover {
+        .header-btn:hover {
             transform: translateY(-2px);
-            border-color: var(--primary);
+            border-color: rgba(139,63,199,.35);
             color: var(--primary);
+        }
+
+        .admin-btn {
+            color: white;
+            border: none;
+            background: linear-gradient(135deg, #7d35b5, #b52ad1);
+            box-shadow: 0 8px 22px rgba(139,63,199,.20);
+        }
+
+        .admin-btn:hover {
+            color: white;
+            border: none;
+            box-shadow: 0 12px 28px rgba(139,63,199,.28);
+        }
+
+        .icon-only {
+            width: 44px;
+            padding: 0;
+            font-size: 18px;
         }
 
         .cart-btn {
@@ -187,23 +236,31 @@
             position: absolute;
             top: -5px;
             left: -5px;
-            min-width: 19px;
-            height: 19px;
+            min-width: 20px;
+            height: 20px;
             padding: 0 5px;
             display: grid;
             place-items: center;
             border-radius: 50px;
             color: white;
             background: var(--pink);
+            border: 2px solid var(--bg);
             font-size: 10px;
-            font-weight: 800;
+            font-weight: 900;
         }
 
-        /* NAV LINKS */
+        /* =========================
+           CATEGORY NAV
+        ========================= */
+
+        .category-nav-wrap {
+            border-top: 1px solid rgba(139,63,199,.05);
+        }
+
         .category-nav {
-            max-width: 1250px;
+            max-width: 1380px;
             margin: auto;
-            padding: 0 20px 13px;
+            padding: 10px 22px 13px;
             display: flex;
             gap: 8px;
             overflow-x: auto;
@@ -216,259 +273,346 @@
 
         .category-nav a {
             flex: 0 0 auto;
-            padding: 8px 15px;
+            padding: 8px 16px;
             border: 1px solid var(--border);
             border-radius: 50px;
+            background: var(--surface);
             color: var(--muted);
-            background: var(--card);
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 12px;
+            font-weight: 700;
             transition: .25s;
         }
 
-        .category-nav a:hover {
+        .category-nav a:hover,
+        .category-nav a.active {
             color: white;
-            background: linear-gradient(135deg,var(--pink),var(--primary));
             border-color: transparent;
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, var(--pink), var(--primary));
+            transform: translateY(-1px);
         }
 
-        /* HERO */
+        /* =========================
+           HERO
+        ========================= */
+
         .hero {
-            max-width: 1250px;
-            margin: 35px auto 0;
-            padding: 0 20px;
+            max-width: 1380px;
+            margin: 30px auto 0;
+            padding: 0 22px;
         }
 
         .hero-box {
-            min-height: 370px;
             position: relative;
+            min-height: 410px;
             overflow: hidden;
             border-radius: 34px;
-            padding: 55px;
+            padding: 55px 60px;
             display: flex;
             align-items: center;
             background:
-                radial-gradient(circle at 85% 20%, rgba(255,255,255,.28), transparent 25%),
-                linear-gradient(135deg,#8b3fc7,#c026d3 48%,#ec4899);
+                radial-gradient(circle at 78% 20%, rgba(255,255,255,.24), transparent 24%),
+                radial-gradient(circle at 100% 100%, rgba(255,255,255,.13), transparent 28%),
+                linear-gradient(125deg, #7636ad 0%, #9d35c5 46%, #ec3f93 100%);
             color: white;
-            box-shadow: 0 28px 70px rgba(157,78,221,.23);
-        }
-
-        .hero-box::before,
-        .hero-box::after {
-            content: "";
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255,255,255,.10);
+            box-shadow: 0 28px 75px rgba(139,63,199,.24);
         }
 
         .hero-box::before {
-            width: 330px;
-            height: 330px;
-            left: -90px;
-            bottom: -170px;
+            content: "";
+            position: absolute;
+            width: 430px;
+            height: 430px;
+            border: 70px solid rgba(255,255,255,.07);
+            border-radius: 50%;
+            left: -160px;
+            bottom: -220px;
         }
 
         .hero-box::after {
-            width: 220px;
-            height: 220px;
-            right: 10%;
-            bottom: -130px;
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.07);
+            right: 9%;
+            bottom: -180px;
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
-            max-width: 650px;
+            max-width: 680px;
         }
 
         .hero-badge {
             display: inline-flex;
+            align-items: center;
+            gap: 7px;
             padding: 8px 15px;
-            border: 1px solid rgba(255,255,255,.25);
+            border: 1px solid rgba(255,255,255,.22);
             border-radius: 50px;
-            background: rgba(255,255,255,.13);
-            backdrop-filter: blur(10px);
-            font-size: 13px;
+            background: rgba(255,255,255,.12);
+            backdrop-filter: blur(12px);
+            font-size: 12px;
+            font-weight: 600;
             margin-bottom: 18px;
         }
 
         .hero h1 {
-            font-size: clamp(30px,5vw,55px);
-            line-height: 1.25;
+            font-size: clamp(32px, 5vw, 58px);
+            line-height: 1.28;
             font-weight: 900;
-            margin-bottom: 15px;
+            letter-spacing: -.8px;
+            margin-bottom: 17px;
         }
 
         .hero p {
-            font-size: 16px;
-            line-height: 2;
-            opacity: .92;
-            max-width: 580px;
+            max-width: 610px;
+            font-size: 15px;
+            line-height: 2.1;
+            opacity: .91;
         }
 
         .hero-buttons {
-            margin-top: 25px;
+            margin-top: 27px;
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
         }
 
         .hero-btn {
-            padding: 12px 20px;
+            min-height: 48px;
+            padding: 0 21px;
             border: none;
-            border-radius: 14px;
-            font-weight: 700;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 800;
             transition: .25s;
-        }
-
-        .hero-btn.primary {
-            background: white;
-            color: #8b3fc7;
-        }
-
-        .hero-btn.secondary {
-            color: white;
-            background: rgba(255,255,255,.14);
-            border: 1px solid rgba(255,255,255,.25);
         }
 
         .hero-btn:hover {
             transform: translateY(-3px);
         }
 
-        /* SECTION */
+        .hero-btn.primary {
+            color: #7d35b5;
+            background: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,.12);
+        }
+
+        .hero-btn.secondary {
+            color: white;
+            border: 1px solid rgba(255,255,255,.22);
+            background: rgba(255,255,255,.12);
+        }
+
+        .hero-side {
+            position: absolute;
+            left: 7%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255,255,255,.12);
+            background: rgba(255,255,255,.07);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-side-icon {
+            width: 105px;
+            height: 105px;
+            display: grid;
+            place-items: center;
+            border-radius: 34px;
+            font-size: 48px;
+            background: rgba(255,255,255,.12);
+            box-shadow: 0 20px 50px rgba(0,0,0,.10);
+        }
+
+        /* =========================
+           GENERAL
+        ========================= */
+
         .section {
-            max-width: 1250px;
-            margin: 55px auto 0;
-            padding: 0 20px;
+            max-width: 1380px;
+            margin: 58px auto 0;
+            padding: 0 22px;
         }
 
         .section-head {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-end;
             gap: 15px;
-            margin-bottom: 22px;
+            margin-bottom: 21px;
         }
 
         .section-title {
             font-size: 25px;
+            line-height: 1.4;
             font-weight: 900;
         }
 
         .section-subtitle {
-            color: var(--muted);
-            font-size: 13px;
             margin-top: 5px;
+            color: var(--muted);
+            font-size: 12px;
         }
 
         .view-all {
             color: var(--primary);
-            font-weight: 700;
-            font-size: 13px;
+            font-size: 12px;
+            font-weight: 800;
         }
 
-        /* CATEGORIES */
+        /* =========================
+           CATEGORY CARDS
+        ========================= */
+
         .categories {
             display: grid;
-            grid-template-columns: repeat(6,1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 14px;
         }
 
         .category-card {
-            min-height: 130px;
-            padding: 18px 10px;
-            border-radius: 22px;
+            position: relative;
+            min-height: 145px;
+            padding: 19px 10px;
             border: 1px solid var(--border);
-            background: var(--card);
-            box-shadow: var(--shadow);
+            border-radius: 24px;
+            background: var(--surface);
+            box-shadow: var(--shadow-sm);
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 11px;
+            overflow: hidden;
             transition: .3s;
         }
 
+        .category-card::after {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: rgba(236,63,147,.06);
+            left: -35px;
+            bottom: -45px;
+        }
+
         .category-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(157,78,221,.28);
+            transform: translateY(-7px);
+            border-color: rgba(139,63,199,.28);
+            box-shadow: var(--shadow);
         }
 
         .category-icon {
-            width: 55px;
-            height: 55px;
-            border-radius: 18px;
+            width: 59px;
+            height: 59px;
             display: grid;
             place-items: center;
-            font-size: 25px;
+            border-radius: 19px;
             color: white;
-            background: linear-gradient(135deg,var(--pink),var(--primary));
-            box-shadow: 0 10px 25px rgba(157,78,221,.20);
+            font-size: 25px;
+            background: linear-gradient(135deg, var(--pink), var(--primary));
+            box-shadow: 0 12px 28px rgba(139,63,199,.21);
         }
 
         .category-card span {
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 800;
         }
 
-        /* FILTER */
+        /* =========================
+           PRODUCT HEADER / FILTER
+        ========================= */
+
+        .products-head-actions {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
         .filter-wrap {
             position: relative;
         }
 
         .filter-btn {
-            padding: 10px 16px;
+            min-height: 42px;
+            padding: 0 15px;
             border: 1px solid var(--border);
             border-radius: 13px;
             color: var(--text);
-            background: var(--card);
-            font-weight: 700;
+            background: var(--surface);
+            font-size: 12px;
+            font-weight: 800;
+            transition: .25s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
         .filter-popup {
             position: absolute;
-            z-index: 50;
+            z-index: 100;
             top: calc(100% + 10px);
             left: 0;
-            width: 285px;
-            padding: 18px;
-            border-radius: 22px;
+            width: 300px;
+            padding: 20px;
             border: 1px solid var(--border);
-            background: var(--card-solid);
-            box-shadow: 0 25px 60px rgba(40,20,60,.20);
+            border-radius: 22px;
+            background: var(--surface-solid);
+            box-shadow: var(--shadow-lg);
             opacity: 0;
             visibility: hidden;
-            transform: translateY(-8px);
+            transform: translateY(-8px) scale(.98);
             transition: .25s;
         }
 
         .filter-popup.show {
             opacity: 1;
             visibility: visible;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
+        }
+
+        .filter-popup-title {
+            margin-bottom: 16px;
+            font-size: 14px;
+            font-weight: 900;
         }
 
         .filter-popup label {
             display: block;
-            color: var(--muted);
-            font-size: 12px;
             margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 11px;
         }
 
         .filter-popup input,
         .filter-popup select {
             width: 100%;
-            height: 42px;
+            height: 43px;
             margin-bottom: 12px;
+            padding: 0 11px;
             border: 1px solid var(--border);
             border-radius: 12px;
             outline: none;
-            padding: 0 11px;
-            background: var(--bg);
             color: var(--text);
+            background: var(--bg);
+        }
+
+        .filter-popup input:focus,
+        .filter-popup select:focus {
+            border-color: var(--primary);
         }
 
         .price-row {
@@ -479,56 +623,69 @@
 
         .apply-filter {
             width: 100%;
+            height: 44px;
             border: none;
             border-radius: 12px;
-            height: 43px;
             color: white;
+            background: linear-gradient(135deg, var(--pink), var(--primary));
             font-weight: 800;
-            background: linear-gradient(135deg,var(--pink),var(--primary));
         }
 
-        /* PRODUCTS */
+        /* =========================
+           PRODUCTS
+        ========================= */
+
         .products {
             display: grid;
-            grid-template-columns: repeat(4,1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 18px;
         }
 
         .product-card {
-            overflow: hidden;
             position: relative;
+            overflow: hidden;
             border: 1px solid var(--border);
-            border-radius: 24px;
-            background: var(--card);
-            box-shadow: var(--shadow);
-            transition: .3s;
+            border-radius: 25px;
+            background: var(--surface);
+            box-shadow: var(--shadow-sm);
+            transition: .32s;
         }
 
         .product-card:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 25px 65px rgba(82,45,115,.16);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow);
+            border-color: rgba(139,63,199,.20);
         }
 
         .product-image {
-            height: 215px;
             position: relative;
+            height: 235px;
             overflow: hidden;
-            background: linear-gradient(135deg,#f5e8ff,#ffe7f3);
+            background: linear-gradient(135deg,#f4eaff,#ffe7f3);
         }
 
         body.dark .product-image {
-            background: linear-gradient(135deg,#281d34,#301a2c);
+            background: linear-gradient(135deg,#291d35,#301a2d);
+        }
+
+        .product-image::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(20,10,30,.10), transparent 35%);
+            pointer-events: none;
         }
 
         .product-image img {
             width: 100%;
             height: 100%;
+            display: block;
             object-fit: cover;
-            transition: .45s;
+            transition: .5s;
         }
 
         .product-card:hover .product-image img {
-            transform: scale(1.06);
+            transform: scale(1.07);
         }
 
         .product-info {
@@ -536,14 +693,16 @@
         }
 
         .product-name {
-            min-height: 50px;
-            font-size: 15px;
+            min-height: 48px;
+            font-size: 14px;
             line-height: 1.8;
             font-weight: 800;
         }
 
         .product-bottom {
-            margin-top: 12px;
+            margin-top: 14px;
+            padding-top: 13px;
+            border-top: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -551,130 +710,193 @@
         }
 
         .price {
+            color: var(--primary);
             font-size: 16px;
             font-weight: 900;
-            color: var(--primary);
         }
 
         .price small {
-            font-size: 10px;
             color: var(--muted);
+            font-size: 9px;
+            font-weight: 600;
         }
 
         .buy-btn {
-            padding: 9px 12px;
-            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 35px;
+            padding: 0 12px;
             border-radius: 11px;
             color: white;
-            background: linear-gradient(135deg,var(--pink),var(--primary));
-            font-size: 12px;
+            background: linear-gradient(135deg, var(--pink), var(--primary));
+            font-size: 11px;
             font-weight: 800;
+            transition: .2s;
         }
 
         .buy-btn:hover {
-            box-shadow: 0 8px 20px rgba(157,78,221,.25);
+            box-shadow: 0 8px 20px rgba(139,63,199,.25);
         }
 
-        /* ADS */
-        .ads {
-            display: grid;
-            grid-template-columns: repeat(2,1fr);
-            gap: 16px;
-        }
-
-        .ad-card {
-            padding: 24px;
-            border-radius: 24px;
-            color: white;
-            background: linear-gradient(135deg,#8b3fc7,#ec4899);
-            box-shadow: var(--shadow);
-        }
-
-        .ad-card h3 {
-            font-size: 19px;
-            margin-bottom: 7px;
-        }
-
-        .ad-card p {
-            font-size: 13px;
-            line-height: 1.9;
-            opacity: .9;
-        }
-
-        /* EMPTY */
         .empty {
-            grid-column: 1/-1;
-            padding: 55px 20px;
+            grid-column: 1 / -1;
+            padding: 65px 20px;
             text-align: center;
             border: 1px dashed var(--border);
-            border-radius: 24px;
+            border-radius: 25px;
+            background: var(--surface);
             color: var(--muted);
         }
 
         .empty-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            font-size: 42px;
         }
 
-        /* FOOTER */
+        .empty strong {
+            color: var(--text);
+            font-size: 16px;
+        }
+
+        .empty p {
+            margin-top: 7px;
+            font-size: 12px;
+        }
+
+        /* =========================
+           ADS
+        ========================= */
+
+        .ads {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .ad-card {
+            position: relative;
+            overflow: hidden;
+            min-height: 150px;
+            padding: 25px;
+            border-radius: 25px;
+            color: white;
+            background: linear-gradient(135deg,#7939ae,#ec3f93);
+            box-shadow: var(--shadow);
+        }
+
+        .ad-card::after {
+            content: "";
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.08);
+            left: -45px;
+            bottom: -100px;
+        }
+
+        .ad-card h3,
+        .ad-card p {
+            position: relative;
+            z-index: 2;
+        }
+
+        .ad-card h3 {
+            margin-bottom: 7px;
+            font-size: 19px;
+        }
+
+        .ad-card p {
+            max-width: 650px;
+            font-size: 12px;
+            line-height: 1.9;
+            opacity: .9;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
         footer {
-            margin-top: 80px;
-            padding: 45px 20px 25px;
+            margin-top: 90px;
+            padding: 55px 22px 25px;
             border-top: 1px solid var(--border);
-            background: rgba(255,255,255,.35);
+            background: rgba(255,255,255,.32);
         }
 
         body.dark footer {
-            background: rgba(0,0,0,.10);
+            background: rgba(0,0,0,.12);
         }
 
         .footer-inner {
-            max-width: 1250px;
+            max-width: 1380px;
             margin: auto;
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 35px;
         }
 
         .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 12px;
             font-size: 20px;
             font-weight: 900;
-            margin-bottom: 10px;
+        }
+
+        .footer-brand-icon {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            color: white;
+            background: linear-gradient(135deg,var(--pink),var(--primary));
         }
 
         .footer-text {
             max-width: 480px;
             color: var(--muted);
-            font-size: 13px;
-            line-height: 2;
+            font-size: 12px;
+            line-height: 2.1;
         }
 
         footer h4 {
-            margin-bottom: 12px;
+            margin-bottom: 13px;
+            font-size: 14px;
         }
 
         footer a {
             display: block;
+            width: max-content;
+            max-width: 100%;
+            margin: 9px 0;
             color: var(--muted);
-            font-size: 13px;
-            margin: 8px 0;
+            font-size: 12px;
+            transition: .2s;
         }
 
         footer a:hover {
             color: var(--primary);
+            transform: translateX(-3px);
         }
 
         .copyright {
-            max-width: 1250px;
-            margin: 35px auto 0;
+            max-width: 1380px;
+            margin: 38px auto 0;
             padding-top: 20px;
             border-top: 1px solid var(--border);
             text-align: center;
             color: var(--muted);
-            font-size: 11px;
+            font-size: 10px;
         }
 
-        /* FLOATING BUTTONS */
+        /* =========================
+           FLOATING ACTIONS
+        ========================= */
+
         .floating {
             position: fixed;
             left: 20px;
@@ -682,47 +904,66 @@
             z-index: 900;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 11px;
         }
 
         .float-btn {
-            width: 58px;
-            height: 58px;
+            position: relative;
+            width: 59px;
+            height: 59px;
             border: none;
             border-radius: 50%;
             color: white;
+            font-size: 21px;
             background: linear-gradient(135deg,var(--pink),var(--primary));
-            box-shadow: 0 14px 35px rgba(157,78,221,.32);
-            font-size: 22px;
+            box-shadow: 0 14px 35px rgba(139,63,199,.30);
             transition: .3s;
         }
 
         .float-btn:hover {
-            transform: scale(1.08) rotate(3deg);
+            transform: translateY(-4px) scale(1.06);
+        }
+
+        .float-ai::before {
+            content: "";
+            position: absolute;
+            inset: -5px;
+            border: 1px solid rgba(139,63,199,.20);
+            border-radius: 50%;
+            animation: ring 2.5s infinite;
+        }
+
+        @keyframes ring {
+            0%,100% { opacity: .1; transform: scale(.95); }
+            50% { opacity: .55; transform: scale(1.08); }
         }
 
         .support-status {
             position: absolute;
-            width: 11px;
-            height: 11px;
-            right: 2px;
-            top: 2px;
+            width: 12px;
+            height: 12px;
+            right: 1px;
+            top: 1px;
             border: 2px solid white;
             border-radius: 50%;
-            background: #22c55e;
+            background: var(--green);
         }
 
-        /* MODALS */
+        /* =========================
+           MODAL
+        ========================= */
+
         .modal {
             position: fixed;
             inset: 0;
             z-index: 2000;
+            padding: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 18px;
-            background: rgba(15,8,22,.58);
-            backdrop-filter: blur(8px);
+            background: rgba(12,7,18,.62);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             opacity: 0;
             visibility: hidden;
             transition: .3s;
@@ -734,16 +975,16 @@
         }
 
         .modal-box {
-            width: min(500px,100%);
+            width: min(520px,100%);
             max-height: 90vh;
             overflow-y: auto;
-            padding: 22px;
+            padding: 23px;
             border: 1px solid var(--border);
             border-radius: 28px;
-            background: var(--card-solid);
-            box-shadow: 0 30px 90px rgba(0,0,0,.25);
-            transform: scale(.92) translateY(15px);
-            transition: .3s;
+            background: var(--surface-solid);
+            box-shadow: var(--shadow-lg);
+            transform: scale(.90) translateY(18px);
+            transition: .3s cubic-bezier(.2,.8,.2,1);
         }
 
         .modal.show .modal-box {
@@ -754,21 +995,77 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 18px;
+            gap: 12px;
+            margin-bottom: 19px;
         }
 
         .modal-head h3 {
             font-size: 20px;
+            font-weight: 900;
         }
 
         .close {
-            width: 37px;
-            height: 37px;
+            flex: 0 0 auto;
+            width: 38px;
+            height: 38px;
             border: none;
-            border-radius: 11px;
+            border-radius: 12px;
             color: var(--muted);
             background: var(--bg);
-            font-size: 18px;
+            font-size: 20px;
+            transition: .2s;
+        }
+
+        .close:hover {
+            color: var(--danger);
+            transform: rotate(5deg);
+        }
+
+        /* =========================
+           SUPPORT
+        ========================= */
+
+        .support-intro {
+            margin-bottom: 15px;
+            padding: 14px;
+            border-radius: 17px;
+            color: var(--muted);
+            background: var(--bg);
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        .support-menu {
+            display: grid;
+            gap: 10px;
+        }
+
+        .support-option {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            text-align: right;
+            color: var(--text);
+            background: var(--bg);
+            transition: .25s;
+        }
+
+        .support-option:hover {
+            transform: translateX(-5px);
+            border-color: rgba(139,63,199,.35);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .support-option strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .support-option span {
+            color: var(--muted);
+            font-size: 11px;
         }
 
         .form-group {
@@ -777,9 +1074,9 @@
 
         .form-group label {
             display: block;
-            font-size: 12px;
-            color: var(--muted);
             margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 11px;
         }
 
         .form-group input,
@@ -790,13 +1087,26 @@
             outline: none;
             border-radius: 13px;
             padding: 11px;
-            background: var(--bg);
             color: var(--text);
+            background: var(--bg);
+            transition: .2s;
+        }
+
+        .form-group input,
+        .form-group select {
+            height: 44px;
         }
 
         .form-group textarea {
-            min-height: 100px;
+            min-height: 105px;
             resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139,63,199,.07);
         }
 
         .main-btn {
@@ -807,44 +1117,32 @@
             color: white;
             background: linear-gradient(135deg,var(--pink),var(--primary));
             font-weight: 800;
-        }
-
-        /* SUPPORT */
-        .support-menu {
-            display: grid;
-            gap: 10px;
-        }
-
-        .support-option {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: 17px;
-            text-align: right;
-            color: var(--text);
-            background: var(--bg);
             transition: .25s;
         }
 
-        .support-option:hover {
-            transform: translateX(-4px);
-            border-color: var(--primary);
+        .main-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139,63,199,.20);
         }
 
-        .support-option strong {
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .support-option span {
+        .secondary-btn {
+            width: 100%;
+            height: 42px;
+            margin-top: 8px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
             color: var(--muted);
-            font-size: 11px;
+            background: var(--bg);
+            font-size: 12px;
         }
 
-        /* AI */
+        /* =========================
+           AI
+        ========================= */
+
         .ai-box {
-            width: min(520px,100%);
-            height: min(680px,90vh);
+            width: min(540px,100%);
+            height: min(720px,92vh);
             padding: 0;
             overflow: hidden;
             display: flex;
@@ -852,6 +1150,7 @@
         }
 
         .ai-header {
+            position: relative;
             padding: 18px;
             display: flex;
             align-items: center;
@@ -860,14 +1159,26 @@
             background: linear-gradient(135deg,var(--pink),var(--primary));
         }
 
+        .ai-header::after {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.07);
+            left: -50px;
+            bottom: -90px;
+        }
+
         .ai-avatar {
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
             display: grid;
             place-items: center;
             border-radius: 15px;
-            background: rgba(255,255,255,.18);
-            font-size: 21px;
+            background: rgba(255,255,255,.17);
+            font-size: 22px;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
         }
 
         .ai-title {
@@ -876,14 +1187,19 @@
 
         .ai-title strong {
             display: block;
+            font-size: 14px;
         }
 
         .ai-title span {
+            display: block;
+            margin-top: 2px;
             font-size: 10px;
-            opacity: .8;
+            opacity: .82;
         }
 
         .ai-header .close {
+            position: relative;
+            z-index: 2;
             color: white;
             background: rgba(255,255,255,.13);
         }
@@ -895,23 +1211,38 @@
             display: flex;
             flex-direction: column;
             gap: 11px;
-            background: var(--bg);
+            background:
+                radial-gradient(circle at 100% 0, rgba(139,63,199,.07), transparent 30%),
+                var(--bg);
         }
 
         .bubble {
-            max-width: 82%;
+            max-width: 84%;
             padding: 11px 14px;
-            border-radius: 17px;
-            font-size: 13px;
-            line-height: 1.9;
+            border-radius: 18px;
+            font-size: 12px;
+            line-height: 1.95;
             white-space: pre-line;
+            animation: bubbleIn .25s ease;
+        }
+
+        @keyframes bubbleIn {
+            from {
+                opacity: 0;
+                transform: translateY(7px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .bubble.ai {
             align-self: flex-start;
             border-bottom-right-radius: 5px;
-            background: var(--card-solid);
             border: 1px solid var(--border);
+            background: var(--surface-solid);
+            box-shadow: var(--shadow-sm);
         }
 
         .bubble.user {
@@ -919,6 +1250,7 @@
             border-bottom-left-radius: 5px;
             color: white;
             background: linear-gradient(135deg,var(--pink),var(--primary));
+            box-shadow: 0 8px 22px rgba(139,63,199,.16);
         }
 
         .thinking {
@@ -927,17 +1259,19 @@
             padding: 10px 14px;
             border-radius: 17px;
             color: var(--muted);
-            background: var(--card-solid);
-            font-size: 12px;
+            background: var(--surface-solid);
+            border: 1px solid var(--border);
+            font-size: 11px;
         }
 
         .thinking.show {
             display: block;
-            animation: pulse 1s infinite;
+            animation: thinking 1.2s infinite;
         }
 
-        @keyframes pulse {
-            50% { opacity: .45; }
+        @keyframes thinking {
+            0%,100% { opacity: .45; }
+            50% { opacity: 1; }
         }
 
         .quick-actions {
@@ -946,6 +1280,12 @@
             gap: 7px;
             overflow-x: auto;
             border-top: 1px solid var(--border);
+            background: var(--surface-solid);
+            scrollbar-width: none;
+        }
+
+        .quick-actions::-webkit-scrollbar {
+            display: none;
         }
 
         .quick-actions button {
@@ -954,8 +1294,15 @@
             border: 1px solid var(--border);
             border-radius: 50px;
             color: var(--primary);
-            background: var(--card-solid);
-            font-size: 11px;
+            background: var(--bg);
+            font-size: 10px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .quick-actions button:hover {
+            border-color: var(--primary);
+            transform: translateY(-1px);
         }
 
         .ai-form {
@@ -963,43 +1310,65 @@
             display: flex;
             gap: 8px;
             border-top: 1px solid var(--border);
-            background: var(--card-solid);
+            background: var(--surface-solid);
         }
 
         .ai-form input {
             flex: 1;
-            height: 44px;
             min-width: 0;
-            border: 1px solid var(--border);
-            outline: none;
-            border-radius: 13px;
+            height: 45px;
             padding: 0 13px;
-            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            outline: none;
             color: var(--text);
+            background: var(--bg);
+        }
+
+        .ai-form input:focus {
+            border-color: var(--primary);
         }
 
         .ai-send {
-            width: 46px;
-            height: 44px;
+            width: 47px;
+            height: 45px;
             border: none;
             border-radius: 13px;
             color: white;
             background: linear-gradient(135deg,var(--pink),var(--primary));
+            font-size: 17px;
+            transition: .2s;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 1000px) {
+        .ai-send:hover {
+            transform: scale(1.04);
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1150px) {
+            .categories {
+                grid-template-columns: repeat(3,1fr);
+            }
+
             .products {
                 grid-template-columns: repeat(3,1fr);
             }
 
-            .categories {
-                grid-template-columns: repeat(3,1fr);
+            .hero-side {
+                left: 3%;
+                opacity: .65;
+            }
+
+            .footer-inner {
+                grid-template-columns: 2fr 1fr 1fr;
             }
         }
 
-        @media (max-width: 750px) {
-            .nav {
+        @media (max-width: 850px) {
+            .header-main {
                 flex-wrap: wrap;
             }
 
@@ -1007,7 +1376,7 @@
                 order: 1;
             }
 
-            .nav-actions {
+            .header-actions {
                 order: 2;
                 margin-right: auto;
             }
@@ -1019,48 +1388,119 @@
             }
 
             .hero-box {
-                padding: 35px 25px;
-                min-height: 330px;
+                min-height: 370px;
+                padding: 42px 35px;
+            }
+
+            .hero-side {
+                display: none;
             }
 
             .products {
                 grid-template-columns: repeat(2,1fr);
             }
 
-            .footer-inner {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .footer-inner > div:first-child {
-                grid-column: 1/-1;
+            .ads {
+                grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
+            .header-main {
+                padding: 10px 13px;
+            }
+
+            .logo {
+                font-size: 17px;
+            }
+
+            .logo-icon {
+                width: 39px;
+                height: 39px;
+                border-radius: 13px;
+            }
+
+            .admin-btn .admin-text {
+                display: none;
+            }
+
+            .header-btn {
+                min-height: 40px;
+            }
+
+            .icon-only {
+                width: 40px;
+            }
+
+            .category-nav {
+                padding-right: 13px;
+                padding-left: 13px;
+            }
+
             .hero {
-                margin-top: 20px;
+                margin-top: 18px;
+                padding: 0 13px;
             }
 
             .hero-box {
-                border-radius: 25px;
-                padding: 28px 20px;
+                min-height: 350px;
+                padding: 32px 22px;
+                border-radius: 27px;
             }
 
             .hero h1 {
-                font-size: 29px;
+                font-size: 30px;
+            }
+
+            .hero p {
+                font-size: 13px;
+            }
+
+            .hero-btn {
+                min-height: 44px;
+                padding: 0 15px;
+                font-size: 11px;
             }
 
             .section {
-                margin-top: 40px;
+                margin-top: 42px;
+                padding: 0 13px;
+            }
+
+            .section-head {
+                align-items: flex-start;
+            }
+
+            .section-title {
+                font-size: 21px;
+            }
+
+            .products-head-actions {
+                flex-shrink: 0;
+            }
+
+            .filter-btn {
+                padding: 0 11px;
+                font-size: 10px;
             }
 
             .categories {
                 grid-template-columns: repeat(2,1fr);
+                gap: 10px;
+            }
+
+            .category-card {
+                min-height: 125px;
+                border-radius: 19px;
             }
 
             .products {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(2,1fr);
                 gap: 10px;
+            }
+
+            .product-card {
+                border-radius: 19px;
             }
 
             .product-image {
@@ -1072,29 +1512,36 @@
             }
 
             .product-name {
-                font-size: 12px;
-                min-height: 44px;
+                min-height: 43px;
+                font-size: 11px;
+            }
+
+            .product-bottom {
+                margin-top: 9px;
+                padding-top: 9px;
             }
 
             .price {
-                font-size: 12px;
+                font-size: 11px;
             }
 
             .buy-btn {
-                padding: 7px 8px;
-                font-size: 10px;
-            }
-
-            .ads {
-                grid-template-columns: 1fr;
+                min-height: 31px;
+                padding: 0 8px;
+                font-size: 9px;
             }
 
             .footer-inner {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
+                gap: 25px 18px;
             }
 
             .footer-inner > div:first-child {
-                grid-column: auto;
+                grid-column: 1/-1;
+            }
+
+            footer {
+                padding: 42px 18px 22px;
             }
 
             .floating {
@@ -1105,6 +1552,42 @@
             .float-btn {
                 width: 52px;
                 height: 52px;
+                font-size: 19px;
+            }
+
+            .filter-popup {
+                position: fixed;
+                top: auto;
+                bottom: 12px;
+                left: 12px;
+                right: 12px;
+                width: auto;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .admin-btn {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            .categories {
+                gap: 8px;
+            }
+
+            .product-image {
+                height: 140px;
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-inner > div:first-child {
+                grid-column: auto;
             }
         }
     </style>
@@ -1113,7 +1596,8 @@
 <body>
 
 <header>
-    <div class="nav">
+
+    <div class="header-main">
 
         <a href="/" class="logo">
             <span class="logo-icon">🛍️</span>
@@ -1130,30 +1614,49 @@
             >
         </form>
 
-        <div class="nav-actions">
-            <button class="icon-btn" onclick="toggleTheme()" title="تغییر حالت">
+        <div class="header-actions">
+
+            <a href="/admin" class="header-btn admin-btn">
+                ⚙️
+                <span class="admin-text">پنل مدیریت</span>
+            </a>
+
+            <button
+                class="header-btn icon-only"
+                onclick="toggleTheme()"
+                title="تغییر حالت"
+                type="button"
+            >
                 <span id="themeIcon">☾</span>
             </button>
 
-            <a href="/cart" class="icon-btn cart-btn" title="سبد خرید">
+            <a href="/cart" class="header-btn icon-only cart-btn" title="سبد خرید">
                 🛒
                 {% if cart_count is defined and cart_count %}
                     <span class="cart-count">{{ cart_count }}</span>
                 {% endif %}
             </a>
+
         </div>
 
     </div>
 
-    <nav class="category-nav">
-        <a href="/category/موبایل">موبایل</a>
-        <a href="/category/لپ تاپ">لپ‌تاپ</a>
-        <a href="/category/پوشاک">پوشاک</a>
-        <a href="/category/لوازم خانگی">لوازم خانگی</a>
-        <a href="/category/دیجیتال">دیجیتال</a>
-        <a href="/category/زیبایی">زیبایی</a>
-        <a href="/offers">پیشنهادها</a>
-    </nav>
+    <div class="category-nav-wrap">
+
+        <nav class="category-nav">
+
+            <a href="/category/موبایل">📱 موبایل</a>
+            <a href="/category/لپ تاپ">💻 لپ‌تاپ</a>
+            <a href="/category/پوشاک">👕 پوشاک</a>
+            <a href="/category/لوازم خانگی">🏠 لوازم خانگی</a>
+            <a href="/category/دیجیتال">🎧 دیجیتال</a>
+            <a href="/category/زیبایی">✨ زیبایی</a>
+            <a href="/offers">🔥 پیشنهادها</a>
+
+        </nav>
+
+    </div>
+
 </header>
 
 
@@ -1161,12 +1664,13 @@
 
     <!-- HERO -->
     <section class="hero">
+
         <div class="hero-box">
 
             <div class="hero-content">
 
                 <div class="hero-badge">
-                    ✨ خرید آسان، سریع و مطمئن
+                    ✨ تجربه‌ای ساده‌تر برای خرید آنلاین
                 </div>
 
                 <h1>
@@ -1176,22 +1680,36 @@
 
                 <p>
                     محصولات متنوع فروشگاه را ببین، جستجو کن،
-                    قیمت‌ها را مقایسه کن و محصول موردنظرت را به سبد خرید اضافه کن.
+                    قیمت‌ها را مقایسه کن و محصول موردنظرت را
+                    با چند کلیک پیدا کن.
                 </p>
 
                 <div class="hero-buttons">
+
                     <a href="#products" class="hero-btn primary">
                         مشاهده محصولات
                     </a>
 
-                    <button class="hero-btn secondary" onclick="openAI()">
+                    <button
+                        class="hero-btn secondary"
+                        onclick="openAI()"
+                        type="button"
+                    >
                         ✨ دستیار هوشمند
                     </button>
+
                 </div>
 
             </div>
 
+            <div class="hero-side">
+                <div class="hero-side-icon">
+                    🛍️
+                </div>
+            </div>
+
         </div>
+
     </section>
 
 
@@ -1199,12 +1717,18 @@
     <section class="section">
 
         <div class="section-head">
+
             <div>
                 <div class="section-title">دسته‌بندی‌ها</div>
                 <div class="section-subtitle">
-                    محصول موردنظرت را سریع‌تر پیدا کن
+                    انتخاب سریع از بین دسته‌های فروشگاه
                 </div>
             </div>
+
+            <a href="#products" class="view-all">
+                مشاهده محصولات ←
+            </a>
+
         </div>
 
         <div class="categories">
@@ -1250,88 +1774,130 @@
         <div class="section-head">
 
             <div>
+
                 <div class="section-title">
+
                     {% if search %}
-                        نتایج جستجو
+                        نتایج جستجو برای «{{ search }}»
+
                     {% elif category %}
                         {{ category }}
+
                     {% else %}
                         محصولات فروشگاه
+
                     {% endif %}
+
                 </div>
 
                 <div class="section-subtitle">
                     جدیدترین محصولات موجود در فروشگاه
                 </div>
+
             </div>
 
-            <div class="filter-wrap">
 
-                <button class="filter-btn" onclick="toggleFilter()">
-                    ⚙️ دسته‌بندی ▾
-                </button>
+            <div class="products-head-actions">
 
-                <div class="filter-popup" id="filterPopup">
+                <div class="filter-wrap">
 
-                    <form action="/" method="get">
+                    <button
+                        class="filter-btn"
+                        onclick="toggleFilter()"
+                        type="button"
+                    >
+                        ⚙️ فیلتر و دسته‌بندی ▾
+                    </button>
 
-                        <label>حداقل قیمت</label>
-                        <input
-                            type="number"
-                            name="min_price"
-                            placeholder="مثلاً 100000"
-                            value="{{ min_price or '' }}"
-                        >
+                    <div class="filter-popup" id="filterPopup">
 
-                        <label>حداکثر قیمت</label>
-                        <input
-                            type="number"
-                            name="max_price"
-                            placeholder="مثلاً 50000000"
-                            value="{{ max_price or '' }}"
-                        >
+                        <div class="filter-popup-title">
+                            فیلتر محصولات
+                        </div>
 
-                        <label>دسته‌بندی</label>
+                        <form action="/" method="get">
 
-                        <select name="category">
-                            <option value="">همه دسته‌ها</option>
+                            {% if search %}
+                                <input type="hidden" name="search" value="{{ search }}">
+                            {% endif %}
 
-                            <option value="موبایل"
-                                {% if category == 'موبایل' %}selected{% endif %}>
-                                موبایل
-                            </option>
+                            <label>محدوده قیمت</label>
 
-                            <option value="لپ تاپ"
-                                {% if category == 'لپ تاپ' %}selected{% endif %}>
-                                لپ‌تاپ
-                            </option>
+                            <div class="price-row">
 
-                            <option value="پوشاک"
-                                {% if category == 'پوشاک' %}selected{% endif %}>
-                                پوشاک
-                            </option>
+                                <input
+                                    type="number"
+                                    name="min_price"
+                                    placeholder="حداقل"
+                                    value="{{ min_price or '' }}"
+                                >
 
-                            <option value="لوازم خانگی"
-                                {% if category == 'لوازم خانگی' %}selected{% endif %}>
-                                لوازم خانگی
-                            </option>
+                                <input
+                                    type="number"
+                                    name="max_price"
+                                    placeholder="حداکثر"
+                                    value="{{ max_price or '' }}"
+                                >
 
-                            <option value="دیجیتال"
-                                {% if category == 'دیجیتال' %}selected{% endif %}>
-                                دیجیتال
-                            </option>
+                            </div>
 
-                            <option value="زیبایی"
-                                {% if category == 'زیبایی' %}selected{% endif %}>
-                                زیبایی
-                            </option>
-                        </select>
+                            <label>دسته‌بندی</label>
 
-                        <button class="apply-filter" type="submit">
-                            اعمال فیلتر
-                        </button>
+                            <select name="category">
 
-                    </form>
+                                <option value="">همه دسته‌ها</option>
+
+                                <option
+                                    value="موبایل"
+                                    {% if category == 'موبایل' %}selected{% endif %}
+                                >
+                                    موبایل
+                                </option>
+
+                                <option
+                                    value="لپ تاپ"
+                                    {% if category == 'لپ تاپ' %}selected{% endif %}
+                                >
+                                    لپ‌تاپ
+                                </option>
+
+                                <option
+                                    value="پوشاک"
+                                    {% if category == 'پوشاک' %}selected{% endif %}
+                                >
+                                    پوشاک
+                                </option>
+
+                                <option
+                                    value="لوازم خانگی"
+                                    {% if category == 'لوازم خانگی' %}selected{% endif %}
+                                >
+                                    لوازم خانگی
+                                </option>
+
+                                <option
+                                    value="دیجیتال"
+                                    {% if category == 'دیجیتال' %}selected{% endif %}
+                                >
+                                    دیجیتال
+                                </option>
+
+                                <option
+                                    value="زیبایی"
+                                    {% if category == 'زیبایی' %}selected{% endif %}
+                                >
+                                    زیبایی
+                                </option>
+
+                            </select>
+
+                            <button class="apply-filter" type="submit">
+                                اعمال فیلتر
+                            </button>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
@@ -1353,12 +1919,15 @@
                             <div class="product-image">
 
                                 {% if product.image %}
+
                                     <img
                                         src="{{ product.image }}"
                                         alt="{{ product.name }}"
                                         loading="lazy"
                                     >
+
                                 {% else %}
+
                                     <div style="
                                         width:100%;
                                         height:100%;
@@ -1368,9 +1937,11 @@
                                     ">
                                         🛍️
                                     </div>
+
                                 {% endif %}
 
                             </div>
+
 
                             <div class="product-info">
 
@@ -1386,7 +1957,7 @@
                                     </div>
 
                                     <span class="buy-btn">
-                                        مشاهده
+                                        مشاهده محصول
                                     </span>
 
                                 </div>
@@ -1402,11 +1973,17 @@
             {% else %}
 
                 <div class="empty">
+
                     <div class="empty-icon">🔎</div>
-                    <strong>محصولی پیدا نشد</strong>
-                    <p style="margin-top:7px">
+
+                    <strong>
+                        محصولی پیدا نشد
+                    </strong>
+
+                    <p>
                         عبارت جستجو یا فیلترها را تغییر بده.
                     </p>
+
                 </div>
 
             {% endif %}
@@ -1422,13 +1999,23 @@
     <section class="section">
 
         <div class="section-head">
+
             <div>
-                <div class="section-title">پیشنهادهای ویژه</div>
+                <div class="section-title">
+                    پیشنهادهای ویژه
+                </div>
+
                 <div class="section-subtitle">
                     فرصت‌های جذاب فروشگاه
                 </div>
             </div>
+
+            <a href="/offers" class="view-all">
+                مشاهده همه ←
+            </a>
+
         </div>
+
 
         <div class="ads">
 
@@ -1463,34 +2050,71 @@
     <div class="footer-inner">
 
         <div>
+
             <div class="footer-brand">
-                فروشگاه من
+                <span class="footer-brand-icon">🛍️</span>
+                <span>فروشگاه من</span>
             </div>
 
             <p class="footer-text">
                 فروشگاهی ساده، سریع و مدرن برای خرید آنلاین.
-                محصولات موردنظرت را پیدا کن و با چند کلیک سفارش بده.
+                محصولات موردنظرت را پیدا کن، بررسی کن و
+                با چند کلیک وارد مرحله سفارش شو.
             </p>
+
         </div>
 
+
         <div>
-            <h4>دسترسی سریع</h4>
+
+            <h4>فروشگاه</h4>
+
             <a href="/">خانه</a>
+            <a href="#products">محصولات</a>
             <a href="/offers">پیشنهادهای ویژه</a>
             <a href="/cart">سبد خرید</a>
+
         </div>
 
+
         <div>
-            <h4>پشتیبانی</h4>
-            <a href="javascript:void(0)" onclick="openSupport()">
-                ارتباط با پشتیبانی
+
+            <h4>دسته‌بندی‌ها</h4>
+
+            <a href="/category/موبایل">موبایل</a>
+            <a href="/category/لپ تاپ">لپ‌تاپ</a>
+            <a href="/category/پوشاک">پوشاک</a>
+            <a href="/category/دیجیتال">دیجیتال</a>
+
+        </div>
+
+
+        <div>
+
+            <h4>خدمات</h4>
+
+            <a href="/admin">
+                ⚙️ پنل مدیریت
             </a>
-            <a href="javascript:void(0)" onclick="openAI()">
-                دستیار هوشمند
+
+            <a
+                href="javascript:void(0)"
+                onclick="openSupport()"
+            >
+                🎧 پشتیبانی
             </a>
+
+            <a
+                href="javascript:void(0)"
+                onclick="openAI()"
+            >
+                ✨ دستیار هوشمند
+            </a>
+
         </div>
 
     </div>
+
 
     <div class="copyright">
         © 2026 فروشگاه من — تمامی حقوق محفوظ است.
@@ -1502,11 +2126,21 @@
 <!-- FLOATING BUTTONS -->
 <div class="floating">
 
-    <button class="float-btn" onclick="openAI()" title="دستیار هوشمند">
+    <button
+        class="float-btn float-ai"
+        onclick="openAI()"
+        title="دستیار هوشمند"
+        type="button"
+    >
         ✨
     </button>
 
-    <button class="float-btn" onclick="openSupport()" title="پشتیبانی" style="position:relative">
+    <button
+        class="float-btn"
+        onclick="openSupport()"
+        title="پشتیبانی"
+        type="button"
+    >
         🎧
         <span class="support-status"></span>
     </button>
@@ -1514,32 +2148,64 @@
 </div>
 
 
-<!-- SUPPORT MODAL -->
+<!-- =========================
+     SUPPORT MODAL
+========================= -->
+
 <div class="modal" id="supportModal">
 
     <div class="modal-box">
 
         <div class="modal-head">
-            <h3>پشتیبانی فروشگاه</h3>
 
-            <button class="close" onclick="closeSupport()">
+            <h3>
+                پشتیبانی فروشگاه
+            </h3>
+
+            <button
+                class="close"
+                onclick="closeSupport()"
+                type="button"
+            >
                 ×
             </button>
+
         </div>
+
 
         <div id="supportMain">
 
+            <div class="support-intro">
+                اگر در خرید یا محصولات مشکلی داری،
+                درخواستت را ثبت کن تا بتوانی وضعیت آن را پیگیری کنی.
+            </div>
+
             <div class="support-menu">
 
-                <button class="support-option" onclick="showSupportForm()">
-                    <strong>📝 ثبت درخواست پشتیبانی</strong>
+                <button
+                    class="support-option"
+                    onclick="showSupportForm()"
+                    type="button"
+                >
+                    <strong>
+                        📝 ثبت درخواست پشتیبانی
+                    </strong>
+
                     <span>
                         اگر مشکلی داری، درخواستت را برای ما ارسال کن.
                     </span>
                 </button>
 
-                <button class="support-option" onclick="loadSupportStatus()">
-                    <strong>📋 پیگیری درخواست</strong>
+
+                <button
+                    class="support-option"
+                    onclick="loadSupportStatus()"
+                    type="button"
+                >
+                    <strong>
+                        📋 پیگیری درخواست
+                    </strong>
+
                     <span>
                         وضعیت درخواست‌های قبلی خودت را ببین.
                     </span>
@@ -1549,19 +2215,28 @@
 
         </div>
 
+
         <div id="supportForm" style="display:none">
 
             <div class="form-group">
-                <label>چه چیزی شما را ناراحت کرد؟</label>
+
+                <label>
+                    چه چیزی شما را ناراحت کرد؟
+                </label>
 
                 <textarea
                     id="supportDescription"
                     placeholder="مشکل یا درخواست خود را بنویسید..."
                 ></textarea>
+
             </div>
 
+
             <div class="form-group">
-                <label>دسته‌بندی</label>
+
+                <label>
+                    دسته‌بندی
+                </label>
 
                 <select id="supportCategory">
 
@@ -1574,38 +2249,45 @@
                     <option value="سایر">سایر</option>
 
                 </select>
+
             </div>
 
+
             <div class="form-group">
-                <label>شماره تماس</label>
+
+                <label>
+                    شماره تماس
+                </label>
 
                 <input
                     id="supportPhone"
                     type="tel"
+                    inputmode="tel"
                     placeholder="شماره تماس"
                 >
+
             </div>
 
-            <button class="main-btn" onclick="createSupport()">
+
+            <button
+                class="main-btn"
+                onclick="createSupport()"
+                type="button"
+            >
                 ارسال درخواست
             </button>
 
+
             <button
+                class="secondary-btn"
                 onclick="backSupport()"
-                style="
-                    width:100%;
-                    margin-top:8px;
-                    height:40px;
-                    border:none;
-                    border-radius:12px;
-                    background:var(--bg);
-                    color:var(--muted);
-                "
+                type="button"
             >
                 بازگشت
             </button>
 
         </div>
+
 
         <div id="supportStatus" style="display:none"></div>
 
@@ -1614,7 +2296,10 @@
 </div>
 
 
-<!-- AI MODAL -->
+<!-- =========================
+     AI MODAL
+========================= -->
+
 <div class="modal" id="aiModal">
 
     <div class="modal-box ai-box">
@@ -1626,11 +2311,22 @@
             </div>
 
             <div class="ai-title">
-                <strong>دستیار هوشمند فروشگاه</strong>
-                <span>کمکت می‌کنم محصول مناسب پیدا کنی</span>
+
+                <strong>
+                    دستیار هوشمند فروشگاه
+                </strong>
+
+                <span>
+                    کمکت می‌کنم محصول مناسب پیدا کنی
+                </span>
+
             </div>
 
-            <button class="close" onclick="closeAI()">
+            <button
+                class="close"
+                onclick="closeAI()"
+                type="button"
+            >
                 ×
             </button>
 
@@ -1649,7 +2345,10 @@
                 «یک گوشی مناسب معرفی کن»
             </div>
 
-            <div class="thinking" id="aiThinking">
+            <div
+                class="thinking"
+                id="aiThinking"
+            >
                 در حال فکر کردن...
             </div>
 
@@ -1658,26 +2357,41 @@
 
         <div class="quick-actions">
 
-            <button onclick="quickAI('گوشی مناسب معرفی کن')">
+            <button
+                onclick="quickAI('گوشی مناسب معرفی کن')"
+                type="button"
+            >
                 📱 گوشی مناسب معرفی کن
             </button>
 
-            <button onclick="quickAI('لپ تاپ‌ها رو بگو')">
+            <button
+                onclick="quickAI('لپ تاپ‌ها رو بگو')"
+                type="button"
+            >
                 💻 لپ‌تاپ‌ها رو بگو
             </button>
 
-            <button onclick="quickAI('محصولات تخفیف دار رو بگو')">
+            <button
+                onclick="quickAI('محصولات تخفیف دار رو بگو')"
+                type="button"
+            >
                 🔥 تخفیف‌ها
             </button>
 
-            <button onclick="quickAI('چه محصولاتی دارید؟')">
+            <button
+                onclick="quickAI('چه محصولاتی دارید؟')"
+                type="button"
+            >
                 🛍️ محصولات فروشگاه
             </button>
 
         </div>
 
 
-        <form class="ai-form" id="aiForm">
+        <form
+            class="ai-form"
+            id="aiForm"
+        >
 
             <input
                 id="aiInput"
@@ -1687,7 +2401,11 @@
                 placeholder="پیامت را بنویس..."
             >
 
-            <button class="ai-send" id="aiSend" type="submit">
+            <button
+                class="ai-send"
+                id="aiSend"
+                type="submit"
+            >
                 ➤
             </button>
 
@@ -1699,35 +2417,59 @@
 
 
 <script>
+
     /* =========================
        THEME
     ========================= */
 
     function toggleTheme() {
+
         document.body.classList.toggle("dark");
 
-        const dark = document.body.classList.contains("dark");
+        const dark =
+            document.body.classList.contains("dark");
 
-        localStorage.setItem("theme", dark ? "dark" : "light");
+        localStorage.setItem(
+            "theme",
+            dark ? "dark" : "light"
+        );
 
-        document.getElementById("themeIcon").textContent =
-            dark ? "☀" : "☾";
+        const icon =
+            document.getElementById("themeIcon");
+
+        if (icon) {
+            icon.textContent =
+                dark ? "☀" : "☾";
+        }
+
     }
 
+
     (function () {
-        const theme = localStorage.getItem("theme");
+
+        const theme =
+            localStorage.getItem("theme");
 
         if (theme === "dark") {
+
             document.body.classList.add("dark");
 
-            window.addEventListener("DOMContentLoaded", function () {
-                const icon = document.getElementById("themeIcon");
+            window.addEventListener(
+                "DOMContentLoaded",
+                function () {
 
-                if (icon) {
-                    icon.textContent = "☀";
+                    const icon =
+                        document.getElementById("themeIcon");
+
+                    if (icon) {
+                        icon.textContent = "☀";
+                    }
+
                 }
-            });
+            );
+
         }
+
     })();
 
 
@@ -1736,24 +2478,32 @@
     ========================= */
 
     function toggleFilter() {
-        document
-            .getElementById("filterPopup")
-            .classList.toggle("show");
-    }
 
-    document.addEventListener("click", function (event) {
-
-        const popup = document.getElementById("filterPopup");
+        const popup =
+            document.getElementById("filterPopup");
 
         if (!popup) return;
 
-        if (
-            !event.target.closest(".filter-wrap")
-        ) {
-            popup.classList.remove("show");
-        }
+        popup.classList.toggle("show");
 
-    });
+    }
+
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            const popup =
+                document.getElementById("filterPopup");
+
+            if (!popup) return;
+
+            if (!event.target.closest(".filter-wrap")) {
+                popup.classList.remove("show");
+            }
+
+        }
+    );
 
 
     /* =========================
@@ -1763,94 +2513,188 @@
     const supportModal =
         document.getElementById("supportModal");
 
+
     function openSupport() {
+
         supportModal.classList.add("show");
 
-        document.getElementById("supportMain").style.display = "block";
-        document.getElementById("supportForm").style.display = "none";
-        document.getElementById("supportStatus").style.display = "none";
+        document.getElementById(
+            "supportMain"
+        ).style.display = "block";
+
+        document.getElementById(
+            "supportForm"
+        ).style.display = "none";
+
+        document.getElementById(
+            "supportStatus"
+        ).style.display = "none";
+
     }
+
 
     function closeSupport() {
+
         supportModal.classList.remove("show");
+
     }
+
 
     function showSupportForm() {
-        document.getElementById("supportMain").style.display = "none";
-        document.getElementById("supportForm").style.display = "block";
-        document.getElementById("supportStatus").style.display = "none";
+
+        document.getElementById(
+            "supportMain"
+        ).style.display = "none";
+
+        document.getElementById(
+            "supportForm"
+        ).style.display = "block";
+
+        document.getElementById(
+            "supportStatus"
+        ).style.display = "none";
+
     }
 
+
     function backSupport() {
-        document.getElementById("supportMain").style.display = "block";
-        document.getElementById("supportForm").style.display = "none";
-        document.getElementById("supportStatus").style.display = "none";
+
+        document.getElementById(
+            "supportMain"
+        ).style.display = "block";
+
+        document.getElementById(
+            "supportForm"
+        ).style.display = "none";
+
+        document.getElementById(
+            "supportStatus"
+        ).style.display = "none";
+
     }
+
 
     async function createSupport() {
 
         const description =
-            document.getElementById("supportDescription").value.trim();
+            document.getElementById(
+                "supportDescription"
+            ).value.trim();
 
         const category =
-            document.getElementById("supportCategory").value;
+            document.getElementById(
+                "supportCategory"
+            ).value;
 
         const phone =
-            document.getElementById("supportPhone").value.trim();
+            document.getElementById(
+                "supportPhone"
+            ).value.trim();
+
 
         if (!description) {
-            alert("لطفاً مشکل خود را بنویسید.");
+
+            alert("لطفاً مشکل خود را بنویس.");
             return;
+
         }
 
+
         if (!phone) {
-            alert("لطفاً شماره تماس را وارد کنید.");
+
+            alert("لطفاً شماره تماس را وارد کن.");
             return;
+
         }
+
 
         try {
 
-            const response = await fetch("/support/create", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    description: description,
-                    category: category,
-                    phone: phone
-                })
-            });
+            const response =
+                await fetch(
+                    "/support/create",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+                        body: JSON.stringify({
+                            description:
+                                description,
+                            category:
+                                category,
+                            phone:
+                                phone
+                        })
+                    }
+                );
 
-            const data = await response.json();
+
+            const data =
+                await response.json();
+
 
             if (!response.ok || !data.ok) {
-                alert(data.message || "ارسال درخواست انجام نشد.");
+
+                alert(
+                    data.message ||
+                    "ارسال درخواست انجام نشد."
+                );
+
                 return;
+
             }
 
-            alert("درخواست شما با موفقیت ثبت شد.");
 
-            document.getElementById("supportDescription").value = "";
-            document.getElementById("supportPhone").value = "";
+            alert(
+                "درخواست شما با موفقیت ثبت شد."
+            );
+
+
+            document.getElementById(
+                "supportDescription"
+            ).value = "";
+
+            document.getElementById(
+                "supportPhone"
+            ).value = "";
+
 
             loadSupportStatus();
 
-        } catch (error) {
-            alert("خطا در ارتباط با سرور.");
         }
+        catch (error) {
+
+            alert(
+                "خطا در ارتباط با سرور."
+            );
+
+        }
+
     }
 
 
     async function loadSupportStatus() {
 
-        document.getElementById("supportMain").style.display = "none";
-        document.getElementById("supportForm").style.display = "none";
+        document.getElementById(
+            "supportMain"
+        ).style.display = "none";
+
+        document.getElementById(
+            "supportForm"
+        ).style.display = "none";
+
 
         const statusBox =
-            document.getElementById("supportStatus");
+            document.getElementById(
+                "supportStatus"
+            );
 
-        statusBox.style.display = "block";
+
+        statusBox.style.display =
+            "block";
+
 
         statusBox.innerHTML = `
             <div style="
@@ -1862,20 +2706,27 @@
             </div>
         `;
 
+
         try {
 
             const response =
-                await fetch("/support/data");
+                await fetch(
+                    "/support/data"
+                );
+
 
             const data =
                 await response.json();
+
 
             if (!data.ok) {
                 throw new Error();
             }
 
+
             const requests =
                 data.requests || [];
+
 
             if (!requests.length) {
 
@@ -1884,6 +2735,7 @@
                         padding:30px 10px;
                         text-align:center;
                         color:var(--muted);
+                        font-size:12px;
                     ">
                         هنوز درخواست پشتیبانی ثبت نکرده‌اید.
                     </div>
@@ -1891,124 +2743,156 @@
                     <button
                         class="main-btn"
                         onclick="showSupportForm()"
+                        type="button"
                     >
                         ثبت درخواست جدید
                     </button>
                 `;
 
                 return;
+
             }
+
 
             let html = "";
 
-            requests.forEach(function (item) {
 
-                let statusText = "در حال بررسی";
-                let statusColor = "#f59e0b";
+            requests.forEach(
+                function (item) {
 
-                if (
-                    item.status === "resolved" ||
-                    item.status === "حل شد"
-                ) {
-                    statusText = "حل شده";
-                    statusColor = "#22c55e";
-                }
+                    let statusText =
+                        "در حال بررسی";
 
-                html += `
-                    <div style="
-                        padding:15px;
-                        margin-bottom:10px;
-                        border:1px solid var(--border);
-                        border-radius:17px;
-                        background:var(--bg);
-                    ">
+                    let statusColor =
+                        "#f59e0b";
 
+
+                    if (
+                        item.status ===
+                            "resolved" ||
+                        item.status ===
+                            "حل شد"
+                    ) {
+
+                        statusText =
+                            "حل شده";
+
+                        statusColor =
+                            "#22c55e";
+
+                    }
+
+
+                    html += `
                         <div style="
-                            display:flex;
-                            justify-content:space-between;
-                            gap:10px;
-                            margin-bottom:8px;
+                            padding:15px;
+                            margin-bottom:10px;
+                            border:1px solid var(--border);
+                            border-radius:17px;
+                            background:var(--bg);
                         ">
 
-                            <strong>
-                                ${escapeHTML(item.category || "سایر")}
-                            </strong>
-
-                            <span style="
-                                color:${statusColor};
-                                font-size:11px;
-                                font-weight:700;
-                            ">
-                                ${statusText}
-                            </span>
-
-                        </div>
-
-                        <div style="
-                            color:var(--muted);
-                            font-size:12px;
-                            line-height:1.8;
-                        ">
-                            ${escapeHTML(item.description || "")}
-                        </div>
-
-                        ${
-                            item.reply
-                            ?
-                            `
                             <div style="
-                                margin-top:10px;
-                                padding:10px;
-                                border-radius:12px;
-                                background:rgba(157,78,221,.08);
-                                font-size:12px;
-                                line-height:1.8;
+                                display:flex;
+                                justify-content:space-between;
+                                align-items:center;
+                                gap:10px;
+                                margin-bottom:8px;
                             ">
-                                <strong>پاسخ پشتیبانی:</strong><br>
-                                ${escapeHTML(item.reply)}
-                            </div>
-                            `
-                            :
-                            ""
-                        }
 
-                    </div>
+                                <strong style="
+                                    font-size:13px;
+                                ">
+                                    ${escapeHTML(
+                                        item.category ||
+                                        "سایر"
+                                    )}
+                                </strong>
+
+                                <span style="
+                                    color:${statusColor};
+                                    font-size:10px;
+                                    font-weight:800;
+                                ">
+                                    ${statusText}
+                                </span>
+
+                            </div>
+
+                            <div style="
+                                color:var(--muted);
+                                font-size:11px;
+                                line-height:1.9;
+                            ">
+                                ${escapeHTML(
+                                    item.description ||
+                                    ""
+                                )}
+                            </div>
+
+                            ${
+                                item.reply
+                                ?
+                                `
+                                <div style="
+                                    margin-top:10px;
+                                    padding:11px;
+                                    border-radius:13px;
+                                    background:rgba(139,63,199,.08);
+                                    color:var(--text);
+                                    font-size:11px;
+                                    line-height:1.9;
+                                ">
+                                    <strong>
+                                        پاسخ پشتیبانی:
+                                    </strong>
+                                    <br>
+                                    ${escapeHTML(
+                                        item.reply
+                                    )}
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                        </div>
+                    `;
+
+                }
+            );
+
+
+            statusBox.innerHTML =
+                html +
+                `
+                    <button
+                        class="main-btn"
+                        onclick="showSupportForm()"
+                        type="button"
+                        style="margin-top:5px"
+                    >
+                        ثبت درخواست جدید
+                    </button>
+
+                    <button
+                        class="secondary-btn"
+                        onclick="backSupport()"
+                        type="button"
+                    >
+                        بازگشت
+                    </button>
                 `;
 
-            });
-
-            statusBox.innerHTML = html + `
-                <button
-                    class="main-btn"
-                    onclick="showSupportForm()"
-                    style="margin-top:5px"
-                >
-                    ثبت درخواست جدید
-                </button>
-
-                <button
-                    onclick="backSupport()"
-                    style="
-                        width:100%;
-                        margin-top:8px;
-                        height:40px;
-                        border:none;
-                        border-radius:12px;
-                        background:var(--bg);
-                        color:var(--muted);
-                    "
-                >
-                    بازگشت
-                </button>
-            `;
-
-        } catch (error) {
+        }
+        catch (error) {
 
             statusBox.innerHTML = `
                 <div style="
                     text-align:center;
                     padding:25px;
                     color:#ef4444;
+                    font-size:12px;
                 ">
                     دریافت اطلاعات انجام نشد.
                 </div>
@@ -2016,11 +2900,14 @@
                 <button
                     class="main-btn"
                     onclick="backSupport()"
+                    type="button"
                 >
                     بازگشت
                 </button>
             `;
+
         }
+
     }
 
 
@@ -2048,14 +2935,20 @@
 
         aiModal.classList.add("show");
 
-        setTimeout(function () {
-            aiInput.focus();
-        }, 250);
+        setTimeout(
+            function () {
+                aiInput.focus();
+            },
+            250
+        );
+
     }
 
 
     function closeAI() {
+
         aiModal.classList.remove("show");
+
     }
 
 
@@ -2067,7 +2960,8 @@
         bubble.className =
             "bubble " + type;
 
-        bubble.textContent = text;
+        bubble.textContent =
+            text;
 
         aiMessages.insertBefore(
             bubble,
@@ -2076,112 +2970,181 @@
 
         aiMessages.scrollTop =
             aiMessages.scrollHeight;
+
     }
 
 
     function quickAI(message) {
 
-        aiInput.value = message;
+        aiInput.value =
+            message;
 
         aiForm.dispatchEvent(
-            new Event("submit", {
-                bubbles: true,
-                cancelable: true
-            })
+            new Event(
+                "submit",
+                {
+                    bubbles: true,
+                    cancelable: true
+                }
+            )
         );
+
     }
 
 
-    aiForm.addEventListener("submit", async function (event) {
+    aiForm.addEventListener(
+        "submit",
+        async function (event) {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        const message =
-            aiInput.value.trim();
 
-        if (!message) return;
+            const message =
+                aiInput.value.trim();
 
-        addAIBubble(message, "user");
 
-        aiInput.value = "";
+            if (!message) return;
 
-        aiThinking.classList.add("show");
 
-        aiMessages.scrollTop =
-            aiMessages.scrollHeight;
+            addAIBubble(
+                message,
+                "user"
+            );
 
-        try {
 
-            const response =
-                await fetch("/ai/chat", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        message: message
-                    })
-                });
+            aiInput.value = "";
 
-            const data =
-                await response.json();
 
-            aiThinking.classList.remove("show");
+            aiThinking.classList.add(
+                "show"
+            );
 
-            if (!response.ok || !data.ok) {
+
+            aiMessages.scrollTop =
+                aiMessages.scrollHeight;
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/ai/chat",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+                            body:
+                                JSON.stringify({
+                                    message:
+                                        message
+                                })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                aiThinking.classList.remove(
+                    "show"
+                );
+
+
+                if (
+                    !response.ok ||
+                    !data.ok
+                ) {
+
+                    addAIBubble(
+                        data.answer ||
+                        "متأسفانه مشکلی پیش آمد.",
+                        "ai"
+                    );
+
+                    return;
+
+                }
+
 
                 addAIBubble(
-                    data.answer ||
-                    "متأسفانه مشکلی پیش آمد.",
+                    data.answer,
                     "ai"
                 );
 
-                return;
+            }
+            catch (error) {
+
+                aiThinking.classList.remove(
+                    "show"
+                );
+
+                addAIBubble(
+                    "ارتباط با دستیار برقرار نشد. دوباره امتحان کن.",
+                    "ai"
+                );
+
             }
 
-            addAIBubble(
-                data.answer,
-                "ai"
-            );
-
-        } catch (error) {
-
-            aiThinking.classList.remove("show");
-
-            addAIBubble(
-                "ارتباط با دستیار برقرار نشد. دوباره امتحان کن.",
-                "ai"
-            );
         }
-
-    });
+    );
 
 
     /* =========================
        CLOSE MODALS
     ========================= */
 
-    document.addEventListener("click", function (event) {
+    document.addEventListener(
+        "click",
+        function (event) {
 
-        if (event.target === supportModal) {
-            closeSupport();
+            if (
+                event.target ===
+                supportModal
+            ) {
+                closeSupport();
+            }
+
+            if (
+                event.target ===
+                aiModal
+            ) {
+                closeAI();
+            }
+
         }
+    );
 
-        if (event.target === aiModal) {
-            closeAI();
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key ===
+                "Escape"
+            ) {
+
+                closeSupport();
+                closeAI();
+
+                const popup =
+                    document.getElementById(
+                        "filterPopup"
+                    );
+
+                if (popup) {
+                    popup.classList.remove(
+                        "show"
+                    );
+                }
+
+            }
+
         }
-
-    });
-
-
-    document.addEventListener("keydown", function (event) {
-
-        if (event.key === "Escape") {
-            closeSupport();
-            closeAI();
-        }
-
-    });
+    );
 
 
     /* =========================
@@ -2191,13 +3154,19 @@
     function escapeHTML(value) {
 
         const div =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         div.textContent =
-            value == null ? "" : String(value);
+            value == null
+                ? ""
+                : String(value);
 
         return div.innerHTML;
+
     }
+
 </script>
 
 </body>

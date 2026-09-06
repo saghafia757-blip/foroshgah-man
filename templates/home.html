@@ -4,54 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="google-site-verification" content="dID1AB5v2MoCxbie9Oz0-pr4FCktPRoMyl6NX2VtBhI">
+    <title>فروشگاه من | خرید آنلاین</title>
     <meta name="description" content="فروشگاه من؛ خرید آنلاین محصولات با بهترین پیشنهادها و قیمت مناسب.">
     <meta name="robots" content="index, follow">
-
-    <title>فروشگاه من | خرید آنلاین</title>
+    <meta name="google-site-verification" content="dID1AB5v2MoCxbie9Oz0-pr4FCktPRoMyl6NX2VtBhI">
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
 
         :root {
-            --bg: #f5f6f8;
-            --card: #ffffff;
-            --text: #222222;
-            --muted: #555555;
-            --border: #eeeeee;
-            --input: #f1f2f4;
-            --action: #f7f7f7;
-            --hover: #eeeeee;
-            --pink: #e91e63;
-            --pink-dark: #d81b60;
-            --footer: #202124;
+            --bg: #faf8ff;
+            --card: rgba(255,255,255,.82);
+            --card-solid: #ffffff;
+            --text: #241d35;
+            --muted: #766d86;
+            --primary: #9d4edd;
+            --primary-2: #c026d3;
+            --pink: #ec4899;
+            --border: rgba(157,78,221,.13);
+            --shadow: 0 18px 55px rgba(82,45,115,.10);
+            --radius: 24px;
         }
 
-        body.dark {
-            --bg: #121212;
-            --card: #1e1e1e;
-            --text: #f1f1f1;
-            --muted: #bdbdbd;
-            --border: #333333;
-            --input: #292929;
-            --action: #292929;
-            --hover: #383838;
-            --footer: #0b0b0b;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            margin: 0;
-            font-family: Tahoma, Arial, sans-serif;
-            background: var(--bg);
+            font-family: "Vazirmatn", Tahoma, sans-serif;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(236,72,153,.10), transparent 28%),
+                radial-gradient(circle at 90% 15%, rgba(157,78,221,.12), transparent 30%),
+                var(--bg);
             color: var(--text);
-            transition: background .25s, color .25s;
+            min-height: 100vh;
+            transition: .3s;
+        }
+
+        body.dark {
+            --bg: #110d18;
+            --card: rgba(29,21,39,.84);
+            --card-solid: #1d1527;
+            --text: #f8f3ff;
+            --muted: #aaa0b8;
+            --border: rgba(255,255,255,.09);
+            --shadow: 0 20px 60px rgba(0,0,0,.30);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(236,72,153,.10), transparent 28%),
+                radial-gradient(circle at 90% 15%, rgba(157,78,221,.12), transparent 30%),
+                var(--bg);
         }
 
         a {
-            text-decoration: none;
             color: inherit;
+            text-decoration: none;
         }
 
         button,
@@ -61,1134 +73,989 @@
             font-family: inherit;
         }
 
-        .container {
-            width: 92%;
-            max-width: 1250px;
-            margin: auto;
+        button {
+            cursor: pointer;
         }
 
+        /* HEADER */
         header {
-            background: var(--card);
-            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            z-index: 100;
-            transition: background .25s, border .25s;
+            z-index: 1000;
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            background: rgba(250,248,255,.78);
+            border-bottom: 1px solid var(--border);
         }
 
-        .topbar {
-            min-height: 72px;
+        body.dark header {
+            background: rgba(17,13,24,.78);
+        }
+
+        .nav {
+            max-width: 1250px;
+            margin: auto;
+            min-height: 76px;
+            padding: 12px 20px;
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 18px;
         }
 
         .logo {
-            font-size: 25px;
-            font-weight: bold;
-            color: var(--pink);
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 22px;
+            font-weight: 900;
             white-space: nowrap;
+        }
+
+        .logo-icon {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            color: white;
+            background: linear-gradient(135deg, var(--pink), var(--primary));
+            box-shadow: 0 10px 25px rgba(157,78,221,.28);
         }
 
         .search {
             flex: 1;
+            max-width: 520px;
+            margin: auto;
+            position: relative;
         }
 
         .search input {
             width: 100%;
-            border: none;
-            background: var(--input);
-            color: var(--text);
-            padding: 15px 20px;
-            border-radius: 12px;
-            font-size: 14px;
+            height: 46px;
+            border: 1px solid var(--border);
             outline: none;
+            border-radius: 16px;
+            padding: 0 48px 0 16px;
+            color: var(--text);
+            background: var(--card);
+            transition: .25s;
         }
 
-        .search input::placeholder {
+        .search input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(157,78,221,.09);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 17px;
+            top: 50%;
+            transform: translateY(-50%);
             color: var(--muted);
         }
 
-        .actions {
+        .nav-actions {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .action {
-            padding: 11px 15px;
-            border-radius: 10px;
-            background: var(--action);
-            font-size: 14px;
-            transition: background .2s;
-        }
-
-        .action:hover {
-            background: var(--hover);
-        }
-
-        .cart {
-            background: var(--pink);
-            color: white;
-        }
-
-        .cart:hover {
-            background: var(--pink-dark);
-        }
-
-        .theme-toggle {
-            border: none;
-            cursor: pointer;
-            padding: 10px 13px;
-            border-radius: 10px;
-            background: var(--action);
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--card);
             color: var(--text);
-            font-size: 18px;
-            transition: .2s;
+            display: grid;
+            place-items: center;
+            font-size: 19px;
+            transition: .25s;
         }
 
-        .theme-toggle:hover {
-            background: var(--hover);
-            transform: scale(1.05);
+        .icon-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
-        /* =========================
-           فیلتر
-           ========================= */
-
-        .filter-wrapper {
+        .cart-btn {
             position: relative;
         }
 
-        .filter-toggle {
-            border: none;
-            cursor: pointer;
-            padding: 11px 15px;
-            border-radius: 10px;
-            background: var(--action);
-            color: var(--text);
-            font-family: inherit;
-            font-size: 14px;
-            transition: background .2s;
-            white-space: nowrap;
-        }
-
-        .filter-toggle:hover {
-            background: var(--hover);
-        }
-
-        .filter-menu {
-            display: none;
+        .cart-count {
             position: absolute;
-            top: calc(100% + 10px);
-            right: 0;
-            width: 310px;
-            background: var(--card);
+            top: -5px;
+            left: -5px;
+            min-width: 19px;
+            height: 19px;
+            padding: 0 5px;
+            display: grid;
+            place-items: center;
+            border-radius: 50px;
+            color: white;
+            background: var(--pink);
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        /* NAV LINKS */
+        .category-nav {
+            max-width: 1250px;
+            margin: auto;
+            padding: 0 20px 13px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .category-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-nav a {
+            flex: 0 0 auto;
+            padding: 8px 15px;
             border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,.15);
-            z-index: 300;
-        }
-
-        .filter-menu.show {
-            display: block;
-        }
-
-        .filter-menu h3 {
-            margin: 0 0 15px;
-            font-size: 16px;
-        }
-
-        .filter-menu label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 13px;
+            border-radius: 50px;
             color: var(--muted);
+            background: var(--card);
+            font-size: 13px;
+            font-weight: 600;
+            transition: .25s;
         }
 
-        .filter-menu input,
-        .filter-menu select {
-            width: 100%;
+        .category-nav a:hover {
+            color: white;
+            background: linear-gradient(135deg,var(--pink),var(--primary));
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        /* HERO */
+        .hero {
+            max-width: 1250px;
+            margin: 35px auto 0;
+            padding: 0 20px;
+        }
+
+        .hero-box {
+            min-height: 370px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 34px;
+            padding: 55px;
+            display: flex;
+            align-items: center;
+            background:
+                radial-gradient(circle at 85% 20%, rgba(255,255,255,.28), transparent 25%),
+                linear-gradient(135deg,#8b3fc7,#c026d3 48%,#ec4899);
+            color: white;
+            box-shadow: 0 28px 70px rgba(157,78,221,.23);
+        }
+
+        .hero-box::before,
+        .hero-box::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,.10);
+        }
+
+        .hero-box::before {
+            width: 330px;
+            height: 330px;
+            left: -90px;
+            bottom: -170px;
+        }
+
+        .hero-box::after {
+            width: 220px;
+            height: 220px;
+            right: 10%;
+            bottom: -130px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 650px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            padding: 8px 15px;
+            border: 1px solid rgba(255,255,255,.25);
+            border-radius: 50px;
+            background: rgba(255,255,255,.13);
+            backdrop-filter: blur(10px);
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: clamp(30px,5vw,55px);
+            line-height: 1.25;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 16px;
+            line-height: 2;
+            opacity: .92;
+            max-width: 580px;
+        }
+
+        .hero-buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 14px;
+            font-weight: 700;
+            transition: .25s;
+        }
+
+        .hero-btn.primary {
+            background: white;
+            color: #8b3fc7;
+        }
+
+        .hero-btn.secondary {
+            color: white;
+            background: rgba(255,255,255,.14);
+            border: 1px solid rgba(255,255,255,.25);
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* SECTION */
+        .section {
+            max-width: 1250px;
+            margin: 55px auto 0;
+            padding: 0 20px;
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .section-title {
+            font-size: 25px;
+            font-weight: 900;
+        }
+
+        .section-subtitle {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        /* CATEGORIES */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(6,1fr);
+            gap: 14px;
+        }
+
+        .category-card {
+            min-height: 130px;
+            padding: 18px 10px;
+            border-radius: 22px;
             border: 1px solid var(--border);
-            background: var(--input);
-            color: var(--text);
-            padding: 10px;
-            border-radius: 9px;
-            outline: none;
-            margin-bottom: 12px;
+            background: var(--card);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: .3s;
         }
 
-        .filter-price {
+        .category-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(157,78,221,.28);
+        }
+
+        .category-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            font-size: 25px;
+            color: white;
+            background: linear-gradient(135deg,var(--pink),var(--primary));
+            box-shadow: 0 10px 25px rgba(157,78,221,.20);
+        }
+
+        .category-card span {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* FILTER */
+        .filter-wrap {
+            position: relative;
+        }
+
+        .filter-btn {
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            color: var(--text);
+            background: var(--card);
+            font-weight: 700;
+        }
+
+        .filter-popup {
+            position: absolute;
+            z-index: 50;
+            top: calc(100% + 10px);
+            left: 0;
+            width: 285px;
+            padding: 18px;
+            border-radius: 22px;
+            border: 1px solid var(--border);
+            background: var(--card-solid);
+            box-shadow: 0 25px 60px rgba(40,20,60,.20);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: .25s;
+        }
+
+        .filter-popup.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .filter-popup label {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .filter-popup input,
+        .filter-popup select {
+            width: 100%;
+            height: 42px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            padding: 0 11px;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .price-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
         }
 
-        .filter-button {
+        .apply-filter {
             width: 100%;
             border: none;
-            cursor: pointer;
-            background: var(--pink);
+            border-radius: 12px;
+            height: 43px;
             color: white;
-            padding: 11px;
-            border-radius: 9px;
-            font-size: 14px;
+            font-weight: 800;
+            background: linear-gradient(135deg,var(--pink),var(--primary));
         }
 
-        .filter-button:hover {
-            background: var(--pink-dark);
-        }
-
-        .filter-reset {
-            display: block;
-            text-align: center;
-            margin-top: 9px;
-            color: var(--pink);
-            font-size: 13px;
-        }
-
-        .nav-inner {
-            display: flex;
-            gap: 25px;
-            padding: 12px 0;
-            font-size: 14px;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .nav-inner a:hover {
-            color: var(--pink);
-        }
-
-        /* =========================
-           هیرو
-           ========================= */
-
-        .hero {
-            margin-top: 22px;
-            min-height: 270px;
-            border-radius: 20px;
-            padding: 45px;
-            background: linear-gradient(135deg, #e91e63, #7b1fa2);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            overflow: hidden;
-        }
-
-        .hero h1 {
-            margin: 0 0 15px;
-            font-size: 36px;
-        }
-
-        .hero p {
-            font-size: 17px;
-            opacity: .9;
-        }
-
-        .hero-button {
-            display: inline-block;
-            background: white;
-            color: #e91e63;
-            padding: 13px 25px;
-            border-radius: 10px;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        .hero-button:hover {
-            background: #f7f7f7;
-        }
-
-        .hero-icon {
-            font-size: 110px;
-            opacity: .25;
-        }
-
-        .section {
-            margin-top: 35px;
-        }
-
-        .section-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-        }
-
-        .section-title h2 {
-            margin: 0;
-            font-size: 22px;
-        }
-
-        .section-title a {
-            color: var(--pink);
-            font-size: 14px;
-        }
-
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 15px;
-        }
-
-        .category {
-            background: var(--card);
-            border-radius: 15px;
-            padding: 25px 10px;
-            text-align: center;
-            transition: .2s;
-        }
-
-        .category:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0,0,0,.15);
-        }
-
-        .category-icon {
-            font-size: 35px;
-            margin-bottom: 12px;
-        }
-
+        /* PRODUCTS */
         .products {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4,1fr);
             gap: 18px;
         }
 
-        .product {
+        .product-card {
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border);
+            border-radius: 24px;
             background: var(--card);
-            border-radius: 15px;
-            padding: 15px;
-            transition: .2s;
+            box-shadow: var(--shadow);
+            transition: .3s;
         }
 
-        .product:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0,0,0,.15);
+        .product-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 25px 65px rgba(82,45,115,.16);
         }
 
         .product-image {
-            height: 190px;
-            border-radius: 12px;
-            background: var(--input);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 65px;
-            margin-bottom: 15px;
+            height: 215px;
+            position: relative;
             overflow: hidden;
+            background: linear-gradient(135deg,#f5e8ff,#ffe7f3);
+        }
+
+        body.dark .product-image {
+            background: linear-gradient(135deg,#281d34,#301a2c);
         }
 
         .product-image img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
+            transition: .45s;
         }
 
-        .product h3 {
+        .product-card:hover .product-image img {
+            transform: scale(1.06);
+        }
+
+        .product-info {
+            padding: 17px;
+        }
+
+        .product-name {
+            min-height: 50px;
             font-size: 15px;
             line-height: 1.8;
-            margin: 5px 0 15px;
-            min-height: 50px;
+            font-weight: 800;
+        }
+
+        .product-bottom {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
         }
 
         .price {
-            font-weight: bold;
-            font-size: 17px;
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--primary);
         }
 
-        .currency {
-            font-size: 12px;
-            font-weight: normal;
-        }
-
-        .buy-button {
-            display: block;
-            text-align: center;
-            background: var(--pink);
-            color: white;
-            padding: 10px;
-            border-radius: 9px;
-            margin-top: 12px;
-        }
-
-        .buy-button:hover {
-            background: var(--pink-dark);
-        }
-
-        .ads {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-
-        .ad {
-            background: var(--card);
-            border-radius: 15px;
-            padding: 25px;
-            min-height: 130px;
-            border-right: 5px solid var(--pink);
-        }
-
-        .ad h3 {
-            margin-top: 0;
-        }
-
-        .ad p {
-            line-height: 1.8;
+        .price small {
+            font-size: 10px;
             color: var(--muted);
         }
 
-        /* =========================
-           فوتر
-           ========================= */
-
-        footer {
-            margin-top: 50px;
-            background: var(--footer);
+        .buy-btn {
+            padding: 9px 12px;
+            border: none;
+            border-radius: 11px;
             color: white;
-            padding: 35px 0;
+            background: linear-gradient(135deg,var(--pink),var(--primary));
+            font-size: 12px;
+            font-weight: 800;
         }
 
-        .footer-grid {
+        .buy-btn:hover {
+            box-shadow: 0 8px 20px rgba(157,78,221,.25);
+        }
+
+        /* ADS */
+        .ads {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            grid-template-columns: repeat(2,1fr);
+            gap: 16px;
         }
 
-        footer h3 {
-            margin-top: 0;
+        .ad-card {
+            padding: 24px;
+            border-radius: 24px;
+            color: white;
+            background: linear-gradient(135deg,#8b3fc7,#ec4899);
+            box-shadow: var(--shadow);
         }
 
-        footer p {
-            color: #ccc;
+        .ad-card h3 {
+            font-size: 19px;
+            margin-bottom: 7px;
+        }
+
+        .ad-card p {
+            font-size: 13px;
+            line-height: 1.9;
+            opacity: .9;
+        }
+
+        /* EMPTY */
+        .empty {
+            grid-column: 1/-1;
+            padding: 55px 20px;
+            text-align: center;
+            border: 1px dashed var(--border);
+            border-radius: 24px;
+            color: var(--muted);
+        }
+
+        .empty-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 80px;
+            padding: 45px 20px 25px;
+            border-top: 1px solid var(--border);
+            background: rgba(255,255,255,.35);
+        }
+
+        body.dark footer {
+            background: rgba(0,0,0,.10);
+        }
+
+        .footer-inner {
+            max-width: 1250px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 35px;
+        }
+
+        .footer-brand {
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            max-width: 480px;
+            color: var(--muted);
+            font-size: 13px;
             line-height: 2;
         }
 
-        .support-link {
-            cursor: pointer;
-            transition: .2s;
+        footer h4 {
+            margin-bottom: 12px;
         }
 
-        .support-link:hover {
-            color: white;
+        footer a {
+            display: block;
+            color: var(--muted);
+            font-size: 13px;
+            margin: 8px 0;
         }
 
-        /* =========================
-           پشتیبانی آنلاین
-           ========================= */
+        footer a:hover {
+            color: var(--primary);
+        }
 
-        .support-button {
+        .copyright {
+            max-width: 1250px;
+            margin: 35px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* FLOATING BUTTONS */
+        .floating {
             position: fixed;
-            left: 25px;
-            bottom: 25px;
-            width: 66px;
-            height: 66px;
-            border-radius: 50%;
-            border: none;
-            background: linear-gradient(135deg, #e91e63, #7b1fa2);
-            color: white;
-            cursor: pointer;
+            left: 20px;
+            bottom: 20px;
             z-index: 900;
-            font-size: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,.25);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .float-btn {
+            width: 58px;
+            height: 58px;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            background: linear-gradient(135deg,var(--pink),var(--primary));
+            box-shadow: 0 14px 35px rgba(157,78,221,.32);
+            font-size: 22px;
             transition: .3s;
         }
 
-        .support-button:hover {
-            transform: scale(1.1) rotate(-5deg);
-            box-shadow: 0 14px 35px rgba(0,0,0,.35);
+        .float-btn:hover {
+            transform: scale(1.08) rotate(3deg);
         }
 
         .support-status {
             position: absolute;
-            right: 3px;
-            top: 3px;
-            width: 14px;
-            height: 14px;
+            width: 11px;
+            height: 11px;
+            right: 2px;
+            top: 2px;
+            border: 2px solid white;
             border-radius: 50%;
-            background: #35d46f;
-            border: 3px solid white;
+            background: #22c55e;
         }
 
-        .support-modal {
-            display: none;
+        /* MODALS */
+        .modal {
             position: fixed;
             inset: 0;
-            z-index: 1000;
-            background: rgba(0,0,0,.55);
-            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-        }
-
-        .support-modal.show {
-            display: flex;
-            animation: supportFade .25s ease;
-        }
-
-        @keyframes supportFade {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .support-box {
-            width: 100%;
-            max-width: 470px;
-            max-height: 90vh;
-            overflow-y: auto;
-            background: var(--card);
-            color: var(--text);
-            border-radius: 24px;
-            box-shadow: 0 25px 70px rgba(0,0,0,.35);
-            animation: supportUp .35s ease;
-        }
-
-        @keyframes supportUp {
-            from {
-                opacity: 0;
-                transform: translateY(35px) scale(.95);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .support-head {
-            padding: 22px;
-            background: linear-gradient(135deg, #e91e63, #7b1fa2);
-            color: white;
-            border-radius: 24px 24px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .support-head h2 {
-            margin: 0;
-            font-size: 20px;
-        }
-
-        .support-head p {
-            margin: 7px 0 0;
-            opacity: .9;
-            font-size: 12px;
-        }
-
-        .support-close {
-            border: none;
-            background: rgba(255,255,255,.18);
-            color: white;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 22px;
-        }
-
-        .support-content {
-            padding: 22px;
-        }
-
-        .support-label {
-            display: block;
-            margin-bottom: 7px;
-            font-size: 13px;
-            color: var(--muted);
-        }
-
-        .support-content input,
-        .support-content select,
-        .support-content textarea {
-            width: 100%;
-            border: 1px solid var(--border);
-            background: var(--input);
-            color: var(--text);
-            border-radius: 11px;
-            padding: 12px;
-            outline: none;
-            margin-bottom: 15px;
-            font-size: 13px;
-        }
-
-        .support-content textarea {
-            min-height: 110px;
-            resize: vertical;
-            line-height: 1.8;
-        }
-
-        .support-submit {
-            width: 100%;
-            border: none;
-            background: var(--pink);
-            color: white;
-            padding: 13px;
-            border-radius: 11px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .support-submit:hover {
-            background: var(--pink-dark);
-        }
-
-        .support-info {
-            background: var(--input);
-            border-radius: 13px;
-            padding: 14px;
-            margin-bottom: 15px;
-            line-height: 2;
-            font-size: 13px;
-        }
-
-        .support-info strong {
-            color: var(--pink);
-        }
-
-        .support-status-box {
-            padding: 10px 14px;
-            border-radius: 10px;
-            background: rgba(233,30,99,.1);
-            color: var(--pink);
-            margin-bottom: 15px;
-            font-size: 13px;
-        }
-
-        .support-chat {
-            height: 250px;
-            overflow-y: auto;
-            padding: 10px;
-            background: var(--input);
-            border-radius: 14px;
-            margin-bottom: 12px;
-        }
-
-        .chat-message {
-            margin-bottom: 12px;
-            display: flex;
-        }
-
-        .chat-message.customer {
-            justify-content: flex-start;
-        }
-
-        .chat-message.admin {
-            justify-content: flex-end;
-        }
-
-        .chat-bubble {
-            max-width: 80%;
-            padding: 10px 13px;
-            border-radius: 13px;
-            font-size: 13px;
-            line-height: 1.8;
-        }
-
-        .customer .chat-bubble {
-            background: var(--card);
-            border: 1px solid var(--border);
-        }
-
-        .admin .chat-bubble {
-            background: var(--pink);
-            color: white;
-        }
-
-        .chat-time {
-            display: block;
-            font-size: 9px;
-            opacity: .65;
-            margin-top: 3px;
-        }
-
-        .chat-form {
-            display: flex;
-            gap: 8px;
-        }
-
-        .chat-form input {
-            margin: 0;
-            flex: 1;
-        }
-
-        .chat-form button {
-            width: 50px;
-            border: none;
-            border-radius: 11px;
-            background: var(--pink);
-            color: white;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        .resolved-box {
-            text-align: center;
-            padding: 25px 10px;
-            background: rgba(53,212,111,.1);
-            border-radius: 14px;
-            color: #28a957;
-            line-height: 2;
-        }
-
-        .support-loading {
-            text-align: center;
-            padding: 25px;
-            color: var(--muted);
-        }
-
-        /* =========================
-           هوش مصنوعی
-           فقط ظاهر پنجره AI
-           ========================= */
-
-        .ai-button {
-            position: fixed;
-            right: 25px;
-            bottom: 25px;
-            width: 66px;
-            height: 66px;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 890;
-            color: white;
-            background: linear-gradient(135deg, #e91e63, #7b1fa2);
-            box-shadow: 0 10px 30px rgba(0,0,0,.25);
-            font-size: 29px;
+            padding: 18px;
+            background: rgba(15,8,22,.58);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            visibility: hidden;
             transition: .3s;
         }
 
-        .ai-button:hover {
-            transform: scale(1.1) rotate(4deg);
-            box-shadow: 0 14px 35px rgba(0,0,0,.35);
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
         }
 
-        .ai-button::after {
-            content: "AI";
-            position: absolute;
-            left: -3px;
-            top: -3px;
-            min-width: 25px;
-            height: 25px;
-            padding: 0 4px;
-            border-radius: 20px;
-            background: white;
-            color: var(--pink);
-            font-size: 10px;
-            font-weight: bold;
+        .modal-box {
+            width: min(500px,100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 22px;
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            background: var(--card-solid);
+            box-shadow: 0 30px 90px rgba(0,0,0,.25);
+            transform: scale(.92) translateY(15px);
+            transition: .3s;
+        }
+
+        .modal.show .modal-box {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-head {
             display: flex;
             align-items: center;
-            justify-content: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,.15);
+            justify-content: space-between;
+            margin-bottom: 18px;
         }
 
-        .ai-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 1100;
-            background: rgba(15,15,20,.48);
-            backdrop-filter: blur(7px);
-            -webkit-backdrop-filter: blur(7px);
-            align-items: flex-end;
-            justify-content: flex-end;
-            padding: 25px;
+        .modal-head h3 {
+            font-size: 20px;
         }
 
-        .ai-modal.show {
-            display: flex;
-            animation: aiFade .25s ease;
-        }
-
-        @keyframes aiFade {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .ai-box {
-            width: 100%;
-            max-width: 430px;
-            height: min(650px, 88vh);
-            border-radius: 25px;
-            overflow: hidden;
-            color: var(--text);
-            background: rgba(255,255,255,.82);
-            border: 1px solid rgba(255,255,255,.55);
-            box-shadow:
-                0 25px 80px rgba(0,0,0,.35),
-                inset 0 1px 0 rgba(255,255,255,.7);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            display: flex;
-            flex-direction: column;
-            animation: aiOpen .35s cubic-bezier(.2,.8,.2,1);
-        }
-
-        body.dark .ai-box {
-            background: rgba(30,30,30,.86);
-            border-color: rgba(255,255,255,.1);
-        }
-
-        @keyframes aiOpen {
-            from {
-                opacity: 0;
-                transform: translateY(35px) scale(.92);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .ai-modal.closing .ai-box {
-            animation: aiClose .22s ease forwards;
-        }
-
-        @keyframes aiClose {
-            from {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-
-            to {
-                opacity: 0;
-                transform: translateY(25px) scale(.94);
-            }
-        }
-
-        .ai-head {
-            flex-shrink: 0;
-            padding: 17px 18px;
-            background: linear-gradient(135deg, #e91e63, #7b1fa2);
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .ai-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 15px;
-            background: rgba(255,255,255,.18);
-            border: 1px solid rgba(255,255,255,.25);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
-        }
-
-        .ai-head-text {
-            flex: 1;
-        }
-
-        .ai-head-text h2 {
-            margin: 0;
-            font-size: 17px;
-        }
-
-        .ai-head-text p {
-            margin: 4px 0 0;
-            font-size: 11px;
-            opacity: .9;
-        }
-
-        .ai-close {
+        .close {
             width: 37px;
             height: 37px;
             border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            color: white;
-            background: rgba(255,255,255,.16);
-            font-size: 21px;
-            transition: .2s;
+            border-radius: 11px;
+            color: var(--muted);
+            background: var(--bg);
+            font-size: 18px;
         }
 
-        .ai-close:hover {
-            background: rgba(255,255,255,.28);
-            transform: rotate(90deg);
+        .form-group {
+            margin-bottom: 13px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            outline: none;
+            border-radius: 13px;
+            padding: 11px;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .main-btn {
+            width: 100%;
+            height: 46px;
+            border: none;
+            border-radius: 13px;
+            color: white;
+            background: linear-gradient(135deg,var(--pink),var(--primary));
+            font-weight: 800;
+        }
+
+        /* SUPPORT */
+        .support-menu {
+            display: grid;
+            gap: 10px;
+        }
+
+        .support-option {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            text-align: right;
+            color: var(--text);
+            background: var(--bg);
+            transition: .25s;
+        }
+
+        .support-option:hover {
+            transform: translateX(-4px);
+            border-color: var(--primary);
+        }
+
+        .support-option strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .support-option span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* AI */
+        .ai-box {
+            width: min(520px,100%);
+            height: min(680px,90vh);
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ai-header {
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            background: linear-gradient(135deg,var(--pink),var(--primary));
+        }
+
+        .ai-avatar {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            background: rgba(255,255,255,.18);
+            font-size: 21px;
+        }
+
+        .ai-title {
+            flex: 1;
+        }
+
+        .ai-title strong {
+            display: block;
+        }
+
+        .ai-title span {
+            font-size: 10px;
+            opacity: .8;
+        }
+
+        .ai-header .close {
+            color: white;
+            background: rgba(255,255,255,.13);
         }
 
         .ai-messages {
             flex: 1;
             overflow-y: auto;
             padding: 18px;
-            scroll-behavior: smooth;
-        }
-
-        .ai-welcome {
-            text-align: center;
-            padding: 18px 5px 12px;
-        }
-
-        .ai-welcome-icon {
-            width: 65px;
-            height: 65px;
-            margin: auto;
-            border-radius: 22px;
-            background: linear-gradient(135deg, #e91e63, #7b1fa2);
-            color: white;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            box-shadow: 0 10px 25px rgba(123,31,162,.22);
+            flex-direction: column;
+            gap: 11px;
+            background: var(--bg);
         }
 
-        .ai-welcome h3 {
-            margin: 14px 0 7px;
-            font-size: 17px;
-        }
-
-        .ai-welcome p {
-            margin: 0;
-            color: var(--muted);
-            font-size: 12px;
-            line-height: 1.9;
-        }
-
-        .ai-quick {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 7px;
-            margin-top: 16px;
-            justify-content: center;
-        }
-
-        .ai-quick button {
-            border: 1px solid rgba(233,30,99,.25);
-            background: rgba(233,30,99,.07);
-            color: var(--pink);
-            border-radius: 20px;
-            padding: 8px 11px;
-            cursor: pointer;
-            font-size: 11px;
-            transition: .2s;
-        }
-
-        .ai-quick button:hover {
-            background: var(--pink);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .ai-message {
-            display: flex;
-            margin: 9px 0;
-        }
-
-        .ai-message.user {
-            justify-content: flex-start;
-        }
-
-        .ai-message.bot {
-            justify-content: flex-end;
-        }
-
-        .ai-bubble {
+        .bubble {
             max-width: 82%;
-            padding: 10px 13px;
+            padding: 11px 14px;
             border-radius: 17px;
-            font-size: 12px;
+            font-size: 13px;
             line-height: 1.9;
             white-space: pre-line;
-            word-break: break-word;
         }
 
-        .ai-message.user .ai-bubble {
-            background: var(--card);
-            border: 1px solid var(--border);
+        .bubble.ai {
+            align-self: flex-start;
             border-bottom-right-radius: 5px;
+            background: var(--card-solid);
+            border: 1px solid var(--border);
         }
 
-        .ai-message.bot .ai-bubble {
-            color: white;
-            background: linear-gradient(135deg, #e91e63, #7b1fa2);
+        .bubble.user {
+            align-self: flex-end;
             border-bottom-left-radius: 5px;
-            box-shadow: 0 6px 18px rgba(123,31,162,.15);
+            color: white;
+            background: linear-gradient(135deg,var(--pink),var(--primary));
         }
 
-        .ai-thinking {
-            display: flex;
-            justify-content: flex-end;
-            margin: 9px 0;
-        }
-
-        .ai-thinking-bubble {
+        .thinking {
+            display: none;
+            align-self: flex-start;
             padding: 10px 14px;
             border-radius: 17px;
-            border-bottom-left-radius: 5px;
-            background: linear-gradient(135deg, #e91e63, #7b1fa2);
-            color: white;
+            color: var(--muted);
+            background: var(--card-solid);
             font-size: 12px;
         }
 
-        .ai-dots {
-            display: inline-flex;
-            gap: 3px;
-            margin-right: 6px;
-            direction: ltr;
+        .thinking.show {
+            display: block;
+            animation: pulse 1s infinite;
         }
 
-        .ai-dots span {
-            width: 5px;
-            height: 5px;
-            background: white;
-            border-radius: 50%;
-            animation: aiDot 1.2s infinite;
+        @keyframes pulse {
+            50% { opacity: .45; }
         }
 
-        .ai-dots span:nth-child(2) {
-            animation-delay: .15s;
+        .quick-actions {
+            padding: 10px 14px;
+            display: flex;
+            gap: 7px;
+            overflow-x: auto;
+            border-top: 1px solid var(--border);
         }
 
-        .ai-dots span:nth-child(3) {
-            animation-delay: .3s;
-        }
-
-        @keyframes aiDot {
-            0%, 60%, 100% {
-                opacity: .35;
-                transform: translateY(0);
-            }
-
-            30% {
-                opacity: 1;
-                transform: translateY(-3px);
-            }
-        }
-
-        .ai-input-area {
-            flex-shrink: 0;
-            padding: 12px;
-            border-top: 1px solid rgba(128,128,128,.15);
-            background: rgba(255,255,255,.28);
-        }
-
-        body.dark .ai-input-area {
-            background: rgba(0,0,0,.12);
+        .quick-actions button {
+            flex: 0 0 auto;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            color: var(--primary);
+            background: var(--card-solid);
+            font-size: 11px;
         }
 
         .ai-form {
+            padding: 12px;
             display: flex;
-            align-items: center;
-            gap: 7px;
-            padding: 5px;
-            border-radius: 15px;
-            background: var(--input);
-            border: 1px solid var(--border);
+            gap: 8px;
+            border-top: 1px solid var(--border);
+            background: var(--card-solid);
         }
 
         .ai-form input {
             flex: 1;
+            height: 44px;
             min-width: 0;
-            border: none;
+            border: 1px solid var(--border);
             outline: none;
-            background: transparent;
+            border-radius: 13px;
+            padding: 0 13px;
+            background: var(--bg);
             color: var(--text);
-            padding: 10px;
-            font-size: 12px;
-        }
-
-        .ai-form input::placeholder {
-            color: var(--muted);
         }
 
         .ai-send {
-            flex-shrink: 0;
-            width: 42px;
-            height: 42px;
+            width: 46px;
+            height: 44px;
             border: none;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #e91e63, #7b1fa2);
+            border-radius: 13px;
             color: white;
-            cursor: pointer;
-            font-size: 18px;
-            transition: .2s;
+            background: linear-gradient(135deg,var(--pink),var(--primary));
         }
 
-        .ai-send:hover {
-            transform: scale(1.05);
-        }
-
-        .ai-send:disabled {
-            opacity: .55;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .ai-note {
-            text-align: center;
-            margin-top: 6px;
-            color: var(--muted);
-            font-size: 9px;
-        }
-
-        @media (max-width: 900px) {
-
+        /* RESPONSIVE */
+        @media (max-width: 1000px) {
             .products {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(3,1fr);
             }
 
             .categories {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .hero-icon {
-                display: none;
+                grid-template-columns: repeat(3,1fr);
             }
         }
 
-        @media (max-width: 600px) {
-
-            .topbar {
+        @media (max-width: 750px) {
+            .nav {
                 flex-wrap: wrap;
-                padding: 12px 0;
+            }
+
+            .logo {
+                order: 1;
+            }
+
+            .nav-actions {
+                order: 2;
+                margin-right: auto;
             }
 
             .search {
                 order: 3;
                 flex-basis: 100%;
+                max-width: none;
             }
 
-            .actions .action:first-child {
-                display: none;
+            .hero-box {
+                padding: 35px 25px;
+                min-height: 330px;
             }
 
-            .filter-menu {
-                position: fixed;
-                top: 80px;
-                right: 4%;
-                left: 4%;
-                width: auto;
+            .products {
+                grid-template-columns: repeat(2,1fr);
             }
 
+            .footer-inner {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-inner > div:first-child {
+                grid-column: 1/-1;
+            }
+        }
+
+        @media (max-width: 480px) {
             .hero {
-                padding: 30px 20px;
-                min-height: 230px;
+                margin-top: 20px;
+            }
+
+            .hero-box {
+                border-radius: 25px;
+                padding: 28px 20px;
             }
 
             .hero h1 {
-                font-size: 27px;
+                font-size: 29px;
+            }
+
+            .section {
+                margin-top: 40px;
+            }
+
+            .categories {
+                grid-template-columns: repeat(2,1fr);
             }
 
             .products {
@@ -1196,56 +1063,48 @@
                 gap: 10px;
             }
 
-            .categories {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
+            .product-image {
+                height: 155px;
             }
 
-            .category {
-                padding: 15px 5px;
+            .product-info {
+                padding: 11px;
+            }
+
+            .product-name {
+                font-size: 12px;
+                min-height: 44px;
+            }
+
+            .price {
                 font-size: 12px;
             }
 
-            .product-image {
-                height: 140px;
-                font-size: 45px;
+            .buy-btn {
+                padding: 7px 8px;
+                font-size: 10px;
             }
 
-            .ads,
-            .footer-grid {
+            .ads {
                 grid-template-columns: 1fr;
             }
 
-            .support-button {
-                left: 17px;
-                bottom: 17px;
-                width: 58px;
-                height: 58px;
-                font-size: 27px;
+            .footer-inner {
+                grid-template-columns: 1fr;
             }
 
-            .ai-button {
-                right: 17px;
-                bottom: 17px;
-                width: 58px;
-                height: 58px;
-                font-size: 25px;
+            .footer-inner > div:first-child {
+                grid-column: auto;
             }
 
-            .ai-modal {
-                padding: 10px;
-                align-items: flex-end;
-                justify-content: center;
+            .floating {
+                left: 12px;
+                bottom: 12px;
             }
 
-            .ai-box {
-                max-width: 100%;
-                height: 90vh;
-                border-radius: 22px;
-            }
-
-            .support-box {
-                max-height: 92vh;
+            .float-btn {
+                width: 52px;
+                height: 52px;
             }
         }
     </style>
@@ -1254,132 +1113,223 @@
 <body>
 
 <header>
-
-    <div class="container topbar">
+    <div class="nav">
 
         <a href="/" class="logo">
-            فروشگاه
+            <span class="logo-icon">🛍️</span>
+            <span>فروشگاه من</span>
         </a>
 
         <form class="search" action="/" method="get">
-
+            <span class="search-icon">⌕</span>
             <input
                 type="text"
-                name="q"
-                placeholder="جستجوی محصول، برند یا دسته‌بندی..."
+                name="search"
+                placeholder="جستجوی محصول، موبایل، لپ‌تاپ و..."
                 value="{{ search or '' }}"
             >
-
         </form>
 
-        <div class="actions">
+        <div class="nav-actions">
+            <button class="icon-btn" onclick="toggleTheme()" title="تغییر حالت">
+                <span id="themeIcon">☾</span>
+            </button>
 
-            <a href="/admin/login" class="action">
-                ورود مدیر
+            <a href="/cart" class="icon-btn cart-btn" title="سبد خرید">
+                🛒
+                {% if cart_count is defined and cart_count %}
+                    <span class="cart-count">{{ cart_count }}</span>
+                {% endif %}
+            </a>
+        </div>
+
+    </div>
+
+    <nav class="category-nav">
+        <a href="/category/موبایل">موبایل</a>
+        <a href="/category/لپ تاپ">لپ‌تاپ</a>
+        <a href="/category/پوشاک">پوشاک</a>
+        <a href="/category/لوازم خانگی">لوازم خانگی</a>
+        <a href="/category/دیجیتال">دیجیتال</a>
+        <a href="/category/زیبایی">زیبایی</a>
+        <a href="/offers">پیشنهادها</a>
+    </nav>
+</header>
+
+
+<main>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-box">
+
+            <div class="hero-content">
+
+                <div class="hero-badge">
+                    ✨ خرید آسان، سریع و مطمئن
+                </div>
+
+                <h1>
+                    هر چیزی که می‌خواهی،
+                    همین‌جا پیدا کن
+                </h1>
+
+                <p>
+                    محصولات متنوع فروشگاه را ببین، جستجو کن،
+                    قیمت‌ها را مقایسه کن و محصول موردنظرت را به سبد خرید اضافه کن.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#products" class="hero-btn primary">
+                        مشاهده محصولات
+                    </a>
+
+                    <button class="hero-btn secondary" onclick="openAI()">
+                        ✨ دستیار هوشمند
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- CATEGORIES -->
+    <section class="section">
+
+        <div class="section-head">
+            <div>
+                <div class="section-title">دسته‌بندی‌ها</div>
+                <div class="section-subtitle">
+                    محصول موردنظرت را سریع‌تر پیدا کن
+                </div>
+            </div>
+        </div>
+
+        <div class="categories">
+
+            <a class="category-card" href="/category/موبایل">
+                <div class="category-icon">📱</div>
+                <span>موبایل</span>
             </a>
 
-            <div class="filter-wrapper">
+            <a class="category-card" href="/category/لپ تاپ">
+                <div class="category-icon">💻</div>
+                <span>لپ‌تاپ</span>
+            </a>
 
-                <button
-                    type="button"
-                    class="filter-toggle"
-                    id="filterToggle"
-                >
-                    دسته‌بندی ▾
+            <a class="category-card" href="/category/پوشاک">
+                <div class="category-icon">👕</div>
+                <span>پوشاک</span>
+            </a>
+
+            <a class="category-card" href="/category/لوازم خانگی">
+                <div class="category-icon">🏠</div>
+                <span>لوازم خانگی</span>
+            </a>
+
+            <a class="category-card" href="/category/دیجیتال">
+                <div class="category-icon">🎧</div>
+                <span>دیجیتال</span>
+            </a>
+
+            <a class="category-card" href="/category/زیبایی">
+                <div class="category-icon">✨</div>
+                <span>زیبایی</span>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRODUCTS -->
+    <section class="section" id="products">
+
+        <div class="section-head">
+
+            <div>
+                <div class="section-title">
+                    {% if search %}
+                        نتایج جستجو
+                    {% elif category %}
+                        {{ category }}
+                    {% else %}
+                        محصولات فروشگاه
+                    {% endif %}
+                </div>
+
+                <div class="section-subtitle">
+                    جدیدترین محصولات موجود در فروشگاه
+                </div>
+            </div>
+
+            <div class="filter-wrap">
+
+                <button class="filter-btn" onclick="toggleFilter()">
+                    ⚙️ دسته‌بندی ▾
                 </button>
 
-                <div class="filter-menu" id="filterMenu">
-
-                    <h3>
-                        فیلتر محصولات
-                    </h3>
+                <div class="filter-popup" id="filterPopup">
 
                     <form action="/" method="get">
 
-                        {% if search %}
-
+                        <label>حداقل قیمت</label>
                         <input
-                            type="hidden"
-                            name="search"
-                            value="{{ search }}"
+                            type="number"
+                            name="min_price"
+                            placeholder="مثلاً 100000"
+                            value="{{ min_price or '' }}"
                         >
 
-                        {% endif %}
+                        <label>حداکثر قیمت</label>
+                        <input
+                            type="number"
+                            name="max_price"
+                            placeholder="مثلاً 50000000"
+                            value="{{ max_price or '' }}"
+                        >
 
-                        <div class="filter-price">
+                        <label>دسته‌بندی</label>
 
-                            <div>
+                        <select name="category">
+                            <option value="">همه دسته‌ها</option>
 
-                                <label for="min_price">
-                                    حداقل قیمت
-                                </label>
-
-                                <input
-                                    type="number"
-                                    id="min_price"
-                                    name="min_price"
-                                    min="0"
-                                    value="{{ min_price or '' }}"
-                                    placeholder="مثلاً 1000000"
-                                >
-
-                            </div>
-
-                            <div>
-
-                                <label for="max_price">
-                                    حداکثر قیمت
-                                </label>
-
-                                <input
-                                    type="number"
-                                    id="max_price"
-                                    name="max_price"
-                                    min="0"
-                                    value="{{ max_price or '' }}"
-                                    placeholder="مثلاً 50000000"
-                                >
-
-                            </div>
-
-                        </div>
-
-                        <label for="category">
-                            دسته‌بندی وسیله
-                        </label>
-
-                        <select id="category" name="category">
-
-                            <option value="">
-                                همه دسته‌بندی‌ها
+                            <option value="موبایل"
+                                {% if category == 'موبایل' %}selected{% endif %}>
+                                موبایل
                             </option>
 
-                            {% for category in categories %}
-
-                            <option
-                                value="{{ category['category'] }}"
-                                {% if selected_category == category['category'] %}selected{% endif %}
-                            >
-                                {{ category['category'] }}
+                            <option value="لپ تاپ"
+                                {% if category == 'لپ تاپ' %}selected{% endif %}>
+                                لپ‌تاپ
                             </option>
 
-                            {% endfor %}
+                            <option value="پوشاک"
+                                {% if category == 'پوشاک' %}selected{% endif %}>
+                                پوشاک
+                            </option>
 
+                            <option value="لوازم خانگی"
+                                {% if category == 'لوازم خانگی' %}selected{% endif %}>
+                                لوازم خانگی
+                            </option>
+
+                            <option value="دیجیتال"
+                                {% if category == 'دیجیتال' %}selected{% endif %}>
+                                دیجیتال
+                            </option>
+
+                            <option value="زیبایی"
+                                {% if category == 'زیبایی' %}selected{% endif %}>
+                                زیبایی
+                            </option>
                         </select>
 
-                        <button
-                            type="submit"
-                            class="filter-button"
-                        >
+                        <button class="apply-filter" type="submit">
                             اعمال فیلتر
                         </button>
-
-                        <a
-                            href="/"
-                            class="filter-reset"
-                        >
-                            حذف فیلترها
-                        </a>
 
                     </form>
 
@@ -1387,240 +1337,114 @@
 
             </div>
 
-            <button
-                type="button"
-                class="theme-toggle"
-                id="themeToggle"
-                aria-label="تغییر حالت نمایش"
-                title="تغییر حالت نمایش"
-            >
-                🌙
-            </button>
-
-            <a href="/cart" class="action cart">
-                سبد خرید
-            </a>
-
         </div>
 
-    </div>
-
-    <div class="container nav-inner">
-
-        <a href="/">خانه</a>
-        <a href="/category/موبایل">موبایل</a>
-        <a href="/category/لپ تاپ">لپ‌تاپ</a>
-        <a href="/category/پوشاک">پوشاک</a>
-        <a href="/category/لوازم خانگی">لوازم خانگی</a>
-        <a href="/category/دیجیتال">کالای دیجیتال</a>
-        <a href="/category/زیبایی">زیبایی</a>
-        <a href="/offers">پیشنهادهای ویژه</a>
-
-    </div>
-
-</header>
-
-<main class="container">
-
-    <section class="hero">
-
-        <div>
-
-            <h1>
-                خریدی بهتر، ساده‌تر
-            </h1>
-
-            <p>
-                جدیدترین محصولات با پیشنهادهای ویژه
-            </p>
-
-            <a href="/offers" class="hero-button">
-                مشاهده پیشنهادها
-            </a>
-
-        </div>
-
-        <div class="hero-icon">
-            🛍️
-        </div>
-
-    </section>
-
-    <section class="section">
-
-        <div class="section-title">
-
-            <h2>
-                دسته‌بندی‌ها
-            </h2>
-
-            <a href="#products-section">
-                مشاهده همه
-            </a>
-
-        </div>
-
-        <div class="categories">
-
-            <a href="/category/موبایل" class="category">
-                <div class="category-icon">📱</div>
-                موبایل
-            </a>
-
-            <a href="/category/لپ تاپ" class="category">
-                <div class="category-icon">💻</div>
-                لپ‌تاپ
-            </a>
-
-            <a href="/category/پوشاک" class="category">
-                <div class="category-icon">👕</div>
-                پوشاک
-            </a>
-
-            <a href="/category/خانه" class="category">
-                <div class="category-icon">🏠</div>
-                خانه
-            </a>
-
-            <a href="/category/دیجیتال" class="category">
-                <div class="category-icon">🎧</div>
-                دیجیتال
-            </a>
-
-            <a href="/category/زیبایی" class="category">
-                <div class="category-icon">✨</div>
-                زیبایی
-            </a>
-
-        </div>
-
-    </section>
-
-    <section class="section" id="products-section">
-
-        <div class="section-title">
-
-            <h2>
-                محصولات پیشنهادی
-            </h2>
-
-            <a href="#products-section">
-                مشاهده همه
-            </a>
-
-        </div>
 
         <div class="products">
 
-            {% for product in products %}
+            {% if products %}
 
-            <div class="product">
+                {% for product in products %}
 
-                <a href="/product/{{ product.id }}">
+                    <article class="product-card">
 
-                    <div class="product-image">
+                        <a href="/product/{{ product.id }}">
 
-                        {% if product.image %}
+                            <div class="product-image">
 
-                        <img
-                            src="{{ product.image }}"
-                            alt="{{ product.name }}"
-                        >
+                                {% if product.image %}
+                                    <img
+                                        src="{{ product.image }}"
+                                        alt="{{ product.name }}"
+                                        loading="lazy"
+                                    >
+                                {% else %}
+                                    <div style="
+                                        width:100%;
+                                        height:100%;
+                                        display:grid;
+                                        place-items:center;
+                                        font-size:55px;
+                                    ">
+                                        🛍️
+                                    </div>
+                                {% endif %}
 
-                        {% else %}
+                            </div>
 
-                        🛍️
+                            <div class="product-info">
 
-                        {% endif %}
+                                <div class="product-name">
+                                    {{ product.name }}
+                                </div>
 
-                    </div>
+                                <div class="product-bottom">
 
-                </a>
+                                    <div class="price">
+                                        {{ "{:,}".format(product.price) }}
+                                        <small>تومان</small>
+                                    </div>
 
-                <h3>
-                    {{ product.name }}
-                </h3>
+                                    <span class="buy-btn">
+                                        مشاهده
+                                    </span>
 
-                <div class="price">
+                                </div>
 
-                    {{ "{:,.0f}".format(product.price) }}
+                            </div>
 
-                    <span class="currency">
-                        تومان
-                    </span>
+                        </a>
 
-                </div>
+                    </article>
 
-                <a
-                    href="/product/{{ product.id }}"
-                    class="buy-button"
-                >
-                    مشاهده محصول
-                </a>
-
-            </div>
+                {% endfor %}
 
             {% else %}
 
-            <div style="
-                grid-column:1/-1;
-                background:var(--card);
-                padding:40px;
-                text-align:center;
-                border-radius:15px;
-            ">
-                هنوز محصولی ثبت نشده است.
-            </div>
+                <div class="empty">
+                    <div class="empty-icon">🔎</div>
+                    <strong>محصولی پیدا نشد</strong>
+                    <p style="margin-top:7px">
+                        عبارت جستجو یا فیلترها را تغییر بده.
+                    </p>
+                </div>
 
-            {% endfor %}
+            {% endif %}
 
         </div>
 
     </section>
 
+
+    <!-- ADS -->
+    {% if ads %}
+
     <section class="section">
 
-        <div class="section-title">
-
-            <h2>
-                پیشنهادهای ویژه
-            </h2>
-
+        <div class="section-head">
+            <div>
+                <div class="section-title">پیشنهادهای ویژه</div>
+                <div class="section-subtitle">
+                    فرصت‌های جذاب فروشگاه
+                </div>
+            </div>
         </div>
 
         <div class="ads">
 
             {% for ad in ads %}
 
-            <div class="ad">
+                <div class="ad-card">
 
-                <h3>
-                    {{ ad.title }}
-                </h3>
+                    <h3>
+                        {{ ad.title }}
+                    </h3>
 
-                {% if ad.text %}
+                    <p>
+                        {{ ad.text }}
+                    </p>
 
-                <p>
-                    {{ ad.text }}
-                </p>
-
-                {% endif %}
-
-            </div>
-
-            {% else %}
-
-            <div class="ad">
-
-                <h3>
-                    تخفیف‌های ویژه
-                </h3>
-
-                <p>
-                    به‌زودی پیشنهادهای ویژه اینجا نمایش داده می‌شوند.
-                </p>
-
-            </div>
+                </div>
 
             {% endfor %}
 
@@ -1628,273 +1452,246 @@
 
     </section>
 
+    {% endif %}
+
 </main>
 
+
+<!-- FOOTER -->
 <footer>
 
-    <div class="container footer-grid">
+    <div class="footer-inner">
 
         <div>
+            <div class="footer-brand">
+                فروشگاه من
+            </div>
 
-            <h3>
-                فروشگاه
-            </h3>
-
-            <p>
-                یک فروشگاه اینترنتی مدرن برای خرید آسان و سریع.
+            <p class="footer-text">
+                فروشگاهی ساده، سریع و مدرن برای خرید آنلاین.
+                محصولات موردنظرت را پیدا کن و با چند کلیک سفارش بده.
             </p>
-
         </div>
 
         <div>
-
-            <h3>
-                دسترسی سریع
-            </h3>
-
-            <p>
-                محصولات<br>
-                پیشنهادهای ویژه<br>
-                پیگیری سفارش
-            </p>
-
+            <h4>دسترسی سریع</h4>
+            <a href="/">خانه</a>
+            <a href="/offers">پیشنهادهای ویژه</a>
+            <a href="/cart">سبد خرید</a>
         </div>
 
         <div>
-
-            <h3>
-                پشتیبانی
-            </h3>
-
-            <p
-                class="support-link"
-                onclick="openSupport()"
-            >
-                سوالی دارید؟ از بخش پشتیبانی با ما در ارتباط باشید.
-            </p>
-
+            <h4>پشتیبانی</h4>
+            <a href="javascript:void(0)" onclick="openSupport()">
+                ارتباط با پشتیبانی
+            </a>
+            <a href="javascript:void(0)" onclick="openAI()">
+                دستیار هوشمند
+            </a>
         </div>
 
+    </div>
+
+    <div class="copyright">
+        © 2026 فروشگاه من — تمامی حقوق محفوظ است.
     </div>
 
 </footer>
 
 
-<!-- =========================
-     دکمه پشتیبانی
-     ========================= -->
+<!-- FLOATING BUTTONS -->
+<div class="floating">
 
-<button
-    type="button"
-    class="support-button"
-    onclick="openSupport()"
-    aria-label="پشتیبانی آنلاین"
-    title="پشتیبانی آنلاین"
->
-    🎧
+    <button class="float-btn" onclick="openAI()" title="دستیار هوشمند">
+        ✨
+    </button>
 
-    <span class="support-status"></span>
+    <button class="float-btn" onclick="openSupport()" title="پشتیبانی" style="position:relative">
+        🎧
+        <span class="support-status"></span>
+    </button>
 
-</button>
+</div>
 
 
-<!-- =========================
-     دکمه هوش مصنوعی
-     ========================= -->
+<!-- SUPPORT MODAL -->
+<div class="modal" id="supportModal">
 
-<button
-    type="button"
-    class="ai-button"
-    onclick="openAI()"
-    aria-label="دستیار هوش مصنوعی"
-    title="دستیار هوش مصنوعی فروشگاه"
->
-    ✨
-</button>
+    <div class="modal-box">
 
+        <div class="modal-head">
+            <h3>پشتیبانی فروشگاه</h3>
 
-<!-- =========================
-     پنجره پشتیبانی
-     ========================= -->
+            <button class="close" onclick="closeSupport()">
+                ×
+            </button>
+        </div>
 
-<div
-    class="support-modal"
-    id="supportModal"
-    onclick="closeSupportOutside(event)"
->
+        <div id="supportMain">
 
-    <div class="support-box">
+            <div class="support-menu">
 
-        <div class="support-head">
+                <button class="support-option" onclick="showSupportForm()">
+                    <strong>📝 ثبت درخواست پشتیبانی</strong>
+                    <span>
+                        اگر مشکلی داری، درخواستت را برای ما ارسال کن.
+                    </span>
+                </button>
 
-            <div>
-
-                <h2>
-                    پشتیبانی آنلاین
-                </h2>
-
-                <p>
-                    مشکل یا سوالی دارید؟ با ما در ارتباط باشید.
-                </p>
+                <button class="support-option" onclick="loadSupportStatus()">
+                    <strong>📋 پیگیری درخواست</strong>
+                    <span>
+                        وضعیت درخواست‌های قبلی خودت را ببین.
+                    </span>
+                </button>
 
             </div>
 
+        </div>
+
+        <div id="supportForm" style="display:none">
+
+            <div class="form-group">
+                <label>چه چیزی شما را ناراحت کرد؟</label>
+
+                <textarea
+                    id="supportDescription"
+                    placeholder="مشکل یا درخواست خود را بنویسید..."
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>دسته‌بندی</label>
+
+                <select id="supportCategory">
+
+                    <option value="موبایل">موبایل</option>
+                    <option value="لپ تاپ">لپ‌تاپ</option>
+                    <option value="پوشاک">پوشاک</option>
+                    <option value="لوازم خانگی">لوازم خانگی</option>
+                    <option value="دیجیتال">دیجیتال</option>
+                    <option value="زیبایی">زیبایی</option>
+                    <option value="سایر">سایر</option>
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>شماره تماس</label>
+
+                <input
+                    id="supportPhone"
+                    type="tel"
+                    placeholder="شماره تماس"
+                >
+            </div>
+
+            <button class="main-btn" onclick="createSupport()">
+                ارسال درخواست
+            </button>
+
             <button
-                type="button"
-                class="support-close"
-                onclick="closeSupport()"
+                onclick="backSupport()"
+                style="
+                    width:100%;
+                    margin-top:8px;
+                    height:40px;
+                    border:none;
+                    border-radius:12px;
+                    background:var(--bg);
+                    color:var(--muted);
+                "
             >
-                ×
+                بازگشت
             </button>
 
         </div>
 
-        <div
-            class="support-content"
-            id="supportContent"
-        >
-
-            <div class="support-loading">
-                در حال بارگذاری...
-            </div>
-
-        </div>
+        <div id="supportStatus" style="display:none"></div>
 
     </div>
 
 </div>
 
 
-<!-- =========================
-     پنجره هوش مصنوعی
-     ========================= -->
+<!-- AI MODAL -->
+<div class="modal" id="aiModal">
 
-<div
-    class="ai-modal"
-    id="aiModal"
-    onclick="closeAIOutside(event)"
->
+    <div class="modal-box ai-box">
 
-    <div class="ai-box">
+        <div class="ai-header">
 
-        <div class="ai-head">
-
-            <div class="ai-icon">
+            <div class="ai-avatar">
                 ✨
             </div>
 
-            <div class="ai-head-text">
-
-                <h2>
-                    دستیار هوشمند فروشگاه
-                </h2>
-
-                <p>
-                    راهنمایی بر اساس محصولات موجود فروشگاه
-                </p>
-
+            <div class="ai-title">
+                <strong>دستیار هوشمند فروشگاه</strong>
+                <span>کمکت می‌کنم محصول مناسب پیدا کنی</span>
             </div>
 
-            <button
-                type="button"
-                class="ai-close"
-                onclick="closeAI()"
-                aria-label="بستن"
-            >
+            <button class="close" onclick="closeAI()">
                 ×
             </button>
 
         </div>
 
 
-        <div
-            class="ai-messages"
-            id="aiMessages"
-        >
+        <div class="ai-messages" id="aiMessages">
 
-            <div class="ai-welcome">
+            <div class="bubble ai">
+                سلام! من دستیار هوشمند فروشگاه هستم.
+                می‌تونم بر اساس محصولات موجود فروشگاه راهنماییت کنم.
+            </div>
 
-                <div class="ai-welcome-icon">
-                    ✨
-                </div>
+            <div class="bubble ai">
+                مثلاً می‌تونی بپرسی:
+                «یک گوشی مناسب معرفی کن»
+            </div>
 
-                <h3>
-                    چطور کمکت کنم؟
-                </h3>
-
-                <p>
-                    می‌توانم محصولات واقعی موجود در فروشگاه را بررسی کنم
-                    و بر اساس آن‌ها راهنمایی‌ات کنم.
-                </p>
-
-                <div class="ai-quick">
-
-                    <button
-                        type="button"
-                        onclick="sendQuickAI('گوشی مناسب معرفی کن')"
-                    >
-                        گوشی مناسب معرفی کن
-                    </button>
-
-                    <button
-                        type="button"
-                        onclick="sendQuickAI('لپ‌تاپ‌ها رو بگو')"
-                    >
-                        لپ‌تاپ‌ها رو بگو
-                    </button>
-
-                    <button
-                        type="button"
-                        onclick="sendQuickAI('محصولات ارزان‌تر رو بگو')"
-                    >
-                        محصولات ارزان‌تر رو بگو
-                    </button>
-
-                    <button
-                        type="button"
-                        onclick="sendQuickAI('چه محصولاتی دارید؟')"
-                    >
-                        چه محصولاتی دارید؟
-                    </button>
-
-                </div>
-
+            <div class="thinking" id="aiThinking">
+                در حال فکر کردن...
             </div>
 
         </div>
 
 
-        <div class="ai-input-area">
+        <div class="quick-actions">
 
-            <form
-                class="ai-form"
-                id="aiForm"
+            <button onclick="quickAI('گوشی مناسب معرفی کن')">
+                📱 گوشی مناسب معرفی کن
+            </button>
+
+            <button onclick="quickAI('لپ تاپ‌ها رو بگو')">
+                💻 لپ‌تاپ‌ها رو بگو
+            </button>
+
+            <button onclick="quickAI('محصولات تخفیف دار رو بگو')">
+                🔥 تخفیف‌ها
+            </button>
+
+            <button onclick="quickAI('چه محصولاتی دارید؟')">
+                🛍️ محصولات فروشگاه
+            </button>
+
+        </div>
+
+
+        <form class="ai-form" id="aiForm">
+
+            <input
+                id="aiInput"
+                type="text"
+                maxlength="500"
+                autocomplete="off"
+                placeholder="پیامت را بنویس..."
             >
 
-                <input
-                    type="text"
-                    id="aiInput"
-                    maxlength="500"
-                    autocomplete="off"
-                    placeholder="مثلاً یک گوشی مناسب معرفی کن..."
-                >
+            <button class="ai-send" id="aiSend" type="submit">
+                ➤
+            </button>
 
-                <button
-                    type="submit"
-                    class="ai-send"
-                    id="aiSend"
-                    title="ارسال پیام"
-                >
-                    ➤
-                </button>
-
-            </form>
-
-            <div class="ai-note">
-                پاسخ‌ها بر اساس اطلاعات فعلی محصولات فروشگاه هستند.
-            </div>
-
-        </div>
+        </form>
 
     </div>
 
@@ -1902,592 +1699,334 @@
 
 
 <script>
-
     /* =========================
-       دارک مود
-       ========================= */
+       THEME
+    ========================= */
 
-    const themeToggle = document.getElementById("themeToggle");
-
-    const savedTheme = localStorage.getItem("theme");
-
-    if (savedTheme === "dark") {
-
-        document.body.classList.add("dark");
-
-        themeToggle.textContent = "☀️";
-
-    }
-
-    themeToggle.addEventListener("click", function () {
-
+    function toggleTheme() {
         document.body.classList.toggle("dark");
 
-        if (document.body.classList.contains("dark")) {
+        const dark = document.body.classList.contains("dark");
 
-            localStorage.setItem("theme", "dark");
+        localStorage.setItem("theme", dark ? "dark" : "light");
 
-            themeToggle.textContent = "☀️";
+        document.getElementById("themeIcon").textContent =
+            dark ? "☀" : "☾";
+    }
 
-        } else {
+    (function () {
+        const theme = localStorage.getItem("theme");
 
-            localStorage.setItem("theme", "light");
+        if (theme === "dark") {
+            document.body.classList.add("dark");
 
-            themeToggle.textContent = "🌙";
+            window.addEventListener("DOMContentLoaded", function () {
+                const icon = document.getElementById("themeIcon");
 
+                if (icon) {
+                    icon.textContent = "☀";
+                }
+            });
         }
-
-    });
+    })();
 
 
     /* =========================
-       فیلتر
-       ========================= */
+       FILTER
+    ========================= */
 
-    const filterToggle = document.getElementById("filterToggle");
-    const filterMenu = document.getElementById("filterMenu");
-
-    filterToggle.addEventListener("click", function (event) {
-
-        event.stopPropagation();
-
-        filterMenu.classList.toggle("show");
-
-    });
+    function toggleFilter() {
+        document
+            .getElementById("filterPopup")
+            .classList.toggle("show");
+    }
 
     document.addEventListener("click", function (event) {
 
+        const popup = document.getElementById("filterPopup");
+
+        if (!popup) return;
+
         if (
-            !filterMenu.contains(event.target) &&
-            event.target !== filterToggle
+            !event.target.closest(".filter-wrap")
         ) {
-
-            filterMenu.classList.remove("show");
-
+            popup.classList.remove("show");
         }
 
     });
 
 
     /* =========================
-       پشتیبانی آنلاین
-       ========================= */
+       SUPPORT
+    ========================= */
 
-    const supportModal = document.getElementById("supportModal");
-    const supportContent = document.getElementById("supportContent");
-
-    let supportTimer = null;
-
+    const supportModal =
+        document.getElementById("supportModal");
 
     function openSupport() {
-
         supportModal.classList.add("show");
 
-        loadSupport();
-
+        document.getElementById("supportMain").style.display = "block";
+        document.getElementById("supportForm").style.display = "none";
+        document.getElementById("supportStatus").style.display = "none";
     }
-
 
     function closeSupport() {
-
         supportModal.classList.remove("show");
+    }
 
-        if (supportTimer) {
+    function showSupportForm() {
+        document.getElementById("supportMain").style.display = "none";
+        document.getElementById("supportForm").style.display = "block";
+        document.getElementById("supportStatus").style.display = "none";
+    }
 
-            clearInterval(supportTimer);
+    function backSupport() {
+        document.getElementById("supportMain").style.display = "block";
+        document.getElementById("supportForm").style.display = "none";
+        document.getElementById("supportStatus").style.display = "none";
+    }
 
-            supportTimer = null;
+    async function createSupport() {
 
+        const description =
+            document.getElementById("supportDescription").value.trim();
+
+        const category =
+            document.getElementById("supportCategory").value;
+
+        const phone =
+            document.getElementById("supportPhone").value.trim();
+
+        if (!description) {
+            alert("لطفاً مشکل خود را بنویسید.");
+            return;
         }
 
+        if (!phone) {
+            alert("لطفاً شماره تماس را وارد کنید.");
+            return;
+        }
+
+        try {
+
+            const response = await fetch("/support/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    description: description,
+                    category: category,
+                    phone: phone
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.ok) {
+                alert(data.message || "ارسال درخواست انجام نشد.");
+                return;
+            }
+
+            alert("درخواست شما با موفقیت ثبت شد.");
+
+            document.getElementById("supportDescription").value = "";
+            document.getElementById("supportPhone").value = "";
+
+            loadSupportStatus();
+
+        } catch (error) {
+            alert("خطا در ارتباط با سرور.");
+        }
     }
 
 
-    function closeSupportOutside(event) {
+    async function loadSupportStatus() {
 
-        if (event.target === supportModal) {
+        document.getElementById("supportMain").style.display = "none";
+        document.getElementById("supportForm").style.display = "none";
 
-            closeSupport();
+        const statusBox =
+            document.getElementById("supportStatus");
 
-        }
+        statusBox.style.display = "block";
 
-    }
-
-
-    async function loadSupport() {
-
-        supportContent.innerHTML = `
-            <div class="support-loading">
-                در حال بارگذاری...
+        statusBox.innerHTML = `
+            <div style="
+                padding:30px 10px;
+                text-align:center;
+                color:var(--muted);
+            ">
+                در حال دریافت وضعیت...
             </div>
         `;
 
         try {
 
-            const response = await fetch(
-                "/support/data",
-                {
-                    cache: "no-store"
+            const response =
+                await fetch("/support/data");
+
+            const data =
+                await response.json();
+
+            if (!data.ok) {
+                throw new Error();
+            }
+
+            const requests =
+                data.requests || [];
+
+            if (!requests.length) {
+
+                statusBox.innerHTML = `
+                    <div style="
+                        padding:30px 10px;
+                        text-align:center;
+                        color:var(--muted);
+                    ">
+                        هنوز درخواست پشتیبانی ثبت نکرده‌اید.
+                    </div>
+
+                    <button
+                        class="main-btn"
+                        onclick="showSupportForm()"
+                    >
+                        ثبت درخواست جدید
+                    </button>
+                `;
+
+                return;
+            }
+
+            let html = "";
+
+            requests.forEach(function (item) {
+
+                let statusText = "در حال بررسی";
+                let statusColor = "#f59e0b";
+
+                if (
+                    item.status === "resolved" ||
+                    item.status === "حل شد"
+                ) {
+                    statusText = "حل شده";
+                    statusColor = "#22c55e";
                 }
-            );
 
-            if (!response.ok) {
+                html += `
+                    <div style="
+                        padding:15px;
+                        margin-bottom:10px;
+                        border:1px solid var(--border);
+                        border-radius:17px;
+                        background:var(--bg);
+                    ">
 
-                throw new Error("support data error");
-
-            }
-
-            const data = await response.json();
-
-            if (data.exists) {
-
-                renderSupportChat(data);
-
-                startSupportPolling();
-
-            } else {
-
-                renderSupportForm();
-
-            }
-
-        } catch (error) {
-
-            supportContent.innerHTML = `
-                <div class="support-loading">
-                    امکان اتصال به پشتیبانی وجود ندارد.
-                    <br><br>
-                    لطفاً دوباره تلاش کنید.
-                </div>
-            `;
-
-        }
-
-    }
-
-
-    function renderSupportForm() {
-
-        supportContent.innerHTML = `
-
-            <form
-                action="/support/create"
-                method="post"
-            >
-
-                <label class="support-label">
-                    چه چیزی شما را ناراحت کرد؟
-                </label>
-
-                <textarea
-                    name="description"
-                    required
-                    placeholder="مشکل یا چیزی که باعث ناراحتی شما شده را توضیح دهید..."
-                ></textarea>
-
-
-                <label class="support-label">
-                    دسته‌بندی مشکل
-                </label>
-
-                <select
-                    name="category"
-                    required
-                >
-
-                    <option value="">
-                        انتخاب دسته‌بندی
-                    </option>
-
-                    <option value="موبایل">
-                        موبایل
-                    </option>
-
-                    <option value="لپ‌تاپ">
-                        لپ‌تاپ
-                    </option>
-
-                    <option value="پوشاک">
-                        پوشاک
-                    </option>
-
-                    <option value="لوازم خانگی">
-                        لوازم خانگی
-                    </option>
-
-                    <option value="دیجیتال">
-                        دیجیتال
-                    </option>
-
-                    <option value="زیبایی">
-                        زیبایی
-                    </option>
-
-                    <option value="سایر">
-                        سایر
-                    </option>
-
-                </select>
-
-
-                <label class="support-label">
-                    شماره تلفن
-                </label>
-
-                <input
-                    type="tel"
-                    name="phone"
-                    required
-                    placeholder="مثلاً 09123456789"
-                    inputmode="tel"
-                >
-
-
-                <button
-                    type="submit"
-                    class="support-submit"
-                >
-                    ارسال درخواست پشتیبانی
-                </button>
-
-            </form>
-
-        `;
-
-    }
-
-
-    function renderSupportChat(data) {
-
-        let messagesHtml = "";
-
-        if (data.messages && data.messages.length > 0) {
-
-            data.messages.forEach(function(message) {
-
-                const senderClass =
-                    message.sender === "admin"
-                        ? "admin"
-                        : "customer";
-
-                const senderName =
-                    message.sender === "admin"
-                        ? "پشتیبانی"
-                        : "شما";
-
-                messagesHtml += `
-
-                    <div class="chat-message ${senderClass}">
-
-                        <div class="chat-bubble">
+                        <div style="
+                            display:flex;
+                            justify-content:space-between;
+                            gap:10px;
+                            margin-bottom:8px;
+                        ">
 
                             <strong>
-                                ${escapeHtml(senderName)}
+                                ${escapeHTML(item.category || "سایر")}
                             </strong>
 
-                            <br>
-
-                            ${escapeHtml(message.message)}
-
-                            <span class="chat-time">
-                                ${escapeHtml(message.created_at || "")}
+                            <span style="
+                                color:${statusColor};
+                                font-size:11px;
+                                font-weight:700;
+                            ">
+                                ${statusText}
                             </span>
 
                         </div>
 
-                    </div>
+                        <div style="
+                            color:var(--muted);
+                            font-size:12px;
+                            line-height:1.8;
+                        ">
+                            ${escapeHTML(item.description || "")}
+                        </div>
 
+                        ${
+                            item.reply
+                            ?
+                            `
+                            <div style="
+                                margin-top:10px;
+                                padding:10px;
+                                border-radius:12px;
+                                background:rgba(157,78,221,.08);
+                                font-size:12px;
+                                line-height:1.8;
+                            ">
+                                <strong>پاسخ پشتیبانی:</strong><br>
+                                ${escapeHTML(item.reply)}
+                            </div>
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
                 `;
 
             });
 
-        } else {
-
-            messagesHtml = `
-                <div class="support-loading">
-                    هنوز پیامی ارسال نشده است.
-                </div>
-            `;
-
-        }
-
-
-        if (data.status === "حل شد") {
-
-            supportContent.innerHTML = `
-
-                <div class="support-info">
-
-                    <strong>
-                        اطلاعات درخواست
-                    </strong>
-
-                    <br>
-
-                    شماره تلفن:
-                    ${escapeHtml(data.phone || "")}
-
-                    <br>
-
-                    دسته‌بندی:
-                    ${escapeHtml(data.category || "")}
-
-                    <br>
-
-                    توضیحات:
-                    ${escapeHtml(data.description || "")}
-
-                </div>
-
-
-                <div class="support-status-box">
-
-                    وضعیت:
-                    <strong>
-                        حل شد
-                    </strong>
-
-                </div>
-
-
-                <div class="resolved-box">
-
-                    ✓ مشکل شما توسط پشتیبانی بررسی و حل شد.
-
-                    <br>
-
-                    در صورت داشتن مشکل جدید می‌توانید درخواست دیگری ثبت کنید.
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-
-        supportContent.innerHTML = `
-
-            <div class="support-info">
-
-                <strong>
-                    اطلاعات درخواست
-                </strong>
-
-                <br>
-
-                شماره تلفن:
-                ${escapeHtml(data.phone || "")}
-
-                <br>
-
-                دسته‌بندی:
-                ${escapeHtml(data.category || "")}
-
-                <br>
-
-                توضیحات:
-                ${escapeHtml(data.description || "")}
-
-            </div>
-
-
-            <div class="support-status-box">
-
-                وضعیت درخواست:
-                <strong>
-                    ${escapeHtml(data.status || "در حال پیگیری")}
-                </strong>
-
-            </div>
-
-
-            <div
-                class="support-chat"
-                id="supportChat"
-            >
-
-                ${messagesHtml}
-
-            </div>
-
-
-            <form
-                class="chat-form"
-                id="supportMessageForm"
-            >
-
-                <input
-                    type="text"
-                    id="supportMessageInput"
-                    name="message"
-                    required
-                    maxlength="1000"
-                    placeholder="پیام خود را بنویسید..."
-                >
-
+            statusBox.innerHTML = html + `
                 <button
-                    type="submit"
-                    title="ارسال"
+                    class="main-btn"
+                    onclick="showSupportForm()"
+                    style="margin-top:5px"
                 >
-                    ➤
+                    ثبت درخواست جدید
                 </button>
 
-            </form>
-
-        `;
-
-
-        const chat = document.getElementById("supportChat");
-
-        if (chat) {
-
-            chat.scrollTop = chat.scrollHeight;
-
-        }
-
-
-        const messageForm =
-            document.getElementById("supportMessageForm");
-
-
-        if (messageForm) {
-
-            messageForm.addEventListener(
-                "submit",
-                async function(event) {
-
-                    event.preventDefault();
-
-                    const input =
-                        document.getElementById(
-                            "supportMessageInput"
-                        );
-
-                    const message =
-                        input.value.trim();
-
-                    if (!message) {
-
-                        return;
-
-                    }
-
-
-                    try {
-
-                        const formData = new FormData();
-
-                        formData.append(
-                            "message",
-                            message
-                        );
-
-
-                        const response = await fetch(
-                            "/support/message",
-                            {
-                                method: "POST",
-                                body: formData
-                            }
-                        );
-
-
-                        if (!response.ok) {
-
-                            throw new Error(
-                                "message error"
-                            );
-
-                        }
-
-
-                        input.value = "";
-
-                        await loadSupport();
-
-                    } catch (error) {
-
-                        alert(
-                            "ارسال پیام انجام نشد. دوباره تلاش کنید."
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-
-    }
-
-
-    function startSupportPolling() {
-
-        if (supportTimer) {
-
-            clearInterval(supportTimer);
-
-        }
-
-        supportTimer = setInterval(
-            function() {
-
-                if (
-                    supportModal.classList.contains("show")
-                ) {
-
-                    refreshSupport();
-
-                }
-
-            },
-            5000
-        );
-
-    }
-
-
-    async function refreshSupport() {
-
-        try {
-
-            const response = await fetch(
-                "/support/data",
-                {
-                    cache: "no-store"
-                }
-            );
-
-            if (!response.ok) {
-
-                return;
-
-            }
-
-            const data = await response.json();
-
-            if (data.exists) {
-
-                renderSupportChat(data);
-
-            }
+                <button
+                    onclick="backSupport()"
+                    style="
+                        width:100%;
+                        margin-top:8px;
+                        height:40px;
+                        border:none;
+                        border-radius:12px;
+                        background:var(--bg);
+                        color:var(--muted);
+                    "
+                >
+                    بازگشت
+                </button>
+            `;
 
         } catch (error) {
 
-            console.log(
-                "Support refresh error"
-            );
+            statusBox.innerHTML = `
+                <div style="
+                    text-align:center;
+                    padding:25px;
+                    color:#ef4444;
+                ">
+                    دریافت اطلاعات انجام نشد.
+                </div>
 
+                <button
+                    class="main-btn"
+                    onclick="backSupport()"
+                >
+                    بازگشت
+                </button>
+            `;
         }
-
     }
 
 
     /* =========================
-       هوش مصنوعی
-       ========================= */
+       AI
+    ========================= */
 
     const aiModal =
         document.getElementById("aiModal");
@@ -2495,335 +2034,170 @@
     const aiMessages =
         document.getElementById("aiMessages");
 
-    const aiForm =
-        document.getElementById("aiForm");
-
     const aiInput =
         document.getElementById("aiInput");
 
-    const aiSend =
-        document.getElementById("aiSend");
+    const aiThinking =
+        document.getElementById("aiThinking");
+
+    const aiForm =
+        document.getElementById("aiForm");
 
 
     function openAI() {
 
-        aiModal.classList.remove("closing");
-
         aiModal.classList.add("show");
 
-        setTimeout(function() {
-
+        setTimeout(function () {
             aiInput.focus();
-
         }, 250);
-
     }
 
 
     function closeAI() {
-
-        if (!aiModal.classList.contains("show")) {
-
-            return;
-
-        }
-
-        aiModal.classList.add("closing");
-
-        setTimeout(function() {
-
-            aiModal.classList.remove("show");
-            aiModal.classList.remove("closing");
-
-        }, 220);
-
+        aiModal.classList.remove("show");
     }
 
 
-    function closeAIOutside(event) {
-
-        if (event.target === aiModal) {
-
-            closeAI();
-
-        }
-
-    }
-
-
-    function addAIMessage(text, type) {
-
-        const message =
-            document.createElement("div");
-
-        message.className =
-            "ai-message " + type;
-
+    function addAIBubble(text, type) {
 
         const bubble =
             document.createElement("div");
 
         bubble.className =
-            "ai-bubble";
+            "bubble " + type;
 
         bubble.textContent = text;
 
-
-        message.appendChild(bubble);
-
-        aiMessages.appendChild(message);
-
-        aiMessages.scrollTop =
-            aiMessages.scrollHeight;
-
-    }
-
-
-    function showThinking() {
-
-        const thinking =
-            document.createElement("div");
-
-        thinking.className =
-            "ai-thinking";
-
-        thinking.id =
-            "aiThinking";
-
-
-        thinking.innerHTML = `
-
-            <div class="ai-thinking-bubble">
-
-                در حال فکر کردن...
-
-                <span class="ai-dots">
-
-                    <span></span>
-                    <span></span>
-                    <span></span>
-
-                </span>
-
-            </div>
-
-        `;
-
-
-        aiMessages.appendChild(thinking);
+        aiMessages.insertBefore(
+            bubble,
+            aiThinking
+        );
 
         aiMessages.scrollTop =
             aiMessages.scrollHeight;
-
     }
 
 
-    function hideThinking() {
-
-        const thinking =
-            document.getElementById(
-                "aiThinking"
-            );
-
-        if (thinking) {
-
-            thinking.remove();
-
-        }
-
-    }
-
-
-    function sendQuickAI(message) {
+    function quickAI(message) {
 
         aiInput.value = message;
 
-        sendAIMessage();
-
+        aiForm.dispatchEvent(
+            new Event("submit", {
+                bubbles: true,
+                cancelable: true
+            })
+        );
     }
 
 
-    aiForm.addEventListener(
-        "submit",
-        function(event) {
+    aiForm.addEventListener("submit", async function (event) {
 
-            event.preventDefault();
-
-            sendAIMessage();
-
-        }
-    );
-
-
-    async function sendAIMessage() {
+        event.preventDefault();
 
         const message =
             aiInput.value.trim();
 
-        if (!message) {
+        if (!message) return;
 
-            return;
-
-        }
-
-
-        if (message.length > 500) {
-
-            addAIMessage(
-                "پیام شما بیش از حد طولانی است.",
-                "bot"
-            );
-
-            return;
-
-        }
-
-
-        addAIMessage(
-            message,
-            "user"
-        );
-
+        addAIBubble(message, "user");
 
         aiInput.value = "";
 
-        aiInput.disabled = true;
+        aiThinking.classList.add("show");
 
-        aiSend.disabled = true;
-
-
-        showThinking();
-
+        aiMessages.scrollTop =
+            aiMessages.scrollHeight;
 
         try {
 
             const response =
-                await fetch(
-                    "/ai/chat",
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-                        body: JSON.stringify({
-                            message: message
-                        })
-                    }
-                );
+                await fetch("/ai/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: message
+                    })
+                });
 
+            const data =
+                await response.json();
 
-            let data = null;
+            aiThinking.classList.remove("show");
 
-            try {
+            if (!response.ok || !data.ok) {
 
-                data = await response.json();
-
-            } catch (jsonError) {
-
-                data = null;
-
-            }
-
-
-            hideThinking();
-
-
-            if (!response.ok) {
-
-                addAIMessage(
-                    data && data.answer
-                        ? data.answer
-                        : "در حال حاضر امکان پاسخ‌گویی وجود ندارد. لطفاً دوباره تلاش کنید.",
-                    "bot"
+                addAIBubble(
+                    data.answer ||
+                    "متأسفانه مشکلی پیش آمد.",
+                    "ai"
                 );
 
                 return;
-
             }
 
-
-            if (
-                data &&
-                data.answer
-            ) {
-
-                addAIMessage(
-                    data.answer,
-                    "bot"
-                );
-
-            } else {
-
-                addAIMessage(
-                    "پاسخی دریافت نشد. لطفاً دوباره تلاش کنید.",
-                    "bot"
-                );
-
-            }
+            addAIBubble(
+                data.answer,
+                "ai"
+            );
 
         } catch (error) {
 
-            hideThinking();
+            aiThinking.classList.remove("show");
 
-            addAIMessage(
-                "اتصال به دستیار هوشمند برقرار نشد. لطفاً دوباره تلاش کنید.",
-                "bot"
+            addAIBubble(
+                "ارتباط با دستیار برقرار نشد. دوباره امتحان کن.",
+                "ai"
             );
-
-        } finally {
-
-            aiInput.disabled = false;
-
-            aiSend.disabled = false;
-
-            aiInput.focus();
-
         }
 
-    }
+    });
 
 
     /* =========================
-       Escape HTML
-       ========================= */
+       CLOSE MODALS
+    ========================= */
 
-    function escapeHtml(value) {
+    document.addEventListener("click", function (event) {
 
-        if (
-            value === null ||
-            value === undefined
-        ) {
-
-            return "";
-
+        if (event.target === supportModal) {
+            closeSupport();
         }
 
+        if (event.target === aiModal) {
+            closeAI();
+        }
 
-        return String(value)
-            .replace(
-                /&/g,
-                "&amp;"
-            )
-            .replace(
-                /</g,
-                "&lt;"
-            )
-            .replace(
-                />/g,
-                "&gt;"
-            )
-            .replace(
-                /"/g,
-                "&quot;"
-            )
-            .replace(
-                /'/g,
-                "&#039;"
-            );
+    });
 
+
+    document.addEventListener("keydown", function (event) {
+
+        if (event.key === "Escape") {
+            closeSupport();
+            closeAI();
+        }
+
+    });
+
+
+    /* =========================
+       SECURITY / HTML ESCAPE
+    ========================= */
+
+    function escapeHTML(value) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent =
+            value == null ? "" : String(value);
+
+        return div.innerHTML;
     }
-
 </script>
 
 </body>
